@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pa&amp;Ma</string>
+    <string name="created_by">Creado por David Volart</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="sign_up">¿No tienes una cuenta? Regístrate ahora</string>
+    <string name="name">Nombre</string>
+    <string name="confirmPassword">Confirmar contraseña</string>
+    <string name="createAccount">Crear cuenta</string>
+    <string name="exPartnerEmail">Email de tu expareja</string>
+</resources>

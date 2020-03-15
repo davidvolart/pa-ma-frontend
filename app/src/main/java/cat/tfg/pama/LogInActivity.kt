@@ -31,7 +31,7 @@ class LogInActivity : AppCompatActivity(), Helper {
             request.POST(URL, getParameters(), object : Callback {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
-                        200 -> changeActivityToCalendar()
+                        200 -> changeActivityToMainActivity()
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
                         else -> showMessage(getResponseMessage(response))
                     }
@@ -60,8 +60,8 @@ class LogInActivity : AppCompatActivity(), Helper {
         }
     }
 
-    private fun changeActivityToCalendar() {
-        val intent = Intent(this, CalendarActivity::class.java)
+    private fun changeActivityToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent);
     }
 }

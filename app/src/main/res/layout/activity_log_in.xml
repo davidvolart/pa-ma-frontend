@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:background="@drawable/gradient_color">l
+    android:background="@drawable/gradient_color">
 
     <ImageView
         android:id="@+id/logIn_logo"

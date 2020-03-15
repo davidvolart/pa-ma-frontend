@@ -9,4 +9,10 @@
     <string name="confirmPassword">Confirmar contraseña</string>
     <string name="createAccount">Crear cuenta</string>
     <string name="exPartnerEmail">Email de tu expareja</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
+    <string name="child_data">Datos del niño</string>
+    <string name="calendar">Calendario</string>
+    <string name="chat">Chat</string>
+    <string name="expenses">Gastos</string>
 </resources>

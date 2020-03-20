@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChildDataFragment">
+    android:background="@drawable/gradient_color"
+    tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FRAGMENT CHILD DATA" />
+        android:id="@+id/tv_child_data_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre"
+        android:textColor="#070707"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/child_data_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="10"
+        android:hint="Nombre"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/tv_child_data_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DNI/NIE"
+        android:textColor="#070707"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <EditText
+        android:id="@+id/child_data_ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="10"
+        android:hint="12345678G"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/tv_child_data_birthdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha nacimiento"
+        android:textColor="#070707"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <EditText
+        android:id="@+id/birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
+        android:maxLines="1"/>
+
+
+
+</LinearLayout>

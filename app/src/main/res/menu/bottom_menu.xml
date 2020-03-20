@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/child_info"
+            android:title="@string/child_data"
+            android:icon="@drawable/ic_child" />
+        <item
+            android:id="@+id/calendar"
+            android:title="@string/calendar"
+            android:icon="@drawable/ic_child" />
+        <item
+            android:id="@+id/chat"
+            android:title="@string/chat"
+            android:icon="@drawable/ic_child" />
+    </group>
+</menu>

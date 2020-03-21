@@ -15,4 +15,6 @@
     <string name="calendar">Calendario</string>
     <string name="chat">Chat</string>
     <string name="expenses">Gastos</string>
+    <string name="vaccines">Vacunas</string>
+    <string name="sizes">Tallas</string>
 </resources>

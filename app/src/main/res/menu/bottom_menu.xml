@@ -5,16 +5,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/child_info"
+            android:id="@+id/child_personal_info"
             android:title="@string/child_data"
             android:icon="@drawable/ic_child" />
         <item
-            android:id="@+id/calendar"
-            android:title="@string/calendar"
+            android:id="@+id/child_sizes"
+            android:title="@string/sizes"
             android:icon="@drawable/ic_child" />
         <item
-            android:id="@+id/chat"
-            android:title="@string/chat"
+            android:id="@+id/child_vaccines"
+            android:title="@string/vaccines"
             android:icon="@drawable/ic_child" />
     </group>
 </menu>

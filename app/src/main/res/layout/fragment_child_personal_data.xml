@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_child_data_name"
+        android:id="@+id/tv_child_personal_data_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre"
         android:textColor="#070707"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/child_data_name"
+        android:id="@+id/child_personal_data_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="Nombre"
+        android:hint="Marc Garcia Fernandez"
         android:textColor="#070707"
         android:importantForAutofill="no"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_personal_data_name"/>
 
     <TextView
-        android:id="@+id/tv_child_data_ID"
+        android:id="@+id/tv_child_personal_data_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DNI/NIE"
         android:textColor="#070707"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/child_personal_data_name"/>
 
     <EditText
-        android:id="@+id/child_data_ID"
+        android:id="@+id/child_personal_data_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorBlueDark"
@@ -41,23 +42,60 @@
         android:hint="12345678G"
         android:textColor="#070707"
         android:importantForAutofill="no"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_personal_data_ID"
+        />
 
     <TextView
-        android:id="@+id/tv_child_data_birthdate"
+        android:id="@+id/tv_child_personal_data_health_care_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Numero de la targeta sanitaria"
+        android:textColor="#070707"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/child_personal_data_ID"/>
+
+    <EditText
+        android:id="@+id/child_personal_data_health_care_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="10"
+        android:hint="GaFe0981104005"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_personal_data_health_care_number" />
+
+    <TextView
+        android:id="@+id/tv_child_personal_data_birthdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fecha nacimiento"
         android:textColor="#070707"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/child_personal_data_health_care_number"/>
 
     <EditText
-        android:id="@+id/birthdate"
+        android:id="@+id/child_personal_data_birthdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:focusable="false"
         android:clickable="true"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:layout_below="@+id/tv_child_personal_data_birthdate" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/child_persona_data_save"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="right"
+        android:background="@drawable/button_social"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="0dp"
+        android:src="@drawable/ic_save"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_child_sizes_shirt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Talla Camiseta"
+        android:textSize="20dp"
+        android:textColor="#070707" />
+
+    <EditText
+        android:id="@+id/child_sizes_shirt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_shirt"/>
+
+    <TextView
+        android:id="@+id/tv_child_sizes_pants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Talla pantalón"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true" />
+
+    <EditText
+        android:id="@+id/child_sizes_pants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_pants"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tv_child_sizes_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Altura"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/child_sizes_shirt" />
+
+    <EditText
+        android:id="@+id/child_sizes_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_height"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tv_child_sizes_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peso"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        android:layout_below="@+id/child_sizes_pants" />
+
+    <EditText
+        android:id="@+id/child_sizes_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_weight" />
+
+    <TextView
+        android:id="@+id/tv_child_sizes_shoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Talla zapatos"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/child_sizes_height" />
+
+    <EditText
+        android:id="@+id/child_sizes_shoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_shoes"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tv_child_sizes_dress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Talla vestido"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        android:layout_below="@+id/child_sizes_weight" />
+
+    <EditText
+        android:id="@+id/child_sizes_dress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlueDark"
+        android:ems="9"
+        android:textColor="#070707"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_below="@+id/tv_child_sizes_dress" />
+
+    <ImageButton
+        android:id="@+id/child_sizes_data_save"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="right"
+        android:background="@drawable/button_social"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="0dp"
+        android:src="@drawable/ic_save"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

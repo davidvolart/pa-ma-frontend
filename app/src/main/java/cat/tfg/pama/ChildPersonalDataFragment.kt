@@ -29,14 +29,14 @@ class ChildPersonalDataFragment : Fragment() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        birthdate.setOnClickListener(object : View.OnClickListener {
+        child_personal_data_birthdate.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
                 val datepicker = DatePickerDialog(
                     activity!!,
                     { view, year, monthOfYear, dayOfMonth ->
                         val selectedDate = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
-                        (birthdate as EditText).setText(selectedDate)
+                        (child_personal_data_birthdate as EditText).setText(selectedDate)
                     },
                     year, month, day)
 
@@ -45,6 +45,14 @@ class ChildPersonalDataFragment : Fragment() {
             }
         })
 
-    }
 
+        child_persona_data_save.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+
+
+                //Make a post reuqst to backend to save data
+
+            }
+        })
+    }
 }

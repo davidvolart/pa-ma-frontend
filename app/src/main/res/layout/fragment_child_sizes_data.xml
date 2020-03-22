@@ -132,10 +132,8 @@
         android:id="@+id/child_sizes_data_save"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="right"
         android:background="@drawable/button_social"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="0dp"
         android:src="@drawable/ic_save"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"/>

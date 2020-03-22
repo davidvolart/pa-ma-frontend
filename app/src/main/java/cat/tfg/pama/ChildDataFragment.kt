@@ -43,7 +43,7 @@ class ChildDataFragment : Fragment() {
                 }
                 R.id.child_vaccines -> {
                     val transaction = fragmentManager!!.beginTransaction()
-                    transaction.replace(R.id.content, ChildPersonalDataFragment())
+                    transaction.replace(R.id.content, ChildVaccinesDataFragment())
                     transaction.commit()
                 }
             }

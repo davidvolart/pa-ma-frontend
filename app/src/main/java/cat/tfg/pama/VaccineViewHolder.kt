@@ -10,7 +10,6 @@ class VaccineViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var mTitleView: TextView? = null
     private var mYearView: TextView? = null
 
-
     init {
         mTitleView = itemView.findViewById(R.id.list_title)
         mYearView = itemView.findViewById(R.id.list_description)

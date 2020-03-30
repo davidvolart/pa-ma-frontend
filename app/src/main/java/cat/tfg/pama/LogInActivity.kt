@@ -25,13 +25,13 @@ class LogInActivity : AppCompatActivity(), Helper {
 
         logIn_signIn.setOnClickListener {
 
-            val client = OkHttpClient()
-            val request = OkHttpRequest(client)
-
-            request.POST(URL, getParameters(), object : Callback {
+            OkHttpRequest.POST(URL, getParameters(), object : Callback {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
-                        200 -> changeActivityToMainActivity()
+                        200 -> {
+                            changeActivityToMainActivity()
+                            saveAcccesToken(OkHttpRequest, getResponseAccessToken(response))
+                        }
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
                         else -> showMessage(getResponseMessage(response))
                     }
@@ -63,5 +63,9 @@ class LogInActivity : AppCompatActivity(), Helper {
     private fun changeActivityToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent);
+    }
+
+    private fun saveAcccesToken(request: OkHttpRequest, access_token: String){
+        request.setAccesToken(access_token);
     }
 }

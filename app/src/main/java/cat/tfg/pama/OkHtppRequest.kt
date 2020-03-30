@@ -8,13 +8,11 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+object OkHttpRequest {
 
-class OkHttpRequest(client: OkHttpClient) {
     internal var client = OkHttpClient()
+    private var authorization = "";
 
-    init {
-        this.client = client
-    }
 
     fun POST(url: String, parameters: HashMap<String, String>, callback: Callback): Call {
         val builder = FormBody.Builder()
@@ -29,9 +27,13 @@ class OkHttpRequest(client: OkHttpClient) {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
+            .addHeader("Authorization", this.authorization)
             .post(formBody)
             .build()
 
+        if(url.contains("personaldata")){
+            System.out.println("aaaa")
+        }
         val call = client.newCall(request)
         call.enqueue(callback)
         return call
@@ -52,4 +54,8 @@ class OkHttpRequest(client: OkHttpClient) {
     //companion object {
     //    val JSON = MediaType.parse("application/json; charset=utf-8")
     //}
+
+    fun setAccesToken(access_token: String){
+        this.authorization = "Bearer " + access_token
+    }
 }

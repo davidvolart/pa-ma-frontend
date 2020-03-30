@@ -19,10 +19,7 @@ class SignUpActivity : AppCompatActivity(), Helper {
 
         singUp_save.setOnClickListener {
 
-            val client = OkHttpClient()
-            val request = OkHttpRequest(client)
-
-            request.POST(URL, getParameters(), object : Callback {
+            OkHttpRequest.POST(URL, getParameters(), object : Callback {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         201 -> {

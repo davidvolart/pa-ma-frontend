@@ -13,42 +13,63 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class ChildPersonalDataFragment : Fragment(), Helper  {
+class ChildPersonalDataFragment : Fragment(), Helper {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val SUCCESSFUL_SAVE_MESSAGE = "Se ha guardado correctamente."
-    val URL = "http://10.0.2.2:8000/api/personaldata"
+    val URL_SAVE_PERSONAL_DATA = "http://10.0.2.2:8000/api/personaldata"
+    val URL_GET_CHILD = "http://10.0.2.2:8000/api/child"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_child_personal_data, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        OkHttpRequest.GET(URL_GET_CHILD, object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                when (response.code()) {
+                    200 -> {
+                        var child = hasChild(response)
+                        setContent(child)
+                    }
+                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
+                    else -> showMessage(getResponseMessage(response))
+                }
+            }
+
+            override fun onFailure(call: Call?, e: IOException?) {
+                showMessage(STANDARD_MESSAGE_ERROR);
+            }
+        })
 
         child_personal_data_birthdate.setOnClickListener(object : View.OnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
             override fun onClick(v: View) {
 
                 val datepicker = DatePickerDialog(
                     activity!!,
                     { view, year, monthOfYear, dayOfMonth ->
-                        val selectedDate = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
+                        val selectedDate =
+                            dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
                         (child_personal_data_birthdate as EditText).setText(selectedDate)
                     },
-                    year, month, day)
+                    year, month, day
+                )
 
                 datepicker.datePicker.maxDate = c.getTimeInMillis()
                 datepicker.show()
@@ -58,7 +79,7 @@ class ChildPersonalDataFragment : Fragment(), Helper  {
         child_persona_data_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                OkHttpRequest.POST(URL, getParameters(), object : Callback {
+                OkHttpRequest.POST(URL_SAVE_PERSONAL_DATA, getParameters(), object : Callback {
                     override fun onResponse(call: Call?, response: Response) {
                         when (response.code()) {
                             200 -> showMessage(SUCCESSFUL_SAVE_MESSAGE)
@@ -66,6 +87,7 @@ class ChildPersonalDataFragment : Fragment(), Helper  {
                             else -> showMessage(getResponseMessage(response))
                         }
                     }
+
                     override fun onFailure(call: Call?, e: IOException?) {
                         showMessage(STANDARD_MESSAGE_ERROR);
                     }
@@ -74,10 +96,26 @@ class ChildPersonalDataFragment : Fragment(), Helper  {
         })
     }
 
+    private fun setContent(child: JSONObject){
+        activity?.runOnUiThread(Runnable {
+            child_personal_data_name.setText(child.getString("name"));
+            child_personal_data_ID.setText(child.getString("id_card"));
+            child_personal_data_health_care_number.setText(child.getString("health_care_number"));
+
+            var birthdate = this.getDateInEuropeanFormat(child.getString("birthdate"))
+            child_personal_data_birthdate.setText(birthdate);
+        })
+    }
+
+    private fun getDateInEuropeanFormat(birthdate: String): String{
+        var birthdate_parts = birthdate.split("-", ignoreCase = true, limit  = 0)
+        return birthdate_parts[2]+'/'+birthdate_parts[1]+'/'+birthdate_parts[0]
+    }
+
     private fun getParameters(): HashMap<String, String> {
         val parameters = HashMap<String, String>()
         parameters.put("name", child_personal_data_name.text.toString())
-        parameters.put("id", child_personal_data_ID.text.toString())
+        parameters.put("id_card", child_personal_data_ID.text.toString())
         parameters.put("health_care_number", child_personal_data_health_care_number.text.toString())
         parameters.put("birthdate", child_personal_data_birthdate.text.toString())
 

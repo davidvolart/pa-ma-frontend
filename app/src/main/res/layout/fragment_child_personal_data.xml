@@ -18,8 +18,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="Marc Garcia Fernandez"
-        android:textColor="#070707"
+        android:textColor="#FDFBFB"
         android:importantForAutofill="no"
         android:inputType="text"
         android:layout_below="@+id/tv_child_personal_data_name"/>
@@ -40,7 +39,7 @@
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
         android:hint="12345678G"
-        android:textColor="#070707"
+        android:textColor="#FDFBFB"
         android:importantForAutofill="no"
         android:inputType="text"
         android:layout_below="@+id/tv_child_personal_data_ID"
@@ -62,7 +61,7 @@
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
         android:hint="GaFe0981104005"
-        android:textColor="#070707"
+        android:textColor="#FDFBFB"
         android:importantForAutofill="no"
         android:inputType="text"
         android:layout_below="@+id/tv_child_personal_data_health_care_number" />

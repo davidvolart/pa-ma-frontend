@@ -22,15 +22,13 @@ class ChildSizesDataFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-/*
+
         child_sizes_data_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                //Make a post request to backend to save data
 
             }
         })
- */
     }
 
 }

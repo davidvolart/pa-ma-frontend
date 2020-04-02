@@ -10,9 +10,8 @@ import okhttp3.Request
 
 object OkHttpRequest {
 
-    internal var client = OkHttpClient()
+    private var client = OkHttpClient()
     private var authorization = "";
-
 
     fun POST(url: String, parameters: HashMap<String, String>, callback: Callback): Call {
         val builder = FormBody.Builder()
@@ -39,17 +38,20 @@ object OkHttpRequest {
         return call
     }
 
-    /*
+
     fun GET(url: String, callback: Callback): Call {
         val request = Request.Builder()
             .url(url)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("X-Requested-With", "XMLHttpRequest")
+            .addHeader("Authorization", this.authorization)
             .build()
 
         val call = client.newCall(request)
         call.enqueue(callback)
         return call
     }
-    */
+
 
     //companion object {
     //    val JSON = MediaType.parse("application/json; charset=utf-8")

@@ -17,4 +17,8 @@
     <string name="expenses">Gastos</string>
     <string name="vaccines">Vacunas</string>
     <string name="sizes">Tallas</string>
+    <string name="create">Crear</string>
+    <string name="cancel">Cancelar</string>
+    <string name="vaccine_name">Nombre vacuna</string>
+    <string name="date">Fecha</string>
 </resources>

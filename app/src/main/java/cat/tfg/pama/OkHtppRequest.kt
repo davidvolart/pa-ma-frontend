@@ -13,7 +13,7 @@ object OkHttpRequest {
     private var client = OkHttpClient()
     private var authorization = "";
 
-    fun POST(url: String, parameters: HashMap<String, String>, callback: Callback): Call {
+    fun POST(url: String, parameters: HashMap<String, *>, callback: Callback): Call {
         val builder = FormBody.Builder()
         val it = parameters.entries.iterator()
         while (it.hasNext()) {

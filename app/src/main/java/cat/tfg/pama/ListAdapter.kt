@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ListAdapter(private val list: List<Vaccine>)
+class ListAdapter(private val list: MutableList<Vaccine>)
     : RecyclerView.Adapter<VaccineViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VaccineViewHolder {

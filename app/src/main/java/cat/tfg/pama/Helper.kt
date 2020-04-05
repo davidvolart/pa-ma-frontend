@@ -3,6 +3,7 @@ package cat.tfg.pama
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -24,6 +25,14 @@ interface Helper {
         var child = json.getJSONObject("child")
 
         return child;
+    }
+
+    fun getVaccines(response: Response): JSONArray {
+        var response_string = response.body()?.string();
+        val json = JSONObject(response_string)
+        var vaccines = json.getJSONArray("vaccines")
+
+        return vaccines;
     }
 
 

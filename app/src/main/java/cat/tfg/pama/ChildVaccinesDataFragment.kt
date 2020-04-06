@@ -1,5 +1,6 @@
 package cat.tfg.pama
 
+import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
+import androidx.recyclerview.widget.DividerItemDecoration
+
 
 data class Vaccine(var title: String, var date: String, var description: String)
 
@@ -47,6 +50,7 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
                 when (response.code()) {
                     200 -> {
                         addVaccinesToList(getVaccines(response));
+                        addItemsDivider()
                         addListAdapter()
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
@@ -67,6 +71,13 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.content, AddVaccineFragment())
         transaction.commit()
+    }
+
+    private fun addItemsDivider(){
+        activity?.runOnUiThread(Runnable {
+            val itemDecor = DividerItemDecoration(context, HORIZONTAL)
+            list_recycler_view.addItemDecoration(itemDecor)
+        })
     }
 
     private fun addListAdapter(){

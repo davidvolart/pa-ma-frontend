@@ -50,7 +50,7 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
                 when (response.code()) {
                     200 -> {
                         addVaccinesToList(getVaccines(response));
-                        addItemsDivider()
+                        addItemsBottomLine()
                         addListAdapter()
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
@@ -73,7 +73,7 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
         transaction.commit()
     }
 
-    private fun addItemsDivider(){
+    private fun addItemsBottomLine(){
         activity?.runOnUiThread(Runnable {
             val itemDecor = DividerItemDecoration(context, HORIZONTAL)
             list_recycler_view.addItemDecoration(itemDecor)

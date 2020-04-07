@@ -100,7 +100,7 @@ class ChildPersonalDataFragment : Fragment(), Helper {
         activity?.runOnUiThread(Runnable {
             child_personal_data_name.setText(child.getString("name"));
             child_personal_data_ID.setText(child.getString("id_card"));
-            child_personal_data_health_care_number.setText(child.getString("health_care_number"));
+            child_personal_data_health_care_id.setText(child.getString("health_care_number"));
 
             var birthdate = this.getDateInEuropeanFormat(child.getString("birthdate"))
             child_personal_data_birthdate.setText(birthdate);
@@ -116,7 +116,7 @@ class ChildPersonalDataFragment : Fragment(), Helper {
         val parameters = HashMap<String, String>()
         parameters.put("name", child_personal_data_name.text.toString())
         parameters.put("id_card", child_personal_data_ID.text.toString())
-        parameters.put("health_care_number", child_personal_data_health_care_number.text.toString())
+        parameters.put("health_care_number", child_personal_data_health_care_id.text.toString())
         parameters.put("birthdate", child_personal_data_birthdate.text.toString())
 
         return parameters

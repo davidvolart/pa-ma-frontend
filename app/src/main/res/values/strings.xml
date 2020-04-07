@@ -21,4 +21,15 @@
     <string name="cancel">Cancelar</string>
     <string name="vaccine_name">Nombre vacuna</string>
     <string name="date">Fecha</string>
+    <string name="id">DNI/NIE</string>
+    <string name="id_hint">12345678G</string>
+    <string name="health_care_number">Numero de la targeta sanitaria</string>
+    <string name="health_care_number_hint">GaFe0981104005</string>
+    <string name="birthdate">Fecha nacimiento</string>
+    <string name="shirt_size">Talla Camiseta</string>
+    <string name="weight">Peso</string>
+    <string name="dress_size">Talla vestido</string>
+    <string name="pants_size">Talla pantalón</string>
+    <string name="height">Altura</string>
+    <string name="shoes_size">Talla zapatos</string>
 </resources>

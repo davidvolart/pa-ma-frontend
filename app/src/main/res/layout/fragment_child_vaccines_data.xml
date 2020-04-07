@@ -14,8 +14,8 @@
 
     <ImageButton
         android:id="@+id/child_vaccines_data_save"
-        android:layout_width="200px"
-        android:layout_height="200px"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/button_social"
         android:scaleType="fitCenter"
         android:layout_alignParentBottom="true"

@@ -8,7 +8,7 @@
         android:id="@+id/tv_child_personal_data_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre"
+        android:text="@string/name"
         android:textColor="#070707"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/tv_child_personal_data_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DNI/NIE"
+        android:text="@string/id"
         android:textColor="#070707"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/child_personal_data_name"/>
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="12345678G"
+        android:hint="@string/id_hint"
         android:textColor="#FDFBFB"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -46,34 +46,34 @@
         />
 
     <TextView
-        android:id="@+id/tv_child_personal_data_health_care_number"
+        android:id="@+id/tv_child_personal_data_health_care_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Numero de la targeta sanitaria"
+        android:text="@string/health_care_number"
         android:textColor="#070707"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/child_personal_data_ID"/>
 
     <EditText
-        android:id="@+id/child_personal_data_health_care_number"
+        android:id="@+id/child_personal_data_health_care_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="GaFe0981104005"
+        android:hint="@string/health_care_number_hint"
         android:textColor="#FDFBFB"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:layout_below="@+id/tv_child_personal_data_health_care_number" />
+        android:layout_below="@+id/tv_child_personal_data_health_care_id" />
 
     <TextView
         android:id="@+id/tv_child_personal_data_birthdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fecha nacimiento"
+        android:text="@string/birthdate"
         android:textColor="#070707"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/child_personal_data_health_care_number"/>
+        android:layout_below="@+id/child_personal_data_health_care_id"/>
 
     <EditText
         android:id="@+id/child_personal_data_birthdate"
@@ -89,10 +89,8 @@
         android:id="@+id/child_persona_data_save"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="right"
         android:background="@drawable/button_social"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="0dp"
         android:src="@drawable/ic_save"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"/>

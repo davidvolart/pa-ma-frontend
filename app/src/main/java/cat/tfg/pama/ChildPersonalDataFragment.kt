@@ -40,11 +40,16 @@ class ChildPersonalDataFragment : Fragment(), Helper {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
-                        var child = hasChild(response)
+                        var child = getChild(response)
                         setContent(child)
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> showMessage(getResponseMessage(response))
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){
+                            showMessage(message)
+                        }
+                    }
                 }
             }
 
@@ -84,7 +89,12 @@ class ChildPersonalDataFragment : Fragment(), Helper {
                         when (response.code()) {
                             200 -> showMessage(SUCCESSFUL_SAVE_MESSAGE)
                             500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                            else -> showMessage(getResponseMessage(response))
+                            else -> {
+                                val message = getResponseMessage(response);
+                                if(message != null){
+                                    showMessage(message)
+                                }
+                            }
                         }
                     }
 
@@ -99,11 +109,18 @@ class ChildPersonalDataFragment : Fragment(), Helper {
     private fun setContent(child: JSONObject){
         activity?.runOnUiThread(Runnable {
             child_personal_data_name.setText(child.getString("name"));
-            child_personal_data_ID.setText(child.getString("id_card"));
-            child_personal_data_health_care_id.setText(child.getString("health_care_number"));
+            if(child.getString("id_card") != "null"){
+                child_personal_data_ID.setText(child.getString("id_card"));
+            }
 
-            var birthdate = this.getDateInEuropeanFormat(child.getString("birthdate"))
-            child_personal_data_birthdate.setText(birthdate);
+            if(child.getString("health_care_number") != "null"){
+                child_personal_data_health_care_id.setText(child.getString("health_care_number"));
+            }
+
+            if(child.getString("birthdate") != "null"){
+                var birthdate = this.getDateInEuropeanFormat(child.getString("birthdate"))
+                child_personal_data_birthdate.setText(birthdate);
+            }
         })
     }
 
@@ -114,10 +131,22 @@ class ChildPersonalDataFragment : Fragment(), Helper {
 
     private fun getParameters(): HashMap<String, String> {
         val parameters = HashMap<String, String>()
-        parameters.put("name", child_personal_data_name.text.toString())
-        parameters.put("id_card", child_personal_data_ID.text.toString())
-        parameters.put("health_care_number", child_personal_data_health_care_id.text.toString())
-        parameters.put("birthdate", child_personal_data_birthdate.text.toString())
+
+        if(child_personal_data_name.text.toString() != ""){
+            parameters.put("name", child_personal_data_name.text.toString())
+        }
+
+        if(child_personal_data_ID.text.toString() != ""){
+            parameters.put("id_card", child_personal_data_ID.text.toString())
+        }
+
+        if(child_personal_data_health_care_id.text.toString() != ""){
+            parameters.put("health_care_number", child_personal_data_health_care_id.text.toString())
+        }
+
+        if(child_personal_data_birthdate.text.toString() != ""){
+            parameters.put("birthdate", child_personal_data_birthdate.text.toString())
+        }
 
         return parameters
     }

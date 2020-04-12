@@ -71,7 +71,12 @@ class AddVaccineFragment : Fragment(), Helper {
                 when (response.code()) {
                     201 -> showMessage(SUCCESSFUL_MESSAGE);
                     500 -> showMessage("error 500")
-                    else -> showMessage(getResponseMessage(response))
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){
+                            showMessage(message)
+                        }
+                    }
                 }
             }
             override fun onFailure(call: Call?, e: IOException?) {

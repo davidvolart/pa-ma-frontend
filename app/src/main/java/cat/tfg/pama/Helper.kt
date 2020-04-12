@@ -7,18 +7,17 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 
-
 interface Helper {
 
-    fun getResponseMessage(response: Response): String {
-        return getResponseKeyValue(response,"message")
+    fun getResponseMessage(response: Response): String? {
+        return getResponseKeyValue(response, "message")
     }
 
-    fun getResponseAccessToken(response: Response): String{
-        return getResponseKeyValue(response,"access_token")
+    fun getResponseAccessToken(response: Response): String? {
+        return getResponseKeyValue(response, "access_token")
     }
 
-    fun hasChild(response: Response): JSONObject{
+    fun getChild(response: Response): JSONObject {
 
         var response_string = response.body()?.string();
         val json = JSONObject(response_string)
@@ -35,23 +34,18 @@ interface Helper {
         return vaccines;
     }
 
-
-    fun getResponseKeyValue(response: Response,key: String): String{
-/*
-        var response_string = response.body()?.string();
-        val json = JSONObject(response_string)
-
-        var message = json.getJSONObject("key")
- */
-
-            val response_json = response.body()?.string().toString();
-            val gson = Gson()
-            val response_map: Map<String, String> =
-                gson.fromJson(response_json, object : TypeToken<Map<String, String>>() {}.type)
-            return response_map.get(key).toString()
-
+    fun getFamilyCode(response: Response): String? {
+        val family_code = getResponseKeyValue(response, "family_code")
+        return family_code;
     }
 
+    fun getResponseKeyValue(response: Response, key: String): String? {
 
-
+        val response_json = response.body()?.string()?.toString();
+        val gson = Gson()
+        val response_map: Map<String, String> =
+            gson.fromJson(response_json, object : TypeToken<Map<String, String>>() {}.type)
+        val p = response_map.get(key)?.toString()
+        return p;
+    }
 }

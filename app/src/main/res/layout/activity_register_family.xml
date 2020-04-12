@@ -17,21 +17,31 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/family" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="12dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/register_family"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
     <EditText
-        android:id="@+id/singUp_name"
+        android:id="@+id/family_child_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="@string/name"
+        android:hint="@string/child_name"
         android:inputType="text"
         android:importantForAutofill="no"/>
 
     <EditText
-        android:id="@+id/singUp_email"
+        android:id="@+id/family_partner_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -39,49 +49,12 @@
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorBlueDark"
         android:ems="10"
-        android:hint="@string/email"
+        android:hint="@string/exPartnerEmail"
         android:importantForAutofill="no"
         android:inputType="textEmailAddress"/>
 
-    <EditText
-        android:id="@+id/singUp_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/singUp_rememberPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/confirmPassword"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/singUp_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/have_code"
-        android:inputType="textPassword"
-        tools:ignore="HardcodedText" />
-
     <Button
-        android:id="@+id/singUp_save"
+        android:id="@+id/family_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

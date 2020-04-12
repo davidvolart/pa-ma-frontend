@@ -15,7 +15,7 @@ class LogInActivity : AppCompatActivity(), Helper {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_LOGIN = "http://10.0.2.2:8000/api/auth/login"
-    val URL_CHILD = "http://10.0.2.2:8000/api/child"
+    val URL_CHILD = "http://10.0.2.2:8000/api/auth/user"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,15 +33,19 @@ class LogInActivity : AppCompatActivity(), Helper {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         200 -> {
-                            saveAcccesToken(OkHttpRequest, getResponseAccessToken(response))
-                            //Check if this user has a family yet
-                            checkUserHasAChildRegistered()
-                            //If it has changeActivityToMainActivity()
-                            //Else changeActivityToRegisterFamily()
-                            //changeActivityToMainActivity()
+                            val access_token = getResponseAccessToken(response)
+                            if(access_token != null){
+                                saveAcccesToken(OkHttpRequest, access_token)
+                            }
+                            checkUserHasAFamilyRegistered()
                         }
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                        else -> showMessage(getResponseMessage(response))
+                        else -> {
+                            val message = getResponseMessage(response);
+                            if(message != null){
+                                showMessage(message)
+                            }
+                        }
                     }
                 }
 
@@ -74,7 +78,7 @@ class LogInActivity : AppCompatActivity(), Helper {
     }
 
     private fun changeActivityToRegisterFamily() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, RegisterFamilyActivity::class.java)
         startActivity(intent);
     }
 
@@ -83,19 +87,24 @@ class LogInActivity : AppCompatActivity(), Helper {
     }
 
 
-    private fun checkUserHasAChildRegistered(){
+    private fun checkUserHasAFamilyRegistered(){
         OkHttpRequest.GET(URL_CHILD, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
-                        if(hasChild(response) != null) {
+                        if(getFamilyCode(response) != null) {
                             changeActivityToMainActivity()
                         } else {
                             changeActivityToRegisterFamily()
                         }
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> showMessage(getResponseMessage(response))
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){
+                            showMessage(message)
+                        }
+                    }
                 }
             }
 
@@ -106,4 +115,7 @@ class LogInActivity : AppCompatActivity(), Helper {
             }
         })
     }
+
 }
+
+

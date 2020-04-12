@@ -54,7 +54,12 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
                         addListAdapter()
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> showMessage(getResponseMessage(response))
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){
+                            showMessage(message)
+                        }
+                    }
                 }
             }
             override fun onFailure(call: Call?, e: IOException?) {

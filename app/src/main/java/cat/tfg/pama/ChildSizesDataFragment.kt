@@ -39,11 +39,16 @@ class ChildSizesDataFragment : Fragment(), Helper {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
-                        var child = hasChild(response)
+                        var child = getChild(response)
                         setContent(child)
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> showMessage(getResponseMessage(response))
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){
+                            showMessage(message)
+                        }
+                    }
                 }
             }
 
@@ -60,10 +65,14 @@ class ChildSizesDataFragment : Fragment(), Helper {
                         when (response.code()) {
                             200 -> showMessage(SUCCESSFUL_SAVE_MESSAGE)
                             500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                            else -> showMessage(getResponseMessage(response))
+                            else -> {
+                                val message = getResponseMessage(response);
+                                if(message != null){
+                                    showMessage(message)
+                                }
+                            }
                         }
                     }
-
                     override fun onFailure(call: Call?, e: IOException?) {
                         showMessage(STANDARD_MESSAGE_ERROR);
                     }

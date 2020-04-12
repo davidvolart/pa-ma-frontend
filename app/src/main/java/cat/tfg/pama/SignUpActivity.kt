@@ -23,11 +23,19 @@ class SignUpActivity : AppCompatActivity(), Helper {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         201 -> {
-                            showMessage(getResponseMessage(response))
+                            val message = getResponseMessage(response);
+                            if(message != null){
+                                showMessage(message)
+                            }
                             changeActivityToLogIn()
                         }
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                        else -> showMessage(getResponseMessage(response))
+                        else -> {
+                            val message = getResponseMessage(response);
+                            if(message != null){
+                                showMessage(message)
+                            }
+                        }
                     }
                 }
 
@@ -45,6 +53,9 @@ class SignUpActivity : AppCompatActivity(), Helper {
         parameters.put("password_confirmation", singUp_rememberPassword.text.toString())
         parameters.put("email", singUp_email.text.toString())
         parameters.put("partner_email", "davidvolart1997@gmail.com")
+        if(singUp_code.text.toString() != ""){
+            parameters.put("family_code", singUp_code.text.toString())
+        }
         return parameters
     }
 

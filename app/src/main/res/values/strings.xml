@@ -32,4 +32,7 @@
     <string name="pants_size">Talla pantalón</string>
     <string name="height">Altura</string>
     <string name="shoes_size">Talla zapatos</string>
+    <string name="have_code">Tienes un código?</string>
+    <string name="child_name">Nombre del niño</string>
+    <string name="register_family">Crear familia</string>
 </resources>

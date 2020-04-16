@@ -35,4 +35,6 @@
     <string name="have_code">Tienes un código?</string>
     <string name="child_name">Nombre del niño</string>
     <string name="register_family">Crear familia</string>
+    <string name="nannies">Nannies</string>
+    <string name="tasks">Tareas</string>
 </resources>

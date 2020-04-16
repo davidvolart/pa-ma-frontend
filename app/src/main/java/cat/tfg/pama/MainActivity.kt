@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var childDataFragment: ChildDataFragment
     lateinit var calendarFragment: CalendarFragment
+    lateinit var childExpensesFragment: ChildExpensesFragment;
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -59,6 +60,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, childDataFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+            }
+            R.id.expenses ->{
+                childExpensesFragment = ChildExpensesFragment()
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, childExpensesFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }

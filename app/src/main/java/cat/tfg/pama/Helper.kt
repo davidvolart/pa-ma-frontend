@@ -34,6 +34,15 @@ interface Helper {
         return vaccines;
     }
 
+    fun getExpenses(response: Response): JSONArray {
+        var response_string = response.body()?.string();
+        val json = JSONObject(response_string)
+        var expenses = json.getJSONArray("expenses")
+
+        return expenses;
+    }
+
+
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")
         return family_code;
@@ -45,7 +54,6 @@ interface Helper {
         val gson = Gson()
         val response_map: Map<String, String> =
             gson.fromJson(response_json, object : TypeToken<Map<String, String>>() {}.type)
-        val p = response_map.get(key)?.toString()
-        return p;
+        return response_map.get(key)?.toString()
     }
 }

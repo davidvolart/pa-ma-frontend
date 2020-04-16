@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class VaccineViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item, parent, false)) {
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.vaccine_item, parent, false)) {
     private var mTitleView: TextView? = null
     private var mYearView: TextView? = null
 

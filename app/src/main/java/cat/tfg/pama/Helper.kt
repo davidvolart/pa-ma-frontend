@@ -10,7 +10,8 @@ import org.json.JSONObject
 interface Helper {
 
     fun getResponseMessage(response: Response): String? {
-        return getResponseKeyValue(response, "message")
+        var message = getResponseKeyValue(response, "message")
+        return message;
     }
 
     fun getResponseAccessToken(response: Response): String? {
@@ -41,7 +42,6 @@ interface Helper {
 
         return expenses;
     }
-
 
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")

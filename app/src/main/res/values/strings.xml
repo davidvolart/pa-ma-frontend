@@ -37,4 +37,7 @@
     <string name="register_family">Crear familia</string>
     <string name="nannies">Nannies</string>
     <string name="tasks">Tareas</string>
+    <string name="expenditure_name">Nombre</string>
+    <string name="expenditure_price">Precio</string>
+    <string name="expenditure_description">Descripción</string>
 </resources>

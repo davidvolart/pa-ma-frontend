@@ -67,7 +67,7 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
             }
         })
 
-        child_vaccines_data_save.setOnClickListener {
+        child_vaccines_data_add.setOnClickListener {
             changeFragmentToAddVaccineFragment();
         }
     }

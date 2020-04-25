@@ -18,7 +18,8 @@ class ExpenditureViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
     fun bind(expenditure: Expenditure, clickListener: ((Any) -> Unit) ?) {
         mTitleView?.text = expenditure.title
-        mPriceView?.text = expenditure.price.toString()
+        val price = expenditure.price.toString()+"€"
+        mPriceView?.text =  price
         if(clickListener!=null){
             itemView.setOnClickListener { clickListener(expenditure)}
         }

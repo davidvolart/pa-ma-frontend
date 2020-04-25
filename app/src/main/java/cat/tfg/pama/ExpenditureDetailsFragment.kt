@@ -23,6 +23,7 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
     private val BUTTON_SAVE_TEXT = "Guardar"
+    private val BUTTON_DELETE_TEXT = "Eliminar"
 
     companion object {
         fun newInstance(id: Int, title: String, date: String, price: Double, description: String): ExpenditureDetailsFragment {
@@ -52,10 +53,16 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         add_expenditure_title.setText(args?.getString("title", ""));
         var expenditure_date = this.getDateInEuropeanFormat(args!!.getString("date", ""))
         add_expenditure_date.setText(expenditure_date);
-        add_expenditure_price.setText(args?.getDouble("price", 0.0).toString());
-        add_expenditure_description.setText(args?.getString("description", ""));
+        val price = args.getDouble("price", 0.0).toString();
+        add_expenditure_price.setText(price);
+
+        val description = args.getString("description")
+        if(description == null){
+            add_expenditure_description.setText(description);
+        }
 
         add_expenditure_create.setText(BUTTON_SAVE_TEXT)
+        add_expenditure_cancel.setText(BUTTON_DELETE_TEXT)
 
         add_expenditure_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()

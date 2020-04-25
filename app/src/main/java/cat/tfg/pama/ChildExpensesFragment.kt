@@ -13,6 +13,7 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 
 
@@ -41,6 +42,8 @@ class ChildExpensesFragment : Fragment(),Helper {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        activity!!.setTitle("Gastos")
 
         OkHttpRequest.GET(URL_EXPENSES, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
@@ -101,10 +104,13 @@ class ChildExpensesFragment : Fragment(),Helper {
     }
 
     private fun addExpensesToList(expenses: JSONArray){
+
         for (i in 0 until expenses.length()) {
             var expediture_jsonObject = expenses.getJSONObject(i)
             var expediture = Expenditure(expediture_jsonObject.getInt("id"),expediture_jsonObject.getString("name"),expediture_jsonObject.getString("date"),expediture_jsonObject.getDouble("price"),expediture_jsonObject.getString("description"))
             expenses_list.add(expediture)
         }
+
+        expenses_list.sortByDescending { it.date }
     }
 }

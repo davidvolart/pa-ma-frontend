@@ -7,26 +7,26 @@
         <item
             android:id="@+id/child_info"
             android:title="@string/child_data"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_child_face" />
         <item
             android:id="@+id/expenses"
             android:title="@string/expenses"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_money" />
         <item
             android:id="@+id/calendar"
             android:title="@string/calendar"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_calendar" />
         <item
             android:id="@+id/chat"
             android:title="@string/chat"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_chat" />
         <item
             android:id="@+id/nannies"
             android:title="@string/nannies"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_nanny" />
         <item
             android:id="@+id/tasks"
             android:title="@string/tasks"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_tasks" />
     </group>
 </menu>

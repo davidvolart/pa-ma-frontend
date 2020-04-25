@@ -20,7 +20,7 @@ interface Helper {
 
     fun getChild(response: Response): JSONObject {
 
-        var response_string = response.body()?.string();
+        var response_string = response.body()!!.string();
         val json = JSONObject(response_string)
         var child = json.getJSONObject("child")
 
@@ -28,7 +28,7 @@ interface Helper {
     }
 
     fun getVaccines(response: Response): JSONArray {
-        var response_string = response.body()?.string();
+        var response_string = response.body()!!.string();
         val json = JSONObject(response_string)
         var vaccines = json.getJSONArray("vaccines")
 
@@ -36,7 +36,7 @@ interface Helper {
     }
 
     fun getExpenses(response: Response): JSONArray {
-        var response_string = response.body()?.string();
+        var response_string = response.body()!!.string();
         val json = JSONObject(response_string)
         var expenses = json.getJSONArray("expenses")
 

@@ -11,10 +11,10 @@
         <item
             android:id="@+id/child_sizes"
             android:title="@string/sizes"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_sizes" />
         <item
             android:id="@+id/child_vaccines"
             android:title="@string/vaccines"
-            android:icon="@drawable/ic_child" />
+            android:icon="@drawable/ic_vaccine" />
     </group>
 </menu>

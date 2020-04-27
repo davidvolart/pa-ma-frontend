@@ -43,6 +43,14 @@ interface Helper {
         return expenses;
     }
 
+    fun getTasks(response: Response): JSONArray {
+        var response_string = response.body()!!.string();
+        val json = JSONObject(response_string)
+        var expenses = json.getJSONArray("tasks")
+
+        return expenses;
+    }
+
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")
         return family_code;

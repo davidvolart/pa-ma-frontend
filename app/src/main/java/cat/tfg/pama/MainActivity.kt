@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var childDataFragment: ChildDataFragment
     lateinit var calendarFragment: CalendarFragment
     lateinit var childExpensesFragment: ChildExpensesFragment;
+    lateinit var tasksFragment: TasksFragment;
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -81,6 +82,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
+
+            R.id.tasks ->{
+                tasksFragment = TasksFragment()
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, tasksFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+            }
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)

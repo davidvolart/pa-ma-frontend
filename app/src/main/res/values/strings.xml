@@ -40,4 +40,5 @@
     <string name="expenditure_name">Nombre</string>
     <string name="expenditure_price">Precio</string>
     <string name="expenditure_description">Descripción</string>
+    <string name="assigne_me">Assignar a mi</string>
 </resources>

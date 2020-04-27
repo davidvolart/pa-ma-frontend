@@ -1,6 +1,5 @@
 package cat.tfg.pama
 
-import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,26 +7,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_child_vaccines_data.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
-import androidx.recyclerview.widget.DividerItemDecoration
 
-
-data class Vaccine(var title: String, var date: String, var description: String)
+data class Task(var id: Int, var title: String, var date: String, var description: String, var assigned_to: String)
 
 /**
  * A simple [Fragment] subclass.
  */
-class ChildVaccinesDataFragment : Fragment(), Helper {
+class TasksFragment : Fragment(),Helper {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
-    val URL_GET_CHILD = "http://10.0.2.2:8000/api/vaccines"
+    val URL_TASKS = "http://10.0.2.2:8000/api/tasks"
 
-    private val vaccines_list: MutableList<Vaccine> = mutableListOf()
+    private val tasks_list: MutableList<Task> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,22 +32,21 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_child_vaccines_data, container, false)
+        return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        OkHttpRequest.GET(URL_GET_CHILD, object : Callback {
+        activity!!.setTitle("Tareas")
+
+        OkHttpRequest.GET(URL_TASKS, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
-                        addVaccinesToList(getVaccines(response));
-                        addItemsBottomLine()
+                        addTasksToList(getTasks(response));
                         addListAdapter()
                     }
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
@@ -67,31 +63,35 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
             }
         })
 
-        child_vaccines_data_add.setOnClickListener {
-            changeFragmentToAddVaccineFragment();
+        tasks_add.setOnClickListener {
+            changeFragmentToAddTaskFragment();
         }
     }
 
-    private fun changeFragmentToAddVaccineFragment() {
+    private fun changeFragmentToAddTaskFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.content, AddVaccineFragment())
+        transaction.replace(R.id.frame_layout, AddTaskFragment())
         transaction.commit()
-    }
-
-    private fun addItemsBottomLine(){
-        activity?.runOnUiThread(Runnable {
-            val itemDecor = DividerItemDecoration(context, HORIZONTAL)
-            list_recycler_view.addItemDecoration(itemDecor)
-        })
     }
 
     private fun addListAdapter(){
         activity?.runOnUiThread(Runnable {
-            list_recycler_view.apply {
+            list_tasks_recycler_view.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = ListAdapter(vaccines_list)
+                adapter = ListAdapter(tasks_list, { task_item : Any -> taskItemClicked(task_item) })
             }
         })
+    }
+
+    private fun taskItemClicked(item : Any) {
+        var task_item = item as Task;
+        changeFragmentToTaskDetailFragment(task_item);
+    }
+
+    private fun changeFragmentToTaskDetailFragment(task_item: Task) {
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to))
+        transaction.commit()
     }
 
     private fun showMessage(message: String) {
@@ -100,11 +100,14 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
         })
     }
 
-    private fun addVaccinesToList(vaccines: JSONArray){
-        for (i in 0 until vaccines.length()) {
-            var vaccine_jsonObject = vaccines.getJSONObject(i)
-            var vaccine = Vaccine(vaccine_jsonObject.getString("name"),vaccine_jsonObject.getString("date"),"")
-            vaccines_list.add(vaccine)
+    private fun addTasksToList(tasks: JSONArray){
+
+        for (i in 0 until tasks.length()) {
+            var task_jsonObject = tasks.getJSONObject(i)
+            var task = Task(task_jsonObject.getInt("id"),task_jsonObject.getString("name"), task_jsonObject.getString("date"),task_jsonObject.getString("description"),task_jsonObject.getString("user_email"))
+            tasks_list.add(task)
         }
+
+        tasks_list.sortByDescending { it.date }
     }
 }

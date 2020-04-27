@@ -10,6 +10,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
     companion object {
         const val TYPE_VACCINE = 0
         const val TYPE_EXPENDITURE = 1
+        const val TYPE_TASK = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -22,6 +23,10 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
                 val inflater = LayoutInflater.from(parent.context)
                 ExpenditureViewHolder(inflater, parent)
             }
+            TYPE_TASK -> {
+                val inflater = LayoutInflater.from(parent.context)
+                TaskViewHolder(inflater, parent)
+            }
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -31,6 +36,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
         when (holder) {
             is VaccineViewHolder -> holder.bind(element as Vaccine)
             is ExpenditureViewHolder -> holder.bind(element as Expenditure, clickListener)
+            is TaskViewHolder -> holder.bind(element as Task, clickListener)
             else -> throw IllegalArgumentException()
         }
     }
@@ -40,6 +46,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
         return when (comparable) {
             is Vaccine -> TYPE_VACCINE
             is Expenditure -> TYPE_EXPENDITURE
+            is Task -> TYPE_TASK
             else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
     }

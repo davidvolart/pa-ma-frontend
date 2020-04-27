@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_add_expenditure.*
-import kotlinx.android.synthetic.main.fragment_add_vaccines.*
+import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -17,23 +16,24 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-class ExpenditureDetailsFragment() : Fragment(), Helper {
+class TaskDetailsFragment() : Fragment(), Helper {
 
-    private val URL_STORE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses"
+    private val URL_STORE_TASK = "http://10.0.2.2:8000/api/task"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
-    private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
+    private val SUCCESSFUL_MESSAGE = "Se ha actualizado correctamente."
+    private val ASSIGNED_TO = "Assignado a "
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
 
     companion object {
-        fun newInstance(id: Int, title: String, date: String, price: Double, description: String): ExpenditureDetailsFragment {
-            val fragment = ExpenditureDetailsFragment()
+        fun newInstance(id: Int, title: String, date: String, description: String, assigned_to: String): TaskDetailsFragment {
+            val fragment = TaskDetailsFragment()
             val args = Bundle()
             args.putInt("id", id)
             args.putString("title", title)
             args.putString("date", date)
-            args.putDouble("price", price)
             args.putString("description", description)
+            args.putString("assigned_to", assigned_to)
             fragment.setArguments(args)
             return fragment
         }
@@ -44,27 +44,31 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_expenditure, container, false)
+        return inflater.inflate(R.layout.fragment_add_task, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val args = arguments
-        add_expenditure_title.setText(args?.getString("title", ""));
-        var expenditure_date = this.getDateInEuropeanFormat(args!!.getString("date", ""))
-        add_expenditure_date.setText(expenditure_date);
-        val price = args.getDouble("price", 0.0).toString();
-        add_expenditure_price.setText(price);
+        add_task_title.setText(args?.getString("title", ""));
+        var task_date = this.getDateInEuropeanFormat(args!!.getString("date", ""))
+        add_task_date.setText(task_date);
+
+        val assigned_to = args.getString("assigned_to")
+        if(assigned_to != "null"){
+            add_task_assigned_to.setVisibility(View.VISIBLE);
+            add_task_assigned_to.setText(ASSIGNED_TO + assigned_to);
+        }
 
         val description = args.getString("description")
         if(description != "null"){
-            add_expenditure_description.setText(description);
+            add_task_description.setText(description);
         }
 
-        add_expenditure_create.setText(BUTTON_SAVE_TEXT)
-        add_expenditure_cancel.setText(BUTTON_DELETE_TEXT)
+        add_task_create.setText(BUTTON_SAVE_TEXT)
+        add_task_cancel.setText(BUTTON_DELETE_TEXT)
 
-        add_expenditure_date.setOnClickListener(object : View.OnClickListener {
+        add_task_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
@@ -77,7 +81,7 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
                     { view, year, monthOfYear, dayOfMonth ->
                         val selectedDate =
                             dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
-                        (add_expenditure_date as EditText).setText(selectedDate)
+                        (add_task_date as EditText).setText(selectedDate)
                     },
                     year, month, day
                 )
@@ -86,12 +90,12 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
             }
         })
 
-        add_expenditure_cancel.setOnClickListener {
-            changeFragmentToChildExpensesDataFragment();
+        add_task_cancel.setOnClickListener {
+            changeFragmentToChildTasksFragment();
         }
 
-        add_expenditure_create.setOnClickListener {
-            updateExpenditure();
+        add_task_create.setOnClickListener {
+            updateTask();
         }
     }
 
@@ -100,13 +104,13 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         return birthdate_parts[2]+'/'+birthdate_parts[1]+'/'+birthdate_parts[0]
     }
 
-    private fun updateExpenditure(){
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(),object : Callback {
+    private fun updateTask(){
+        OkHttpRequest.POST(URL_STORE_TASK, getParameters(),object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {
                         showMessage(SUCCESSFUL_MESSAGE)
-                        changeFragmentToChildExpensesDataFragment();
+                        changeFragmentToChildTasksFragment();
                     };
                     500 -> showMessage("error 500")
                     else -> {
@@ -127,12 +131,12 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         val parameters = HashMap<String, String>()
 
         parameters.put("id", arguments!!.getInt("id").toString())
-        parameters.put("name", add_expenditure_title.text.toString())
-        parameters.put("price", add_expenditure_price.text.toString())
-        parameters.put("date", add_expenditure_date.text.toString())
+        parameters.put("name", add_task_title.text.toString())
+        parameters.put("date", add_task_date.text.toString())
+        parameters.put("assigne_me", add_task_assign_me.isChecked.toString())
 
-        if(add_expenditure_description.text.toString() != ""){
-            parameters.put("description", add_expenditure_description.text.toString())
+        if(add_task_description.text.toString() != ""){
+            parameters.put("description", add_task_description.text.toString())
         }
 
         return parameters
@@ -144,9 +148,9 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         })
     }
 
-    private fun changeFragmentToChildExpensesDataFragment() {
+    private fun changeFragmentToChildTasksFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, ChildExpensesFragment())
+        transaction.replace(R.id.frame_layout, TasksFragment())
         transaction.commit()
     }
 }

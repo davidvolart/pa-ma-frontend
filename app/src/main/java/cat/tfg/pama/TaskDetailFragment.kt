@@ -19,8 +19,10 @@ import kotlin.collections.HashMap
 class TaskDetailsFragment() : Fragment(), Helper {
 
     private val URL_STORE_TASK = "http://10.0.2.2:8000/api/task"
+    private var URL_DELETE_TASK = "http://10.0.2.2:8000/api/tasks/"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
-    private val SUCCESSFUL_MESSAGE = "Se ha actualizado correctamente."
+    private val SUCCESSFUL_UPDATE_MESSAGE = "Se ha actualizado correctamente."
+    private val SUCCESSFUL_DELETE_MESSAGE = "Se ha eliminado correctamente."
     private val ASSIGNED_TO = "Assignado a "
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
@@ -91,7 +93,7 @@ class TaskDetailsFragment() : Fragment(), Helper {
         })
 
         add_task_cancel.setOnClickListener {
-            changeFragmentToChildTasksFragment();
+            deleteTask();
         }
 
         add_task_create.setOnClickListener {
@@ -104,12 +106,35 @@ class TaskDetailsFragment() : Fragment(), Helper {
         return birthdate_parts[2]+'/'+birthdate_parts[1]+'/'+birthdate_parts[0]
     }
 
+
+    private fun deleteTask(){
+        URL_DELETE_TASK = URL_DELETE_TASK + arguments!!.getInt("id").toString()
+        OkHttpRequest.DELETE(URL_DELETE_TASK, object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                when (response.code()) {
+                    200 -> {
+                        showMessage(SUCCESSFUL_DELETE_MESSAGE)
+                        changeFragmentToChildTasksFragment();
+                    };
+                    500 -> showMessage("error 500")
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){ showMessage(message) }
+                    }
+                }
+            }
+            override fun onFailure(call: Call?, e: IOException?) {
+                showMessage(STANDARD_MESSAGE_ERROR);
+            }
+        })
+    }
+
     private fun updateTask(){
         OkHttpRequest.POST(URL_STORE_TASK, getParameters(),object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {
-                        showMessage(SUCCESSFUL_MESSAGE)
+                        showMessage(SUCCESSFUL_UPDATE_MESSAGE)
                         changeFragmentToChildTasksFragment();
                     };
                     500 -> showMessage("error 500")

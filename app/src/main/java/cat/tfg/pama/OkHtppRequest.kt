@@ -52,6 +52,20 @@ object OkHttpRequest {
         return call
     }
 
+    fun DELETE(url: String, callback: Callback): Call {
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("X-Requested-With", "XMLHttpRequest")
+            .addHeader("Authorization", this.authorization)
+            .method("DELETE", null)
+            .build()
+
+        val call = client.newCall(request)
+        call.enqueue(callback)
+        return call
+    }
+
 
     //companion object {
     //    val JSON = MediaType.parse("application/json; charset=utf-8")

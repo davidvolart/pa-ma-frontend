@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_add_expenditure.*
-import kotlinx.android.synthetic.main.fragment_add_vaccines.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -20,7 +19,9 @@ import kotlin.collections.HashMap
 class ExpenditureDetailsFragment() : Fragment(), Helper {
 
     private val URL_STORE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses"
+    private var URL_DELETE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses/"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
+    private val SUCCESSFUL_DELETE_MESSAGE = "Se ha eliminado correctamente."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
@@ -87,7 +88,7 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
         })
 
         add_expenditure_cancel.setOnClickListener {
-            changeFragmentToChildExpensesDataFragment();
+            deleteExpenditure();
         }
 
         add_expenditure_create.setOnClickListener {
@@ -98,6 +99,28 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
     private fun getDateInEuropeanFormat(expenditure_date: String): String{
         var birthdate_parts = expenditure_date.split("-", ignoreCase = true, limit  = 0)
         return birthdate_parts[2]+'/'+birthdate_parts[1]+'/'+birthdate_parts[0]
+    }
+
+    private fun deleteExpenditure(){
+        URL_DELETE_EXPENDITURE = URL_DELETE_EXPENDITURE + arguments!!.getInt("id").toString()
+        OkHttpRequest.DELETE(URL_DELETE_EXPENDITURE, object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                when (response.code()) {
+                    200 -> {
+                        showMessage(SUCCESSFUL_DELETE_MESSAGE)
+                        changeFragmentToChildExpensesDataFragment();
+                    };
+                    500 -> showMessage("error 500")
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if(message != null){ showMessage(message) }
+                    }
+                }
+            }
+            override fun onFailure(call: Call?, e: IOException?) {
+                showMessage(STANDARD_MESSAGE_ERROR);
+            }
+        })
     }
 
     private fun updateExpenditure(){

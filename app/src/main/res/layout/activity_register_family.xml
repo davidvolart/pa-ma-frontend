@@ -1,66 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_color">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/singUp_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/family" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="12dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/register_family"
-        android:textSize="22dp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/family_child_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/child_name"
-        android:inputType="text"
-        android:importantForAutofill="no"/>
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_color">
 
-    <EditText
-        android:id="@+id/family_partner_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/exPartnerEmail"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"/>
+        <ImageView
+            android:id="@+id/singUp_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/family" />
 
-    <Button
-        android:id="@+id/family_create"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_rounded"
-        android:text="@string/createAccount" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="12dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/register_family"
+            android:textSize="22dp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/family_child_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/child_name"
+            android:inputType="text"
+            android:importantForAutofill="no"/>
+
+        <EditText
+            android:id="@+id/family_partner_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/exPartnerEmail"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"/>
+
+        <Button
+            android:id="@+id/family_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_rounded"
+            android:text="@string/createAccount" />
+    </LinearLayout>
+</ScrollView>

@@ -1,5 +1,6 @@
 package cat.tfg.pama
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
 
+
+
+
 data class Task(var id: Int, var title: String, var date: String, var description: String, var assigned_to: String)
 
 /**
@@ -26,6 +30,7 @@ class TasksFragment : Fragment(),Helper {
 
     private val tasks_list: MutableList<Task> = mutableListOf()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
@@ -37,6 +42,12 @@ class TasksFragment : Fragment(),Helper {
     ): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -110,4 +121,5 @@ class TasksFragment : Fragment(),Helper {
 
         tasks_list.sortByDescending { it.date }
     }
+
 }

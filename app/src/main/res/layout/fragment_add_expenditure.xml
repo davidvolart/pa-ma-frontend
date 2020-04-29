@@ -1,92 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_color">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/add_expenditure_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/family" />
-
-    <EditText
-        android:id="@+id/add_expenditure_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/expenditure_name"
-        android:importantForAutofill="no"
-        android:inputType="text" />
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_color">
 
-    <EditText
-        android:id="@+id/add_expenditure_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/date" />
+        <ImageView
+            android:id="@+id/add_expenditure_logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/family" />
 
-    <EditText
-        android:id="@+id/add_expenditure_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:maxLines="1"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/expenditure_price" />
+        <EditText
+            android:id="@+id/add_expenditure_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/expenditure_name"
+            android:importantForAutofill="no"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/add_expenditure_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:maxLines="5"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorBlueDark"
-        android:ems="10"
-        android:hint="@string/expenditure_description" />
+        <EditText
+            android:id="@+id/add_expenditure_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:maxLines="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/date" />
 
-    <Button
-        android:id="@+id/add_expenditure_create"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_rounded"
-        android:text="@string/create" />
+        <EditText
+            android:id="@+id/add_expenditure_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/expenditure_price" />
 
-    <Button
-        android:id="@+id/add_expenditure_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_rounded_border"
-        android:text="@string/cancel" />
+        <EditText
+            android:id="@+id/add_expenditure_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="5"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorBlueDark"
+            android:ems="10"
+            android:hint="@string/expenditure_description" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/add_expenditure_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_rounded"
+            android:text="@string/create" />
+
+        <Button
+            android:id="@+id/add_expenditure_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_rounded_border"
+            android:text="@string/cancel" />
+
+    </LinearLayout>
+</ScrollView>

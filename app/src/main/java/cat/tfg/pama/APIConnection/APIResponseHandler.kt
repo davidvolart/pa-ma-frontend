@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.APIConnection
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -6,8 +6,7 @@ import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
 
-
-interface Helper {
+interface APIResponseHandler {
 
     fun getResponseMessage(response: Response): String? {
         var message = getResponseKeyValue(response, "message")

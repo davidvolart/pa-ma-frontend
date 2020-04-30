@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Expenses
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_expenditure.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -16,7 +19,7 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-class ExpenditureDetailsFragment() : Fragment(), Helper {
+class ExpenditureDetailsFragment() : Fragment(), APIResponseHandler {
 
     private val URL_STORE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses"
     private var URL_DELETE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses/"
@@ -113,10 +116,13 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
                     500 -> showMessage("error 500")
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){ showMessage(message) }
+                        if (message != null) {
+                            showMessage(message)
+                        }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -124,7 +130,7 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
     }
 
     private fun updateExpenditure(){
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(),object : Callback {
+        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {
@@ -134,12 +140,13 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
                     500 -> showMessage("error 500")
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -169,7 +176,7 @@ class ExpenditureDetailsFragment() : Fragment(), Helper {
 
     private fun changeFragmentToChildExpensesDataFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, ChildExpensesFragment())
+        transaction.replace(R.id.frame_layout, ChildExpensesFragment()).addToBackStack(null)
         transaction.commit()
     }
 }

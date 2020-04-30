@@ -1,11 +1,11 @@
-package cat.tfg.pama
-
+package cat.tfg.pama.Calendar
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cat.tfg.pama.R
 
 /**
  * A simple [Fragment] subclass.
@@ -18,5 +18,10 @@ class CalendarFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calendar, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity!!.setTitle("Calendario")
     }
 }

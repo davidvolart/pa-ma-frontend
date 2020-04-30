@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Expenses
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_add_vaccines.*
-import kotlinx.android.synthetic.main.fragment_child_personal_data.*
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
+import kotlinx.android.synthetic.main.fragment_add_expenditure.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -17,9 +19,9 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-class AddVaccineFragment : Fragment(), Helper {
+class AddExpenditureFragment() : Fragment(), APIResponseHandler {
 
-    private val URL_STORE_VACCINE = "http://10.0.2.2:8000/api/vaccine"
+    private val URL_STORE_EXPENDITURE = "http://10.0.2.2:8000/api/expenses"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
 
@@ -28,12 +30,12 @@ class AddVaccineFragment : Fragment(), Helper {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_vaccines, container, false)
+        return inflater.inflate(R.layout.fragment_add_expenditure, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        add_vaccine_date.setOnClickListener(object : View.OnClickListener {
+        add_expenditure_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
@@ -46,7 +48,7 @@ class AddVaccineFragment : Fragment(), Helper {
                     { view, year, monthOfYear, dayOfMonth ->
                         val selectedDate =
                             dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
-                        (add_vaccine_date as EditText).setText(selectedDate)
+                        (add_expenditure_date as EditText).setText(selectedDate)
                     },
                     year, month, day
                 )
@@ -55,30 +57,33 @@ class AddVaccineFragment : Fragment(), Helper {
             }
         })
 
-        add_vaccine_cancel.setOnClickListener {
-            changeFragmentToChildVaccinesDataFragment();
+        add_expenditure_cancel.setOnClickListener {
+            changeFragmentToChildExpensesDataFragment();
         }
 
-        add_vaccine_create.setOnClickListener {
-            storeVaccine();
-            changeFragmentToChildVaccinesDataFragment();
+        add_expenditure_create.setOnClickListener {
+            storeExpenditure();
         }
     }
 
-    private fun storeVaccine(){
-        OkHttpRequest.POST(URL_STORE_VACCINE, getParameters(),object : Callback {
+    private fun storeExpenditure(){
+        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
-                    201 -> showMessage(SUCCESSFUL_MESSAGE);
-                    500 -> showMessage("error 500")
+                    201 -> {
+                        showMessage(SUCCESSFUL_MESSAGE)
+                        changeFragmentToChildExpensesDataFragment();
+                    };
+                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -87,11 +92,16 @@ class AddVaccineFragment : Fragment(), Helper {
 
     private fun getParameters(): HashMap<String, String> {
         val parameters = HashMap<String, String>()
-        parameters.put("name", add_vaccine_name.text.toString())
-        parameters.put("date", add_vaccine_date.text.toString())
+        parameters.put("name", add_expenditure_title.text.toString())
+        parameters.put("price", add_expenditure_price.text.toString())
+        parameters.put("date", add_expenditure_date.text.toString())
+
+        if(add_expenditure_description.text.toString() != ""){
+            parameters.put("description", add_expenditure_description.text.toString())
+        }
+
         return parameters
     }
-
 
     private fun showMessage(message: String) {
         activity?.runOnUiThread(Runnable {
@@ -99,9 +109,9 @@ class AddVaccineFragment : Fragment(), Helper {
         })
     }
 
-    private fun changeFragmentToChildVaccinesDataFragment() {
+    private fun changeFragmentToChildExpensesDataFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.content, ChildVaccinesDataFragment())
+        transaction.replace(R.id.frame_layout, ChildExpensesFragment()).addToBackStack(null)
         transaction.commit()
     }
 }

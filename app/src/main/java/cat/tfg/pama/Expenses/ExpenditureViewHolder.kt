@@ -1,9 +1,10 @@
-package cat.tfg.pama
+package cat.tfg.pama.Expenses
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import cat.tfg.pama.R
 
 class ExpenditureViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.expenditure_item, parent, false)) {

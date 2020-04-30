@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Tasks
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -16,7 +19,7 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-class TaskDetailsFragment() : Fragment(), Helper {
+class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     private val URL_STORE_TASK = "http://10.0.2.2:8000/api/task"
     private var URL_DELETE_TASK = "http://10.0.2.2:8000/api/tasks/"
@@ -119,10 +122,13 @@ class TaskDetailsFragment() : Fragment(), Helper {
                     500 -> showMessage("error 500")
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){ showMessage(message) }
+                        if (message != null) {
+                            showMessage(message)
+                        }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -130,7 +136,7 @@ class TaskDetailsFragment() : Fragment(), Helper {
     }
 
     private fun updateTask(){
-        OkHttpRequest.POST(URL_STORE_TASK, getParameters(),object : Callback {
+        OkHttpRequest.POST(URL_STORE_TASK, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {
@@ -140,12 +146,13 @@ class TaskDetailsFragment() : Fragment(), Helper {
                     500 -> showMessage("error 500")
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -175,7 +182,7 @@ class TaskDetailsFragment() : Fragment(), Helper {
 
     private fun changeFragmentToChildTasksFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, TasksFragment())
+        transaction.replace(R.id.frame_layout, TasksFragment()).addToBackStack(null)
         transaction.commit()
     }
 }

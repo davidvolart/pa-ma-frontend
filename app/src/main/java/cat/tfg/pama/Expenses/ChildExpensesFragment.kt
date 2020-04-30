@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Expenses
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import cat.tfg.pama.*
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.Adapter.ListAdapter
 import kotlinx.android.synthetic.main.fragment_child_expenses.*
 import kotlinx.android.synthetic.main.fragment_child_vaccines_data.list_recycler_view
 import okhttp3.Call
@@ -21,7 +25,7 @@ data class Expenditure(var id: Int, var title: String, var date: String, var pri
 /**
  * A simple [Fragment] subclass.
  */
-class ChildExpensesFragment : Fragment(),Helper {
+class ChildExpensesFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_EXPENSES = "http://10.0.2.2:8000/api/expenses"
@@ -54,12 +58,13 @@ class ChildExpensesFragment : Fragment(),Helper {
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -70,9 +75,14 @@ class ChildExpensesFragment : Fragment(),Helper {
         }
     }
 
+    override fun onStop() {
+        expenses_list.clear()
+        super.onStop()
+    }
+
     private fun changeFragmentToAddExpenditureFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, AddExpenditureFragment())
+        transaction.replace(R.id.frame_layout, AddExpenditureFragment()).addToBackStack(null)
         transaction.commit()
     }
 
@@ -80,7 +90,9 @@ class ChildExpensesFragment : Fragment(),Helper {
         activity?.runOnUiThread(Runnable {
             list_recycler_view.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = ListAdapter(expenses_list, { expenditure_item : Any -> expenditureItemClicked(expenditure_item) })
+                adapter = ListAdapter(
+                    expenses_list,
+                    { expenditure_item: Any -> expenditureItemClicked(expenditure_item) })
             }
         })
     }
@@ -92,7 +104,16 @@ class ChildExpensesFragment : Fragment(),Helper {
 
     private fun changeFragmentToExpenditureDetailFragment(expenditure_item: Expenditure) {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, ExpenditureDetailsFragment.newInstance(expenditure_item.id, expenditure_item.title, expenditure_item.date, expenditure_item.price,expenditure_item.description))
+        transaction.replace(
+            R.id.frame_layout,
+            ExpenditureDetailsFragment.newInstance(
+                expenditure_item.id,
+                expenditure_item.title,
+                expenditure_item.date,
+                expenditure_item.price,
+                expenditure_item.description
+            )
+        ).addToBackStack(null)
         transaction.commit()
     }
 
@@ -106,10 +127,21 @@ class ChildExpensesFragment : Fragment(),Helper {
 
         for (i in 0 until expenses.length()) {
             var expediture_jsonObject = expenses.getJSONObject(i)
-            var expediture = Expenditure(expediture_jsonObject.getInt("id"),expediture_jsonObject.getString("name"),expediture_jsonObject.getString("date"),expediture_jsonObject.getDouble("price"),expediture_jsonObject.getString("description"))
+            var expediture = Expenditure(
+                expediture_jsonObject.getInt("id"),
+                expediture_jsonObject.getString("name"),
+                expediture_jsonObject.getString("date"),
+                expediture_jsonObject.getDouble("price"),
+                expediture_jsonObject.getString("description")
+            )
             expenses_list.add(expediture)
         }
 
         expenses_list.sortByDescending { it.date }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity!!.setTitle("Gastos")
     }
 }

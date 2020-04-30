@@ -1,8 +1,14 @@
-package cat.tfg.pama
+package cat.tfg.pama.Adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import cat.tfg.pama.Expenses.Expenditure
+import cat.tfg.pama.Expenses.ExpenditureViewHolder
+import cat.tfg.pama.Tasks.Task
+import cat.tfg.pama.Tasks.TaskViewHolder
+import cat.tfg.pama.Vaccines.Vaccine
+import cat.tfg.pama.Vaccines.VaccineViewHolder
 
 class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) -> Unit) ? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

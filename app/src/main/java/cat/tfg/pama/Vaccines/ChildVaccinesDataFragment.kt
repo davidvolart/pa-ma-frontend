@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Vaccines
 
 import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.os.Bundle
@@ -15,6 +15,10 @@ import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
 import androidx.recyclerview.widget.DividerItemDecoration
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.Adapter.ListAdapter
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 
 
 data class Vaccine(var title: String, var date: String, var description: String)
@@ -22,7 +26,7 @@ data class Vaccine(var title: String, var date: String, var description: String)
 /**
  * A simple [Fragment] subclass.
  */
-class ChildVaccinesDataFragment : Fragment(), Helper {
+class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_GET_CHILD = "http://10.0.2.2:8000/api/vaccines"
@@ -56,12 +60,13 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -74,8 +79,13 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
 
     private fun changeFragmentToAddVaccineFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.content, AddVaccineFragment())
+        transaction.replace(R.id.content, AddVaccineFragment()).addToBackStack(null)
         transaction.commit()
+    }
+
+    override fun onStop() {
+        vaccines_list.clear()
+        super.onStop()
     }
 
     private fun addItemsBottomLine(){
@@ -103,7 +113,11 @@ class ChildVaccinesDataFragment : Fragment(), Helper {
     private fun addVaccinesToList(vaccines: JSONArray){
         for (i in 0 until vaccines.length()) {
             var vaccine_jsonObject = vaccines.getJSONObject(i)
-            var vaccine = Vaccine(vaccine_jsonObject.getString("name"),vaccine_jsonObject.getString("date"),"")
+            var vaccine = Vaccine(
+                vaccine_jsonObject.getString("name"),
+                vaccine_jsonObject.getString("date"),
+                ""
+            )
             vaccines_list.add(vaccine)
         }
     }

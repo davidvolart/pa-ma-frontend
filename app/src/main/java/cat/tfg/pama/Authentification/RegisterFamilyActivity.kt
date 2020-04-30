@@ -1,18 +1,21 @@
-package cat.tfg.pama
+package cat.tfg.pama.Authentification
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.MainActivity
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.activity_register_family.*
-import kotlinx.android.synthetic.main.fragment_child_sizes_data.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
 import java.util.HashMap
 
-class RegisterFamilyActivity : AppCompatActivity(), Helper {
+class RegisterFamilyActivity : AppCompatActivity(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val SUCCESS_MESSAGE = "Familia creada. Se ha mandado un correo a tu (ex)pareja."
@@ -24,28 +27,32 @@ class RegisterFamilyActivity : AppCompatActivity(), Helper {
 
         family_create.setOnClickListener {
 
-            OkHttpRequest.POST(URL_REGISTER_FAMILY, getParameters(), object : Callback {
-                override fun onResponse(call: Call?, response: Response) {
-                    when (response.code()) {
-                        200 -> {
-                            showMessage(SUCCESS_MESSAGE)
-                            changeActivityToMainActivity()
-                        }
-                        500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                        else -> {
-                            val message = getResponseMessage(response);
-                            if(message != null){
-                                showMessage(message)
+            OkHttpRequest.POST(
+                URL_REGISTER_FAMILY,
+                getParameters(),
+                object : Callback {
+                    override fun onResponse(call: Call?, response: Response) {
+                        when (response.code()) {
+                            200 -> {
+                                showMessage(SUCCESS_MESSAGE)
+                                changeActivityToMainActivity()
+                            }
+                            500 -> showMessage(STANDARD_MESSAGE_ERROR)
+                            else -> {
+                                val message = getResponseMessage(response);
+                                if (message != null) {
+                                    showMessage(message)
+                                }
                             }
                         }
                     }
-                }
-                override fun onFailure(call: Call?, e: IOException?) {
-                    runOnUiThread {
-                        showMessage(STANDARD_MESSAGE_ERROR);
+
+                    override fun onFailure(call: Call?, e: IOException?) {
+                        runOnUiThread {
+                            showMessage(STANDARD_MESSAGE_ERROR);
+                        }
                     }
-                }
-            })
+                })
         }
     }
 

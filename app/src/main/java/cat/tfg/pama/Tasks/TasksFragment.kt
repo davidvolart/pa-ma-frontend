@@ -1,6 +1,5 @@
-package cat.tfg.pama
+package cat.tfg.pama.Tasks
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.Adapter.ListAdapter
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -16,14 +19,12 @@ import org.json.JSONArray
 import java.io.IOException
 
 
-
-
 data class Task(var id: Int, var title: String, var date: String, var description: String, var assigned_to: String)
 
 /**
  * A simple [Fragment] subclass.
  */
-class TasksFragment : Fragment(),Helper {
+class TasksFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_TASKS = "http://10.0.2.2:8000/api/tasks"
@@ -63,12 +64,13 @@ class TasksFragment : Fragment(),Helper {
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
                 }
             }
+
             override fun onFailure(call: Call?, e: IOException?) {
                 showMessage(STANDARD_MESSAGE_ERROR);
             }
@@ -79,9 +81,14 @@ class TasksFragment : Fragment(),Helper {
         }
     }
 
+    override fun onStop() {
+        tasks_list.clear()
+        super.onStop()
+    }
+
     private fun changeFragmentToAddTaskFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, AddTaskFragment())
+        transaction.replace(R.id.frame_layout, AddTaskFragment()).addToBackStack(null)
         transaction.commit()
     }
 
@@ -89,7 +96,9 @@ class TasksFragment : Fragment(),Helper {
         activity?.runOnUiThread(Runnable {
             list_tasks_recycler_view.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = ListAdapter(tasks_list, { task_item : Any -> taskItemClicked(task_item) })
+                adapter = ListAdapter(
+                    tasks_list,
+                    { task_item: Any -> taskItemClicked(task_item) })
             }
         })
     }
@@ -102,6 +111,7 @@ class TasksFragment : Fragment(),Helper {
     private fun changeFragmentToTaskDetailFragment(task_item: Task) {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to))
+            .addToBackStack(null)
         transaction.commit()
     }
 
@@ -115,7 +125,13 @@ class TasksFragment : Fragment(),Helper {
 
         for (i in 0 until tasks.length()) {
             var task_jsonObject = tasks.getJSONObject(i)
-            var task = Task(task_jsonObject.getInt("id"),task_jsonObject.getString("name"), task_jsonObject.getString("date"),task_jsonObject.getString("description"),task_jsonObject.getString("user_email"))
+            var task = Task(
+                task_jsonObject.getInt("id"),
+                task_jsonObject.getString("name"),
+                task_jsonObject.getString("date"),
+                task_jsonObject.getString("description"),
+                task_jsonObject.getString("user_email")
+            )
             tasks_list.add(task)
         }
 

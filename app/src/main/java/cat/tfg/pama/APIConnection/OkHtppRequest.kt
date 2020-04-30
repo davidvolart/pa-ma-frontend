@@ -1,10 +1,9 @@
-package cat.tfg.pama
+package cat.tfg.pama.APIConnection
 
 import java.util.HashMap
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
-import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
@@ -26,7 +25,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", this.authorization)
+            .addHeader("Authorization", authorization)
             .post(formBody)
             .build()
 
@@ -44,7 +43,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", this.authorization)
+            .addHeader("Authorization", authorization)
             .build()
 
         val call = client.newCall(request)
@@ -57,7 +56,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", this.authorization)
+            .addHeader("Authorization", authorization)
             .method("DELETE", null)
             .build()
 
@@ -72,6 +71,6 @@ object OkHttpRequest {
     //}
 
     fun setAccesToken(access_token: String){
-        this.authorization = "Bearer " + access_token
+        authorization = "Bearer " + access_token
     }
 }

@@ -1,9 +1,10 @@
-package cat.tfg.pama
+package cat.tfg.pama.Tasks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import cat.tfg.pama.R
 
 class TaskViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.task_item, parent, false)) {

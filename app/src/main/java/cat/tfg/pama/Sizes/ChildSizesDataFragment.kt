@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Sizes
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_child_personal_data.*
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_child_sizes_data.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -18,7 +20,7 @@ import java.util.HashMap
 /**
  * A simple [Fragment] subclass.
  */
-class ChildSizesDataFragment : Fragment(), Helper {
+class ChildSizesDataFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val SUCCESSFUL_SAVE_MESSAGE = "Se ha guardado correctamente."
@@ -45,7 +47,7 @@ class ChildSizesDataFragment : Fragment(), Helper {
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }
@@ -60,23 +62,27 @@ class ChildSizesDataFragment : Fragment(), Helper {
         child_sizes_data_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                OkHttpRequest.POST(URL_SAVE_SIZE_DATA, getParameters(), object : Callback {
-                    override fun onResponse(call: Call?, response: Response) {
-                        when (response.code()) {
-                            200 -> showMessage(SUCCESSFUL_SAVE_MESSAGE)
-                            500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                            else -> {
-                                val message = getResponseMessage(response);
-                                if(message != null){
-                                    showMessage(message)
+                OkHttpRequest.POST(
+                    URL_SAVE_SIZE_DATA,
+                    getParameters(),
+                    object : Callback {
+                        override fun onResponse(call: Call?, response: Response) {
+                            when (response.code()) {
+                                200 -> showMessage(SUCCESSFUL_SAVE_MESSAGE)
+                                500 -> showMessage(STANDARD_MESSAGE_ERROR)
+                                else -> {
+                                    val message = getResponseMessage(response);
+                                    if (message != null) {
+                                        showMessage(message)
+                                    }
                                 }
                             }
                         }
-                    }
-                    override fun onFailure(call: Call?, e: IOException?) {
-                        showMessage(STANDARD_MESSAGE_ERROR);
-                    }
-                })
+
+                        override fun onFailure(call: Call?, e: IOException?) {
+                            showMessage(STANDARD_MESSAGE_ERROR);
+                        }
+                    })
 
             }
         })

@@ -1,17 +1,17 @@
-package cat.tfg.pama
+package cat.tfg.pama.Authentification
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import cat.tfg.pama.*
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
 import kotlinx.android.synthetic.main.activity_log_in.*
 import okhttp3.*
 import java.io.IOException
-import kotlin.reflect.KClass
 
-class LogInActivity : AppCompatActivity(), Helper {
+class LogInActivity : AppCompatActivity(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_LOGIN = "http://10.0.2.2:8000/api/auth/login"
@@ -34,7 +34,7 @@ class LogInActivity : AppCompatActivity(), Helper {
                     when (response.code()) {
                         200 -> {
                             val access_token = getResponseAccessToken(response)
-                            if(access_token != null){
+                            if (access_token != null) {
                                 saveAcccesToken(OkHttpRequest, access_token)
                             }
                             checkUserHasAFamilyRegistered()
@@ -42,7 +42,7 @@ class LogInActivity : AppCompatActivity(), Helper {
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
                         else -> {
                             val message = getResponseMessage(response);
-                            if(message != null){
+                            if (message != null) {
                                 showMessage(message)
                             }
                         }
@@ -83,7 +83,7 @@ class LogInActivity : AppCompatActivity(), Helper {
     }
 
     private fun saveAcccesToken(request: OkHttpRequest, access_token: String){
-        request.setAccesToken(access_token);
+        OkHttpRequest.setAccesToken(access_token);
     }
 
 
@@ -92,7 +92,7 @@ class LogInActivity : AppCompatActivity(), Helper {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
-                        if(getFamilyCode(response) != null) {
+                        if (getFamilyCode(response) != null) {
                             changeActivityToMainActivity()
                         } else {
                             changeActivityToRegisterFamily()
@@ -101,7 +101,7 @@ class LogInActivity : AppCompatActivity(), Helper {
                     500 -> showMessage(STANDARD_MESSAGE_ERROR)
                     else -> {
                         val message = getResponseMessage(response);
-                        if(message != null){
+                        if (message != null) {
                             showMessage(message)
                         }
                     }

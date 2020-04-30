@@ -1,14 +1,17 @@
-package cat.tfg.pama
+package cat.tfg.pama.Authentification
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import okhttp3.*
 import java.io.IOException
 
-class SignUpActivity : AppCompatActivity(), Helper {
+class SignUpActivity : AppCompatActivity(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL = "http://10.0.2.2:8000/api/auth/signup"
@@ -24,7 +27,7 @@ class SignUpActivity : AppCompatActivity(), Helper {
                     when (response.code()) {
                         201 -> {
                             val message = getResponseMessage(response);
-                            if(message != null){
+                            if (message != null) {
                                 showMessage(message)
                             }
                             changeActivityToLogIn()
@@ -32,7 +35,7 @@ class SignUpActivity : AppCompatActivity(), Helper {
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
                         else -> {
                             val message = getResponseMessage(response);
-                            if(message != null){
+                            if (message != null) {
                                 showMessage(message)
                             }
                         }

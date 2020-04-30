@@ -2,16 +2,19 @@ package cat.tfg.pama
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import cat.tfg.pama.Calendar.CalendarFragment
+import cat.tfg.pama.Expenses.ChildExpensesFragment
+import cat.tfg.pama.PersonalData.ChildDataFragment
+import cat.tfg.pama.Tasks.TasksFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -19,6 +22,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var calendarFragment: CalendarFragment
     lateinit var childExpensesFragment: ChildExpensesFragment;
     lateinit var tasksFragment: TasksFragment;
+    lateinit var selectedFragment: Fragment
+    var currentMenuItem = -1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,62 +54,52 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout, calendarFragment)
+            .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
+
+        currentMenuItem = R.id.calendar
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
-            R.id.child_info ->{
-                childDataFragment = ChildDataFragment()
+        val id = item.itemId
 
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, childDataFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
-            }
-            R.id.expenses ->{
-                childExpensesFragment = ChildExpensesFragment()
-
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, childExpensesFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
-            }
-            R.id.calendar ->{
-                calendarFragment = CalendarFragment()
-
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, calendarFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
-            }
-
-            R.id.tasks ->{
-                tasksFragment = TasksFragment()
-
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, tasksFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
-            }
-
+        when(id){
+            R.id.child_info -> selectedFragment = ChildDataFragment()
+            R.id.expenses -> selectedFragment = ChildExpensesFragment()
+            R.id.calendar -> selectedFragment = CalendarFragment()
+            R.id.tasks -> selectedFragment = TasksFragment()
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
+        if(id == currentMenuItem){
+            drawerLayout.closeDrawer(GravityCompat.START)
+            return false
+        }else{
+            replaceFragmentToSelectedFragment(selectedFragment)
+            currentMenuItem = id
+            drawerLayout.closeDrawer(GravityCompat.START)
+            return true
+        }
     }
 
     override fun onBackPressed() {
+
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
         }else{
             super.onBackPressed()
         }
+
+    }
+
+    private fun replaceFragmentToSelectedFragment(selectedFragment: Fragment){
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frame_layout, selectedFragment)
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
     }
 }

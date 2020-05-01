@@ -88,13 +88,17 @@ class AddVaccineFragment : Fragment(), APIResponseHandler {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity!!.setTitle("Info del niño")
+    }
+
     private fun getParameters(): HashMap<String, String> {
         val parameters = HashMap<String, String>()
         parameters.put("name", add_vaccine_name.text.toString())
         parameters.put("date", add_vaccine_date.text.toString())
         return parameters
     }
-
 
     private fun showMessage(message: String) {
         activity?.runOnUiThread(Runnable {

@@ -66,6 +66,11 @@ class AddExpenditureFragment() : Fragment(), APIResponseHandler {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity!!.setTitle("Gastos")
+    }
+
     private fun storeExpenditure(){
         OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {

@@ -47,6 +47,10 @@ class SignUpActivity : AppCompatActivity(), APIResponseHandler {
                 }
             })
         }
+
+        signUp_cancel.setOnClickListener {
+            changeActivityToLogIn()
+        }
     }
 
     private fun getParameters(): HashMap<String, String> {

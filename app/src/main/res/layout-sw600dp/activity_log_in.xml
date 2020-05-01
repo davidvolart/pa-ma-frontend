@@ -14,9 +14,9 @@
 
         <ImageView
             android:id="@+id/logIn_logo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="70dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="120dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/family" />
 
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/colorBlueDark"
             android:ems="10"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/colorBlueDark"
             android:ems="10"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="72dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/button_rounded"
             android:text="@string/sign_in"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/button_rounded_border"
             android:text="@string/sign_up"

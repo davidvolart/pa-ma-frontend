@@ -1,12 +1,18 @@
 package cat.tfg.pama
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.Authentification.LogInActivity
+import cat.tfg.pama.Authentification.SignUpActivity
 import cat.tfg.pama.Calendar.CalendarFragment
 import cat.tfg.pama.Expenses.ChildExpensesFragment
 import cat.tfg.pama.PersonalData.ChildDataFragment
@@ -14,11 +20,20 @@ import cat.tfg.pama.Tasks.TasksFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    APIResponseHandler {
 
     lateinit var calendarFragment: CalendarFragment
     lateinit var selectedFragment: Fragment
+
+    val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
+    val URL_LOGOUT = "http://10.0.2.2:8000/api/auth/logout"
+
     var currentMenuItem = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,9 +79,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.expenses -> selectedFragment = ChildExpensesFragment()
             R.id.calendar -> selectedFragment = CalendarFragment()
             R.id.tasks -> selectedFragment = TasksFragment()
+            R.id.signOut -> signOut()
         }
 
-        if(id == currentMenuItem){
+        if(id == currentMenuItem || id == R.id.signOut){
             drawerLayout.closeDrawer(GravityCompat.START)
             return false
         }else{
@@ -117,4 +133,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return ""
     }
+
+    private fun signOut(){
+
+        OkHttpRequest.GET(URL_LOGOUT, object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                when (response.code()) {
+                    200 -> changeActivityToLogIn()
+                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
+                    else -> {
+                        val message = getResponseMessage(response);
+                        if (message != null) {
+                            showMessage(message)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call?, e: IOException?) {
+                runOnUiThread {
+                    showMessage(STANDARD_MESSAGE_ERROR);
+                }
+            }
+        })
+    }
+
+    private fun changeActivityToLogIn(){
+        val intent = Intent(this, LogInActivity::class.java)
+        startActivity(intent);
+        finish()
+    }
+
+    private fun showMessage(message: String) {
+        runOnUiThread {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }

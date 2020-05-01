@@ -88,7 +88,7 @@ class TasksFragment : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToAddTaskFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, AddTaskFragment()).addToBackStack(null)
+        transaction.replace(R.id.frame_layout, AddTaskFragment()).addToBackStack("Tasks")
         transaction.commit()
     }
 
@@ -111,7 +111,7 @@ class TasksFragment : Fragment(), APIResponseHandler {
     private fun changeFragmentToTaskDetailFragment(task_item: Task) {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to))
-            .addToBackStack(null)
+            .addToBackStack("Tasks")
         transaction.commit()
     }
 

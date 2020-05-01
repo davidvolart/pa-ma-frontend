@@ -59,17 +59,11 @@ class ChildDataFragment : Fragment() {
 
     private fun replaceFragmentToSelectedFragment(selectedFragment: Fragment){
 
-        //var frame = R.id.content
-        /*
-        if(selectedFragment.id != R.id.child_personal_info && selectedFragment.id != R.id.child_sizes && selectedFragment.id != R.id.child_vaccines){
-            frame = R.id.frame_layout
-        }
-        */
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(
             R.id.content,
             selectedFragment
-        ).addToBackStack(null)
+        ).addToBackStack("Child")
         transaction.commit()
     }
 

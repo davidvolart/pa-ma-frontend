@@ -25,6 +25,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
         logIn_singUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent);
+            finish()
         }
 
         logIn_signIn.setOnClickListener {
@@ -75,6 +76,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     private fun changeActivityToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent);
+        finish()
     }
 
     private fun changeActivityToRegisterFamily() {
@@ -85,7 +87,6 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     private fun saveAcccesToken(request: OkHttpRequest, access_token: String){
         OkHttpRequest.setAccesToken(access_token);
     }
-
 
     private fun checkUserHasAFamilyRegistered(){
         OkHttpRequest.GET(URL_CHILD, object : Callback {

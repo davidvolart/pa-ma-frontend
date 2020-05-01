@@ -182,7 +182,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToChildTasksFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, TasksFragment()).addToBackStack(null)
+        transaction.replace(R.id.frame_layout, TasksFragment()).addToBackStack("Tasks")
         transaction.commit()
     }
 }

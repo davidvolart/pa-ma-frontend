@@ -59,6 +59,7 @@ class RegisterFamilyActivity : AppCompatActivity(), APIResponseHandler {
     private fun changeActivityToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent);
+        finish()
     }
 
     private fun getParameters(): HashMap<String, *>{

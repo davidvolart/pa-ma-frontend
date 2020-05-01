@@ -82,7 +82,7 @@ class ChildExpensesFragment : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToAddExpenditureFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, AddExpenditureFragment()).addToBackStack(null)
+        transaction.replace(R.id.frame_layout, AddExpenditureFragment()).addToBackStack("Expenses")
         transaction.commit()
     }
 
@@ -113,7 +113,7 @@ class ChildExpensesFragment : Fragment(), APIResponseHandler {
                 expenditure_item.price,
                 expenditure_item.description
             )
-        ).addToBackStack(null)
+        ).addToBackStack("Expenses")
         transaction.commit()
     }
 

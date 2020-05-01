@@ -69,6 +69,7 @@ class SignUpActivity : AppCompatActivity(), APIResponseHandler {
     private fun changeActivityToLogIn() {
         val intent = Intent(this, LogInActivity::class.java)
         startActivity(intent);
+        finish()
     }
 
     private fun showMessage(message: String) {

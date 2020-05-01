@@ -79,7 +79,7 @@ class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToAddVaccineFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.content, AddVaccineFragment()).addToBackStack(null)
+        transaction.replace(R.id.content, AddVaccineFragment()).addToBackStack("Vaccines")
         transaction.commit()
     }
 

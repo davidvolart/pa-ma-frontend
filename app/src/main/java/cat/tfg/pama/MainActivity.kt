@@ -15,16 +15,11 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var childDataFragment: ChildDataFragment
     lateinit var calendarFragment: CalendarFragment
-    lateinit var childExpensesFragment: ChildExpensesFragment;
-    lateinit var tasksFragment: TasksFragment;
     lateinit var selectedFragment: Fragment
     var currentMenuItem = -1
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -54,7 +49,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout, calendarFragment)
-            .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
@@ -83,23 +77,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onBackPressed() {
+     fun onBackStackChanged() {
 
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            val fragment = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().backStackEntryCount - 2)
+            currentMenuItem = fragment.id
+        }
+    }
+
+    override fun onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
         }else{
+            onBackStackChanged()
             super.onBackPressed()
         }
-
     }
 
     private fun replaceFragmentToSelectedFragment(selectedFragment: Fragment){
 
+        val tag_for_fragmet_id = getTagOfFragment(selectedFragment)
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout, selectedFragment)
-            .addToBackStack(null)
+            .addToBackStack(tag_for_fragmet_id)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
+    }
+
+
+    private fun getTagOfFragment(selectedFragment: Fragment): String{
+
+        when(selectedFragment){
+            is CalendarFragment -> return "Calendar"
+            is ChildDataFragment -> return "Child"
+            is ChildExpensesFragment -> return "Expenses"
+            is TasksFragment -> return "Tasks"
+        }
+        return ""
     }
 }

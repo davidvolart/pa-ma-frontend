@@ -144,4 +144,11 @@ class ChildExpensesFragment : Fragment(), APIResponseHandler {
         super.onResume()
         activity!!.setTitle("Gastos")
     }
+
+    override fun onPause(){
+        super.onPause()
+        expenses_list.clear()
+    }
+
+
 }

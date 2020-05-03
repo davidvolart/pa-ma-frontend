@@ -33,11 +33,6 @@ class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
 
     private val vaccines_list: MutableList<Vaccine> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,11 +76,6 @@ class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.content, AddVaccineFragment()).addToBackStack("Vaccines")
         transaction.commit()
-    }
-
-    override fun onStop() {
-        vaccines_list.clear()
-        super.onStop()
     }
 
     private fun addItemsBottomLine(){

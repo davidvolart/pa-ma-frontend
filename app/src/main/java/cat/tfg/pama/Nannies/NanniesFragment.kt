@@ -11,15 +11,17 @@ import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.Adapter.ListAdapter
 import cat.tfg.pama.R
-import kotlinx.android.synthetic.main.fragment_child_vaccines_data.*
 import kotlinx.android.synthetic.main.fragment_nannies.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
+import android.content.Intent
+import android.net.Uri
 
-data class Nannie(var id: String, var name: String, var age: Int, var stars: Int)
+
+data class Nannie(var id: String, var name: String, var age: Int, var stars: Int, var slug: String)
 
 class NanniesFragment : Fragment(), APIResponseHandler {
 
@@ -27,6 +29,7 @@ class NanniesFragment : Fragment(), APIResponseHandler {
     val URL_NANNIES = "https://nannyfy.com/api/search"
 
     private val nannies_list: MutableList<Nannie> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +95,8 @@ class NanniesFragment : Fragment(), APIResponseHandler {
                 nannie_jsonObject.getString("id"),
                 nannie_jsonObject.getString("name"),
                 nannie_jsonObject.getInt("age_diggest"),
-                nannie_jsonObject.getInt("stars")
+                nannie_jsonObject.getInt("stars"),
+                nannie_jsonObject.getString("slug")
             )
             nannies_list.add(nannie)
         }
@@ -104,13 +108,20 @@ class NanniesFragment : Fragment(), APIResponseHandler {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = ListAdapter(
                     nannies_list,
-                    { expenditure_item: Any -> expenditureItemClicked(expenditure_item) })
+                    { nannie_item: Any -> nannieItemClicked(nannie_item) })
             }
         })
     }
 
-    private fun expenditureItemClicked(item : Any) {
-        //AGAFAR EL SLUG DEL ITEM I ENVIARLO A LA URL DE NANNYFY
+    private fun nannieItemClicked(item : Any) {
+        var nannie_item = item as Nannie;
+        redirectToNannyfy(nannie_item.slug)
+    }
+
+    private fun redirectToNannyfy(slug: String){
+        val uri = Uri.parse("https://nannyfy.com/v2/family/home#/search/details-nanny/"+slug)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
     private fun showMessage(message: String) {
@@ -124,8 +135,4 @@ class NanniesFragment : Fragment(), APIResponseHandler {
         activity!!.setTitle("Nannies")
     }
 
-    override fun onStop() {
-        nannies_list.clear()
-        super.onStop()
-    }
 }

@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentTransaction
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.Authentification.LogInActivity
-import cat.tfg.pama.Authentification.SignUpActivity
 import cat.tfg.pama.Calendar.CalendarFragment
 import cat.tfg.pama.Expenses.ChildExpensesFragment
+import cat.tfg.pama.Nannies.NanniesFragment
 import cat.tfg.pama.PersonalData.ChildDataFragment
 import cat.tfg.pama.Tasks.TasksFragment
 import com.google.android.material.navigation.NavigationView
@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.child_info -> selectedFragment = ChildDataFragment()
             R.id.expenses -> selectedFragment = ChildExpensesFragment()
             R.id.calendar -> selectedFragment = CalendarFragment()
+            R.id.nannies -> selectedFragment = NanniesFragment()
             R.id.tasks -> selectedFragment = TasksFragment()
             R.id.signOut -> signOut()
         }

@@ -21,7 +21,7 @@ import android.content.Intent
 import android.net.Uri
 
 
-data class Nannie(var id: String, var name: String, var age: Int, var stars: Int, var slug: String)
+data class Nannie(var id: String, var name: String, var age: Int, var stars: Int, var slug: String, var image: String)
 
 class NanniesFragment : Fragment(), APIResponseHandler {
 
@@ -96,7 +96,8 @@ class NanniesFragment : Fragment(), APIResponseHandler {
                 nannie_jsonObject.getString("name"),
                 nannie_jsonObject.getInt("age_diggest"),
                 nannie_jsonObject.getInt("stars"),
-                nannie_jsonObject.getString("slug")
+                nannie_jsonObject.getString("slug"),
+                nannie_jsonObject.getString("image")
             )
             nannies_list.add(nannie)
         }

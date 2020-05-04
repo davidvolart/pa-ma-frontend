@@ -30,6 +30,18 @@ class NanniesFragment : Fragment(), APIResponseHandler {
 
     private val nannies_list: MutableList<Nannie> = mutableListOf()
 
+    companion object {
+        fun newInstance(date: String, arrival_time: String, end_time: String): NanniesFragment {
+            val fragment = NanniesFragment()
+            val args = Bundle()
+            args.putString("date", date)
+            args.putString("arrival_time", arrival_time)
+            args.putString("end_time", end_time)
+            fragment.setArguments(args)
+            return fragment
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,9 +80,9 @@ class NanniesFragment : Fragment(), APIResponseHandler {
 
     private fun getParameters(): HashMap<String, String> {
         val parameters = HashMap<String, String>()
-        parameters.put("day", "17-05-2020")
-        parameters.put("start", "1700")
-        parameters.put("end", "1900")
+        parameters.put("day", arguments!!.getString("date",""))
+        parameters.put("start", arguments!!.getString("arrival_time",""))
+        parameters.put("end", arguments!!.getString("end_time",""))
         parameters.put("postal", "")
         parameters.put("lat", "41.403706")
         parameters.put("long", "2.173504")

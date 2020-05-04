@@ -42,4 +42,8 @@
     <string name="expenditure_description">Descripción</string>
     <string name="assigne_me">Assignar a mi</string>
     <string name="signOut">Cerrar sesión</string>
+    <string name="search">Buscar</string>
+    <string name="SelectDate">Seleccione una fecha</string>
+    <string name="SelectStartTime">Seleccione una hora de inicio</string>
+    <string name="SelectEndTime">Seleccione una hora de fin</string>
 </resources>

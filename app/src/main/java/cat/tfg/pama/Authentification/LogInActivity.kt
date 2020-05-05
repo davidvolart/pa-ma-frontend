@@ -1,12 +1,15 @@
 package cat.tfg.pama.Authentification
 
 import android.content.Intent
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import cat.tfg.pama.*
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_log_in.*
 import okhttp3.*
 import java.io.IOException
@@ -16,6 +19,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_LOGIN = "http://10.0.2.2:8000/api/auth/login"
     val URL_CHILD = "http://10.0.2.2:8000/api/auth/user"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

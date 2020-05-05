@@ -31,12 +31,14 @@ class NanniesFragment : Fragment(), APIResponseHandler {
     private val nannies_list: MutableList<Nannie> = mutableListOf()
 
     companion object {
-        fun newInstance(date: String, arrival_time: String, end_time: String): NanniesFragment {
+        fun newInstance(date: String, arrival_time: String, end_time: String, lat:String, lon: String): NanniesFragment {
             val fragment = NanniesFragment()
             val args = Bundle()
             args.putString("date", date)
             args.putString("arrival_time", arrival_time)
             args.putString("end_time", end_time)
+            args.putString("lat", lat)
+            args.putString("lon", lon)
             fragment.setArguments(args)
             return fragment
         }
@@ -84,8 +86,8 @@ class NanniesFragment : Fragment(), APIResponseHandler {
         parameters.put("start", arguments!!.getString("arrival_time",""))
         parameters.put("end", arguments!!.getString("end_time",""))
         parameters.put("postal", "")
-        parameters.put("lat", "41.403706")
-        parameters.put("long", "2.173504")
+        parameters.put("lat", arguments!!.getString("lat",""))
+        parameters.put("long", arguments!!.getString("lon",""))
         parameters.put("languages", "")
         parameters.put("skills", "")
         parameters.put("can_kid", "1")

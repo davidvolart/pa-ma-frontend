@@ -1,6 +1,7 @@
 package cat.tfg.pama.Nannies
 
-import android.Manifest
+
+import NanniesSearchValidator
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,9 +33,8 @@ import androidx.annotation.Nullable
 class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
 
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    protected var googleApiClient: GoogleApiClient? = null
+    private var googleApiClient: GoogleApiClient? = null
 
     private val RequestPermissionCode = 1;
     //private val locationRequestCode = 1000
@@ -117,13 +117,25 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         nannies_search_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                if(fildsAreValid()){
-                    if(wayLatitude != 0.0 && wayLongitude != 0.0){
-                        replaceFragmentToNanniesFragment()
+                val end_time = nannies_search_end_time.text.toString()
+                val arrival_time = nannies_search_start_time.text.toString()
+                val date = nannies_search_date.text.toString()
+
+                var validator = NanniesSearchValidator(end_time, arrival_time, date)
+
+                if(validator.areDatesNonEmpty()){
+                    if(validator.areTimesValid()){
+                        if(wayLatitude != 0.0 && wayLongitude != 0.0){
+                            replaceFragmentToNanniesFragment()
+                        }else{
+                            showMessage(message_location_permision_denied)
+                            requestPermission()
+                        }
                     }else{
-                        showMessage(message_location_permision_denied)
-                        requestPermission()
+                        showMessage("El campo hora de fin ha de ser posterior a la de inicio")
                     }
+                }else{
+                    showMessage("Todos los campos son obligatorios")
                 }
             }
         })
@@ -138,55 +150,6 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         transaction.replace(R.id.frame_layout, NanniesFragment.newInstance(date, arrival_time, end_time, wayLatitude.toString(), wayLongitude.toString()))
             .addToBackStack("Nannies")
         transaction.commit()
-    }
-
-    private fun fildsAreValid(): Boolean{
-
-        val end_time = nannies_search_end_time.text.toString()
-        val arrival_time = nannies_search_start_time.text.toString()
-        val date = nannies_search_date.text.toString()
-
-        if(checkDatesAreNonEmpty(date,arrival_time, end_time)){
-
-            val arrival_hour = arrival_time.substring(0,2).toInt()
-            val arrival_minutes = arrival_time.substring(3).toInt()
-
-            val end_hour = end_time.substring(0,2).toInt()
-            val end_minutes = end_time.substring(3).toInt()
-
-            if(checkTimesAreValid(arrival_hour,arrival_minutes,end_hour,end_minutes)){
-                return true
-            }
-            return false
-        }
-        return false
-    }
-
-    private fun checkTimesAreValid(arrival_hour:Int,arrival_minutes:Int,end_hour: Int,end_minutes:Int): Boolean{
-
-        if(end_hour < arrival_hour){
-            showMessage("El campo hora de fin ha de ser posterior a la de inicio")
-            return false
-        }else if(end_hour == arrival_hour && end_minutes < arrival_minutes ){
-            showMessage("El campo hora de fin ha de ser posterior a la de inicio")
-            return false
-        }
-        return true
-    }
-
-    private fun checkDatesAreNonEmpty(date:String, arrival_time: String, end_time:String):Boolean{
-
-        if(date.equals("")){
-            showMessage("El campo fecha es obligatorio")
-            return false
-        }else if(arrival_time.equals("")){
-            showMessage("El campo hora de inicio es obligatorio")
-            return false
-        }else if(end_time.equals("")){
-            showMessage("El campo hora de fin es obligatorio")
-            return false
-        }
-        return true
     }
 
     private fun showMessage(message: String) {

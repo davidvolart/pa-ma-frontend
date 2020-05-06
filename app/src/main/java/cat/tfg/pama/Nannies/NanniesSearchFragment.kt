@@ -1,6 +1,5 @@
 package cat.tfg.pama.Nannies
 
-
 import NanniesSearchValidator
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -24,11 +23,9 @@ import com.google.android.gms.location.LocationServices
 import java.text.SimpleDateFormat
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.common.ConnectionResult
-import androidx.annotation.NonNull
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.util.Log
 import androidx.annotation.Nullable
-
 
 class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
@@ -36,8 +33,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var googleApiClient: GoogleApiClient? = null
 
-    private val RequestPermissionCode = 1;
-    //private val locationRequestCode = 1000
+    private val locationRequestCode = 1;
     private var wayLatitude = 0.0
     private var wayLongitude = 0.0
     private var message_location_permision_denied = "Lo sentimos, sin tu ubicación no podemos mostar las nannies más cercanas"
@@ -163,6 +159,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         activity!!.setTitle("Nannies")
     }
 
+    //
     override fun onStart() {
         super.onStart()
         googleApiClient!!.connect()
@@ -198,7 +195,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
     }
 
     private fun requestPermission() {
-       requestPermissions(arrayOf(ACCESS_FINE_LOCATION), RequestPermissionCode)
+       requestPermissions(arrayOf(ACCESS_FINE_LOCATION), locationRequestCode)
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
@@ -213,7 +210,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         Log.i("requestCode",requestCode.toString())
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            RequestPermissionCode -> {
+            locationRequestCode -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLatLong()
                 }

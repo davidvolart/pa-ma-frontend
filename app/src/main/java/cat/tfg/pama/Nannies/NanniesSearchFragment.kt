@@ -1,6 +1,5 @@
 package cat.tfg.pama.Nannies
 
-import NanniesSearchValidator
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,13 +25,17 @@ import com.google.android.gms.common.ConnectionResult
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.util.Log
 import androidx.annotation.Nullable
+import cat.tfg.pama.APIConnection.OkHttpRequest
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 
-class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener {
+class NanniesSearchFragment : Fragment(), APIResponseHandler{
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var googleApiClient: GoogleApiClient? = null
-
+    private val URL_NANNIES = "http://10.0.2.2:8000/api/nannies"
+    private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val locationRequestCode = 1;
     private var wayLatitude = 0.0
     private var wayLongitude = 0.0
@@ -40,13 +43,6 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        googleApiClient = GoogleApiClient.Builder(context!!)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .addApi(LocationServices.API)
-            .build()
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
     }
 
@@ -60,6 +56,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity!!.setTitle("Nannies")
+        nannies_search_title.setText("Filtro")
 
         nannies_search_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
@@ -113,37 +110,56 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         nannies_search_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                val end_time = nannies_search_end_time.text.toString()
-                val arrival_time = nannies_search_start_time.text.toString()
-                val date = nannies_search_date.text.toString()
-
-                var validator = NanniesSearchValidator(end_time, arrival_time, date)
-
-                if(validator.areDatesNonEmpty()){
-                    if(validator.areTimesValid()){
-                        if(wayLatitude != 0.0 && wayLongitude != 0.0){
-                            replaceFragmentToNanniesFragment()
-                        }else{
-                            showMessage(message_location_permision_denied)
-                            requestPermission()
-                        }
-                    }else{
-                        showMessage("El campo hora de fin ha de ser posterior a la de inicio")
-                    }
+                if(wayLatitude != 0.0 && wayLongitude != 0.0){
+                    getNannies()
                 }else{
-                    showMessage("Todos los campos son obligatorios")
+                    showMessage(message_location_permision_denied)
+                    requestPermission()
                 }
             }
         })
     }
 
-    private fun replaceFragmentToNanniesFragment(){
+    private fun getNannies(){
 
-        val end_time = nannies_search_end_time.text.toString().replace(":","")
-        val arrival_time = nannies_search_start_time.text.toString().replace(":","")
-        val date = nannies_search_date.text.toString().replace("/","-")
+        OkHttpRequest.POST(URL_NANNIES, getParameters(), object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                when (response.code()) {
+                    200 -> {
+                        replaceFragmentToNanniesFragment(response.body()?.string().toString())
+                    }
+                    500 -> {
+                        showMessage(STANDARD_MESSAGE_ERROR)
+                    }else -> {
+                        val message = getResponseMessage(response);
+                        if (message != null) {
+                            showMessage(message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call?, e: IOException?) {
+                showMessage(STANDARD_MESSAGE_ERROR);
+            }
+        })
+    }
+
+    private fun getParameters(): HashMap<String, String> {
+
+        val parameters = HashMap<String, String>()
+        parameters.put("day", nannies_search_date.text.toString().replace('/','-'))
+        parameters.put("start", nannies_search_start_time.text.toString())
+        parameters.put("end", nannies_search_end_time.text.toString())
+        parameters.put("lat", wayLatitude.toString())
+        parameters.put("long", wayLongitude.toString())
+
+        return parameters
+    }
+
+    private fun replaceFragmentToNanniesFragment(nannies: String){
+
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, NanniesFragment.newInstance(date, arrival_time, end_time, wayLatitude.toString(), wayLongitude.toString()))
+        transaction.replace(R.id.frame_layout, NanniesFragment.newInstance(nannies))
             .addToBackStack("Nannies")
         transaction.commit()
     }
@@ -159,20 +175,8 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
         activity!!.setTitle("Nannies")
     }
 
-    //
     override fun onStart() {
         super.onStart()
-        googleApiClient!!.connect()
-    }
-
-    override fun onStop() {
-        if (googleApiClient!!.isConnected()) {
-            googleApiClient!!.disconnect()
-        }
-        super.onStop()
-    }
-
-    override fun onConnected(@Nullable bundle: Bundle?) {
 
         if (ActivityCompat.checkSelfPermission(context!!, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission()
@@ -198,16 +202,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
        requestPermissions(arrayOf(ACCESS_FINE_LOCATION), locationRequestCode)
     }
 
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        Log.e("MainActivity", "Connection failed: " + connectionResult.errorCode)
-    }
-
-    override fun onConnectionSuspended(i: Int) {
-        Log.e("MainActivity", "Connection suspendedd")
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        Log.i("requestCode",requestCode.toString())
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             locationRequestCode -> {
@@ -217,5 +212,4 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler, GoogleApiClient.Co
             }
         }
     }
-
 }

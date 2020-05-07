@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_color">
 
+    <TextView
+        android:id="@+id/nannies_search_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="40dp" />
+
     <EditText
         android:id="@+id/nannies_search_date"
         android:layout_width="wrap_content"
@@ -12,7 +20,7 @@
         android:inputType="date"
         android:focusable="false"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="70dp"
         android:ems="15"
         android:hint="@string/SelectDate" />
 
@@ -48,15 +56,14 @@
         android:focusable="false"
         android:inputType="time"
         android:ems="15"
-        android:text=""
-        />
+        android:text="" />
 
     <Button
         android:id="@+id/nannies_search_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_rounded"
         android:text="@string/search" />

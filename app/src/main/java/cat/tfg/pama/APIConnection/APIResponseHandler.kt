@@ -50,7 +50,6 @@ interface APIResponseHandler {
         return tasks;
     }
 
-
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")
         return family_code;

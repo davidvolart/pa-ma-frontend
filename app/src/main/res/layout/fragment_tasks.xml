@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_color">
 
-
     <LinearLayout
         android:id="@+id/legend"
         android:layout_width="match_parent"
@@ -24,7 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/rounded_bordeeer"
                 android:textSize="10dp"
                 android:gravity="center"
                 android:textColor="#FFFFFF" />
@@ -42,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/rounded_bordeeer"
                 android:gravity="center"
                 android:textSize="10dp"
                 android:textColor="#FFFFFF" />
@@ -60,11 +57,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/rounded_bordeeer"
                 android:gravity="center"
                 android:textSize="10dp"
                 android:textColor="#FFFFFF" />
-
         </LinearLayout>
     </LinearLayout>
 

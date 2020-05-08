@@ -1,5 +1,6 @@
 package cat.tfg.pama.Tasks
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -32,7 +33,8 @@ class TasksFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_TASKS = "http://10.0.2.2:8000/api/tasks"
-    val  URL_FAMILY_USERS_COLORS = "http://10.0.2.2:8000/api/familyuserscolors"
+    val URL_FAMILY_USERS_COLORS = "http://10.0.2.2:8000/api/familyuserscolors"
+    val NON_ASSIGNED_LEGEND = "Sin asignar"
 
     private val tasks_list: MutableList<Task> = mutableListOf()
 
@@ -169,7 +171,7 @@ class TasksFragment : Fragment(), APIResponseHandler {
             tv_user2.setText(user2.getString("email"))
             tv_user2.setBackgroundColor(Color.parseColor(user2.getString("color")))
 
-            tv_non_assigned.setText("Sin asignar")
+            tv_non_assigned.setText(NON_ASSIGNED_LEGEND)
             tv_non_assigned.setBackgroundColor(Color.parseColor("#FFB300"))
         })
 

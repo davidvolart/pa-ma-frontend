@@ -6,6 +6,46 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_color">
 
+    <LinearLayout
+        android:id="@+id/legend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="10dp"
+                android:gravity="center"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_recycler_view"
         android:layout_width="match_parent"

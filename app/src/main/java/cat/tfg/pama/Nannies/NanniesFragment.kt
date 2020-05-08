@@ -41,7 +41,6 @@ class NanniesFragment : Fragment(), APIResponseHandler {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_nannies, container, false)
     }
 

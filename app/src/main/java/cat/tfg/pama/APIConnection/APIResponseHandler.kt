@@ -45,10 +45,11 @@ interface APIResponseHandler {
     fun getTasks(response: Response): JSONArray {
         var response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var expenses = json.getJSONArray("tasks")
+        var tasks = json.getJSONArray("tasks")
 
-        return expenses;
+        return tasks;
     }
+
 
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")

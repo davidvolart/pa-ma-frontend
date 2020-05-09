@@ -13,6 +13,7 @@ import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.Authentification.LogInActivity
 import cat.tfg.pama.Calendar.CalendarFragment
+import cat.tfg.pama.Chat.ChatFragment
 import cat.tfg.pama.Expenses.ChildExpensesFragment
 import cat.tfg.pama.Nannies.NanniesFragment
 import cat.tfg.pama.Nannies.NanniesSearchFragment
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.calendar -> selectedFragment = CalendarFragment()
             R.id.nannies -> selectedFragment = NanniesSearchFragment()
             R.id.tasks -> selectedFragment = TasksFragment()
+            R.id.chat -> selectedFragment = ChatFragment()
             R.id.signOut -> signOut()
         }
 
@@ -132,6 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             is ChildDataFragment -> return "Child"
             is ChildExpensesFragment -> return "Expenses"
             is TasksFragment -> return "Tasks"
+            is ChatFragment -> return "Chat"
         }
         return ""
     }
@@ -171,9 +174,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
-
-
 }

@@ -3,6 +3,8 @@ package cat.tfg.pama.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import cat.tfg.pama.Chat.MessageViewHolder
+import cat.tfg.pama.Chat.Message
 import cat.tfg.pama.Expenses.Expenditure
 import cat.tfg.pama.Expenses.ExpenditureViewHolder
 import cat.tfg.pama.Nannies.Nannie
@@ -20,6 +22,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
         const val TYPE_EXPENDITURE = 1
         const val TYPE_TASK = 2
         const val TYPE_NANNIES = 3
+        const val TYPE_MESSAGE = 4
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,6 +43,10 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
                 val inflater = LayoutInflater.from(parent.context)
                 NannieViewHolder(inflater, parent)
             }
+            TYPE_MESSAGE -> {
+                val inflater = LayoutInflater.from(parent.context)
+                MessageViewHolder(inflater, parent)
+            }
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -51,6 +58,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
             is ExpenditureViewHolder -> holder.bind(element as Expenditure, clickListener)
             is TaskViewHolder -> holder.bind(element as Task, clickListener)
             is NannieViewHolder -> holder.bind(element as Nannie, clickListener)
+            is MessageViewHolder -> holder.bind(element as Message)
             else -> throw IllegalArgumentException()
         }
     }
@@ -62,6 +70,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
             is Expenditure -> TYPE_EXPENDITURE
             is Task -> TYPE_TASK
             is Nannie -> TYPE_NANNIES
+            is Message -> TYPE_MESSAGE
             else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
     }

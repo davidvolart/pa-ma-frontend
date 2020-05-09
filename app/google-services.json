@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "433372706380",
+    "firebase_url": "https://pa-machat.firebaseio.com",
+    "project_id": "pa-machat",
+    "storage_bucket": "pa-machat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433372706380:android:f034a39c54991ee09426e9",
+        "android_client_info": {
+          "package_name": "cat.tfg.pama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433372706380-fb6h9ljqahjomjtmoc2ojb8rdtd7tv22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI-EHzPojDB0B-0bHtPdrzJdXJKbIs8Is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433372706380-fb6h9ljqahjomjtmoc2ojb8rdtd7tv22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

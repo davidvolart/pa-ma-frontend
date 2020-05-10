@@ -1,5 +1,7 @@
 package cat.tfg.pama.Calendar
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,10 +18,23 @@ class CalendarFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+
+        //Inflate the layout for this fragment
+       return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
+/*
+    override fun onStart() {
+        redirectToGoogleCalendar()
+        super.onStart()
+    }
+
+    private fun redirectToGoogleCalendar(){
+        val uri = Uri.parse("https://calendar.google.com/calendar/r")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+*/
     override fun onResume() {
         super.onResume()
         activity!!.setTitle("Calendario")

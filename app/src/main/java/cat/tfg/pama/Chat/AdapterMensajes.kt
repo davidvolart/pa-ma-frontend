@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.collections.ArrayList
 
-
 class AdapterMensajes: RecyclerView.Adapter<MessageViewHolder>() {
 
     private val listMensaje: MutableList<Message> = ArrayList()

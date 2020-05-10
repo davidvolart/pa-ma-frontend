@@ -11,7 +11,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="60dp"
-        android:textSize="40dp" />
+        android:textSize="40dp"
+        android:text="Filtro"/>
+
+    <TextView
+        android:id="@+id/actualLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="50dp"
+        android:text= "@string/actualLocation"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/actualLocationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp" />
 
     <EditText
         android:id="@+id/nannies_search_date"
@@ -20,7 +37,7 @@
         android:inputType="date"
         android:focusable="false"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:ems="15"
         android:hint="@string/SelectDate" />
 
@@ -46,17 +63,6 @@
         android:inputType="time"
         android:ems="15"
         android:hint="@string/SelectEndTime" />
-
-    <TextView
-        android:id="@+id/latitudeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="50dp"
-        android:focusable="false"
-        android:inputType="time"
-        android:ems="15"
-        android:text="" />
 
     <Button
         android:id="@+id/nannies_search_save"

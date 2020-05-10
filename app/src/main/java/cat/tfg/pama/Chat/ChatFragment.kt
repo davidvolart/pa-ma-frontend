@@ -58,7 +58,6 @@ class ChatFragment: Fragment() {
 
         databaseReference!!.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-
                 val message = dataSnapshot.getValue(Message::class.java)!!
                 adapter!!.addMensaje(message)
             }
@@ -68,7 +67,6 @@ class ChatFragment: Fragment() {
             override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {}
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
     }
 
     private fun scrollBar(){

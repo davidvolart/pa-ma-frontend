@@ -1,35 +1,32 @@
 package cat.tfg.pama.Nannies
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
+import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.R
-import kotlinx.android.synthetic.main.fragment_nannies_search.*
-import java.util.*
-import android.app.TimePickerDialog
-import android.content.pm.PackageManager
-import android.location.Location
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import java.text.SimpleDateFormat
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.common.ConnectionResult
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.util.Log
-import androidx.annotation.Nullable
-import cat.tfg.pama.APIConnection.OkHttpRequest
+import kotlinx.android.synthetic.main.fragment_nannies_search.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NanniesSearchFragment : Fragment(), APIResponseHandler{
 
@@ -56,7 +53,6 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity!!.setTitle("Nannies")
-        nannies_search_title.setText("Filtro")
 
         nannies_search_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
@@ -193,13 +189,22 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler{
                     if (location != null) {
                         wayLatitude = location.latitude
                         wayLongitude = location.longitude
-                        latitudeText.setText(location.latitude.toString()+"-"+location.longitude.toString())
+                        setLocation(location.latitude,location.longitude)
                     }
                 })
     }
 
     private fun requestPermission() {
        requestPermissions(arrayOf(ACCESS_FINE_LOCATION), locationRequestCode)
+    }
+
+    private fun setLocation(latitude: Double, longitude:Double){
+
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val address = geocoder.getFromLocation(latitude, longitude, 1)
+        val location = address.get(0).getAddressLine(0)
+
+        actualLocationValue.setText(location)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

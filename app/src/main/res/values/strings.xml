@@ -47,4 +47,5 @@
     <string name="SelectStartTime">Seleccione una hora de inicio</string>
     <string name="SelectEndTime">Seleccione una hora de fin</string>
     <string name="not_assigned">Sin asignar</string>
+    <string name="actualLocation">Ubicación actual:</string>
 </resources>

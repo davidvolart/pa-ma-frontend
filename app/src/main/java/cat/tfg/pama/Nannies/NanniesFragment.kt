@@ -26,6 +26,7 @@ class NanniesFragment : Fragment(), APIResponseHandler {
 
     private val nannies_list: MutableList<Nannie> = mutableListOf()
     private val NO_NANNIES_FOUND_MESSAGE = "No hemos encontrado nannies en un radio de 20km."
+    private val NANNYFY_URL = "https://nannyfy.com/v2/family/home#/search/details-nanny/"
 
     companion object {
         fun newInstance(nannies: String): NanniesFragment {
@@ -90,7 +91,7 @@ class NanniesFragment : Fragment(), APIResponseHandler {
     }
 
     private fun redirectToNannyfy(slug: String){
-        val uri = Uri.parse("https://nannyfy.com/v2/family/home#/search/details-nanny/"+slug)
+        val uri = Uri.parse(NANNYFY_URL+slug)
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }

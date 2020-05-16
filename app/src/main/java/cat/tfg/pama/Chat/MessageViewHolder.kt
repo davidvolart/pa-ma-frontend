@@ -32,12 +32,16 @@ class MessageViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         nombre.text = message.sender
         mensaje.text = message.content
 
+        if(message.type == 1){
+
+        }else{
+
+        }
         //val codigoHora: Long = message.time
         //val d = Date(codigoHora)
         //val sdf = SimpleDateFormat("hh:mm:ss a") //a pm o am
         //hora.text = sdf.format(d)
 
         hora.text = message.time
-
     }
 }

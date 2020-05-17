@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cat.tfg.pama.Chat.MessageViewHolder
 import cat.tfg.pama.Chat.Message
+import cat.tfg.pama.Chat.MessageReceive
 import cat.tfg.pama.Expenses.Expenditure
 import cat.tfg.pama.Expenses.ExpenditureViewHolder
 import cat.tfg.pama.Nannies.Nannie
@@ -58,7 +59,7 @@ class ListAdapter(private val list: MutableList<*>, val clickListener: ((Any) ->
             is ExpenditureViewHolder -> holder.bind(element as Expenditure, clickListener)
             is TaskViewHolder -> holder.bind(element as Task, clickListener)
             is NannieViewHolder -> holder.bind(element as Nannie, clickListener)
-            is MessageViewHolder -> holder.bind(element as Message)
+            is MessageViewHolder -> holder.bind(element as MessageReceive)
             else -> throw IllegalArgumentException()
         }
     }

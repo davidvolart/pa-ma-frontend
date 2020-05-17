@@ -48,11 +48,11 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
             <ImageView
+                android:layout_marginRight="20dp"
                 android:id="@+id/mensajeFoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:src="@drawable/family"/>
         </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

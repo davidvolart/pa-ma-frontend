@@ -17,8 +17,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.*
+import kotlin.collections.HashMap
 
-data class Message(var sender: String = "", var content: String = "", var type: Int, var url_photo: String? = null, var time: String = "")
+open class Message(open var sender: String = "", open var content: String = "", open var type: Int? = null, open var url_photo: String? = "")
 
 class ChatFragment: Fragment() {
 
@@ -50,15 +51,14 @@ class ChatFragment: Fragment() {
         storage = FirebaseStorage.getInstance()
 
         adapter = AdapterMensajes();
-        var linearLayoutManager = LinearLayoutManager(context);
+        //var linearLayoutManager = LinearLayoutManager(context);
 
         (rvMensajes as RecyclerView).layoutManager= LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         (rvMensajes as RecyclerView).adapter = adapter
 
         btnEnviar.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-
-                val m = Message("David", txtMensaje.text.toString(), MESSAGE_TYPE_TEXT,null,"19:30")
+                val m = MessageSend("David", txtMensaje.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
                 databaseReference!!.push().setValue(m)
                 txtMensaje.setText("")
             }
@@ -82,7 +82,7 @@ class ChatFragment: Fragment() {
 
         databaseReference!!.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                val message = dataSnapshot.getValue(Message::class.java)!!
+                val message = dataSnapshot.getValue(MessageReceive::class.java)!!
                 adapter!!.addMensaje(message)
             }
 
@@ -110,8 +110,8 @@ class ChatFragment: Fragment() {
 
             fotoReferencia.putFile(filepath).addOnSuccessListener(activity!!) {
                 fotoReferencia.downloadUrl.addOnCompleteListener () {taskSnapshot ->
-                    var url = taskSnapshot.result.toString()
-                    val m = Message("David","David te ha enviado una foto",MESSAGE_TYPE_PHOTO, url,"00:00")
+                    val url = taskSnapshot.result.toString()
+                    val m = MessageSend("David","David te ha enviado una foto",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
                     databaseReference!!.push().setValue(m)
                 }
             }

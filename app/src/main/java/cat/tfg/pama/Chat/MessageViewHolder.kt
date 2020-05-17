@@ -18,14 +18,12 @@ class MessageViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     var nombre: TextView
     var mensaje: TextView
     var hora: TextView
-    var fotoMensajePerfil: CircleImageView
     var fotoMensaje: ImageView
 
     init {
         nombre = itemView.findViewById(R.id.nombreMensaje)
         mensaje = itemView.findViewById(R.id.mensajeMensaje)
         hora = itemView.findViewById(R.id.horaMensaje)
-        fotoMensajePerfil = itemView.findViewById(R.id.fotoPerfilMensaje)
         fotoMensaje = itemView.findViewById(R.id.mensajeFoto) as ImageView
     }
 
@@ -45,13 +43,7 @@ class MessageViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
 
         val codigoHora: Long = message.time!!
         val d = Date(codigoHora)
-        val sdf = SimpleDateFormat("hh:mm") //a pm o am
+        val sdf = SimpleDateFormat("hh:mm")
         hora.text = sdf.format(d)
-
-        //val codigoHora: Long = message.time
-        //val d = Date(codigoHora)
-        //val sdf = SimpleDateFormat("hh:mm:ss a") //a pm o am
-        //hora.text = sdf.format(d)
-        //hora.text = message.time
     }
 }

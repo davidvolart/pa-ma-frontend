@@ -20,6 +20,8 @@ import java.util.*
 import kotlin.collections.HashMap
 
 open class Message(open var sender: String = "", open var content: String = "", open var type: Int? = null, open var url_photo: String? = "")
+data class MessageSend(override var sender: String = "", override var content: String = "", override var type: Int? = null, override var url_photo: String? = "", var time: Map<*, *>?) : Message(sender, content, type, url_photo)
+data class MessageReceive(override var sender: String = "", override var content: String = "", override var type: Int? = null, override var url_photo: String? = "", var time: Long? = null) : Message(sender, content, type, url_photo)
 
 class ChatFragment: Fragment() {
 

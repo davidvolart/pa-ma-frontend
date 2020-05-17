@@ -13,16 +13,6 @@
         android:layout_height="wrap_content"
         android:background="#E91E63">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10sp">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fotoPerfilMensaje"
-                android:layout_width="24sp"
-                android:layout_height="24sp"
-                android:src="@mipmap/ic_launcher" />
-        </LinearLayout>
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -33,26 +23,29 @@
                     android:id="@+id/nombreMensaje"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="David"
+                    android:textSize="15dp"
                     android:textStyle="bold"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/horaMensaje"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:00"/>
+                    android:layout_marginEnd="10dp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/mensajeMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:layout_marginStart="10dp"/>
             <ImageView
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/mensajeFoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/family"/>
+                android:layout_marginStart="10dp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

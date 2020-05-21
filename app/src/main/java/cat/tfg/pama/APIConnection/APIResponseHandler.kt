@@ -13,8 +13,12 @@ interface APIResponseHandler {
         return message;
     }
 
-    fun getResponseAccessToken(response: Response): String? {
-        return getResponseKeyValue(response, "access_token")
+    fun getResponseAccessToken(response: Response): JSONObject {
+        var response_string = response.body()!!.string();
+        val json = JSONObject(response_string)
+        var response = json.getJSONObject("response")
+
+        return response
     }
 
     fun getChild(response: Response): JSONObject {
@@ -49,12 +53,12 @@ interface APIResponseHandler {
 
         return tasks;
     }
-
+/*
     fun getFamilyCode(response: Response): String? {
         val family_code = getResponseKeyValue(response, "family_code")
         return family_code;
     }
-
+*/
     fun getResponseKeyValue(response: Response, key: String): String? {
 
         val response_json = response.body()?.string()?.toString();

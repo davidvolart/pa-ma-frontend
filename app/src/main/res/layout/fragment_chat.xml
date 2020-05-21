@@ -11,7 +11,7 @@
     android:background="@color/colorPink">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMensajes"
+        android:id="@+id/rvMessages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
@@ -22,20 +22,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageButton
-            android:id="@+id/btnEnviarFoto"
+            android:id="@+id/btnSendImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center" />
         <EditText
-            android:id="@+id/txtMensaje"
+            android:id="@+id/txtMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Escribe un mensaje"
             android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/btnEnviar"
+            android:id="@+id/btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorBlueDark"

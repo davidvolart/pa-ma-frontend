@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.collections.ArrayList
 
-class AdapterMensajes: RecyclerView.Adapter<MessageViewHolder>() {
+class MessageAdapter: RecyclerView.Adapter<MessageViewHolder>() {
 
-    private val listMensaje: MutableList<MessageReceive> = ArrayList()
+    private val listMenssages: MutableList<MessageReceive> = ArrayList()
 
     fun addMensaje(m: MessageReceive) {
-        listMensaje.add(m)
-        notifyItemInserted(listMensaje.size)
+        listMenssages.add(m)
+        notifyItemInserted(listMenssages.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -20,11 +20,11 @@ class AdapterMensajes: RecyclerView.Adapter<MessageViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val message = listMensaje[position]
+        val message = listMenssages[position]
         holder.bind(message)
     }
 
     override fun getItemCount(): Int {
-        return listMensaje.size
+        return listMenssages.size
     }
 }

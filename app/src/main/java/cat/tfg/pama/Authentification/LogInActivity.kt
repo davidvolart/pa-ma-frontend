@@ -12,6 +12,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_log_in.*
 import okhttp3.*
+import org.json.JSONObject
 import java.io.IOException
 
 class LogInActivity : AppCompatActivity(), APIResponseHandler {
@@ -37,10 +38,9 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         200 -> {
-                            val access_token = getResponseAccessToken(response)
-                            if (access_token != null) {
-                                saveAcccesToken(OkHttpRequest, access_token)
-                            }
+                            val login_response = getResponseAccessToken(response)
+                            saveCurrentUser(login_response)
+                            //saveAcccesToken(OkHttpRequest, login_response.getString("access_token"))
                             checkUserHasAFamilyRegistered()
                         }
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
@@ -60,6 +60,12 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
                 }
             })
         }
+    }
+
+    private fun saveCurrentUser(login_response: JSONObject) {
+        CurrentUser.user_name = login_response.getString("user_name")
+        CurrentUser.family_code = login_response.getString("family_code")
+        CurrentUser.access_token = login_response.getString("token_type")+" "+login_response.getString("access_token")
     }
 
     private fun getParameters(): HashMap<String, String> {
@@ -87,11 +93,19 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
         startActivity(intent);
     }
 
-    private fun saveAcccesToken(request: OkHttpRequest, access_token: String){
+    /*
+    private fun saveAcccesToken(request: OkHttpRequest, access_token: String) {
         OkHttpRequest.setAccesToken(access_token);
     }
+     */
 
-    private fun checkUserHasAFamilyRegistered(){
+    private fun checkUserHasAFamilyRegistered() {
+        if (CurrentUser.family_code != "null") {
+            changeActivityToMainActivity()
+        } else {
+            changeActivityToRegisterFamily()
+        }
+/*
         OkHttpRequest.GET(URL_CHILD, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
@@ -118,6 +132,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
                 }
             }
         })
+         */
     }
 
 }

@@ -17,7 +17,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.*
-import kotlin.collections.HashMap
 
 open class Message(open var sender: String = "", open var content: String = "", open var type: Int? = null, open var url_photo: String? = "")
 data class MessageSend(override var sender: String = "", override var content: String = "", override var type: Int? = null, override var url_photo: String? = "", var time: Map<*, *>?) : Message(sender, content, type, url_photo)
@@ -31,7 +30,7 @@ class ChatFragment: Fragment() {
     private var storage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
-    private var adapter:AdapterMensajes? = null
+    private var adapter:MessageAdapter? = null
     private val PHOTO_SEND = 1
 
     private val MESSAGE_TYPE_TEXT = 1
@@ -52,21 +51,20 @@ class ChatFragment: Fragment() {
         databaseReference = database!!.getReference("chat")
         storage = FirebaseStorage.getInstance()
 
-        adapter = AdapterMensajes();
-        //var linearLayoutManager = LinearLayoutManager(context);
+        adapter = MessageAdapter();
 
-        (rvMensajes as RecyclerView).layoutManager= LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        (rvMensajes as RecyclerView).adapter = adapter
+        (rvMessages as RecyclerView).layoutManager= LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        (rvMessages as RecyclerView).adapter = adapter
 
-        btnEnviar.setOnClickListener(object : View.OnClickListener {
+        btnSend.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                val m = MessageSend("David", txtMensaje.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
+                val m = MessageSend("David", txtMessage.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
                 databaseReference!!.push().setValue(m)
-                txtMensaje.setText("")
+                txtMessage.setText("")
             }
         })
 
-        btnEnviarFoto.setOnClickListener(object : View.OnClickListener {
+        btnSendImage.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 val i = Intent(Intent.ACTION_GET_CONTENT)
                 i.type = "image/*"
@@ -97,7 +95,7 @@ class ChatFragment: Fragment() {
 
     private fun scrollBar(){
         if(adapter!!.itemCount > 0){
-            (rvMensajes as RecyclerView).scrollToPosition(adapter!!.itemCount-1);
+            (rvMessages as RecyclerView).scrollToPosition(adapter!!.itemCount-1);
         }
     }
 
@@ -108,12 +106,12 @@ class ChatFragment: Fragment() {
 
             val filepath: Uri = data?.data!!
             storageReference = FirebaseStorage.getInstance().reference
-            val fotoReferencia = storageReference!!.child("images/" + UUID.randomUUID().toString())
+            val photoRef = storageReference!!.child("images/" + UUID.randomUUID().toString())
 
-            fotoReferencia.putFile(filepath).addOnSuccessListener(activity!!) {
-                fotoReferencia.downloadUrl.addOnCompleteListener () {taskSnapshot ->
+            photoRef.putFile(filepath).addOnSuccessListener(activity!!) {
+                photoRef.downloadUrl.addOnCompleteListener () { taskSnapshot ->
                     val url = taskSnapshot.result.toString()
-                    val m = MessageSend("David","David te ha enviado una foto",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
+                    val m = MessageSend("David","",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
                     databaseReference!!.push().setValue(m)
                 }
             }

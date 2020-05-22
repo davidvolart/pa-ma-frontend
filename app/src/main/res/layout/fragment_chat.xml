@@ -31,7 +31,7 @@
             android:id="@+id/txtMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Escribe un mensaje"
+            android:hint="@string/TypeMessage"
             android:layout_weight="1"/>
 
         <Button
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorBlueDark"
-            android:hint="Enviar"/>
+            android:hint="@string/SendMessage"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MessageViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.card_view_mensajes, parent, false))  {
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.message_item, parent, false))  {
 
     var name: TextView
     var messageText: TextView

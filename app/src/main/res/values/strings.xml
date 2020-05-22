@@ -48,4 +48,7 @@
     <string name="SelectEndTime">Seleccione una hora de fin</string>
     <string name="not_assigned">Sin asignar</string>
     <string name="actualLocation">Ubicación actual:</string>
+    <string name="SendMessage">Enviar</string>
+    <string name="TypeMessage">Escribe un mensaje</string>
+    <string name="events">Eventos</string>
 </resources>

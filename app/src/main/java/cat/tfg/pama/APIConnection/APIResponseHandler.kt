@@ -9,56 +9,39 @@ import org.json.JSONObject
 interface APIResponseHandler {
 
     fun getResponseMessage(response: Response): String? {
-        var message = getResponseKeyValue(response, "message")
-        return message;
+        return getResponseKeyValue(response, "message")
     }
 
     fun getResponseAccessToken(response: Response): JSONObject {
-        var response_string = response.body()!!.string();
+        val response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var response = json.getJSONObject("response")
-
-        return response
+        return json.getJSONObject("response")
     }
 
     fun getChild(response: Response): JSONObject {
-
-        var response_string = response.body()!!.string();
+        val response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var child = json.getJSONObject("child")
-
-        return child;
+        return json.getJSONObject("child")
     }
 
     fun getVaccines(response: Response): JSONArray {
-        var response_string = response.body()!!.string();
+        val response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var vaccines = json.getJSONArray("vaccines")
-
-        return vaccines;
+        return json.getJSONArray("vaccines")
     }
 
     fun getExpenses(response: Response): JSONArray {
-        var response_string = response.body()!!.string();
+        val response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var expenses = json.getJSONArray("expenses")
-
-        return expenses;
+        return json.getJSONArray("expenses")
     }
 
     fun getTasks(response: Response): JSONArray {
-        var response_string = response.body()!!.string();
+        val response_string = response.body()!!.string();
         val json = JSONObject(response_string)
-        var tasks = json.getJSONArray("tasks")
+        return json.getJSONArray("tasks")
+    }
 
-        return tasks;
-    }
-/*
-    fun getFamilyCode(response: Response): String? {
-        val family_code = getResponseKeyValue(response, "family_code")
-        return family_code;
-    }
-*/
     fun getResponseKeyValue(response: Response, key: String): String? {
 
         val response_json = response.body()?.string()?.toString();

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import cat.tfg.pama.CurrentUser
 import cat.tfg.pama.R
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -48,7 +49,7 @@ class ChatFragment: Fragment() {
         activity!!.setTitle("Chat")
 
         database = FirebaseDatabase.getInstance()
-        databaseReference = database!!.getReference("chat")
+        databaseReference = database!!.getReference(CurrentUser.getFirebaseDatabasePath()) //chat
         storage = FirebaseStorage.getInstance()
 
         adapter = MessageAdapter();
@@ -58,9 +59,11 @@ class ChatFragment: Fragment() {
 
         btnSend.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                val m = MessageSend("David", txtMessage.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
-                databaseReference!!.push().setValue(m)
-                txtMessage.setText("")
+                if(!isMessageTextEmpty()){
+                    val m = MessageSend(CurrentUser.user_name!!, txtMessage.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
+                    databaseReference!!.push().setValue(m)
+                    txtMessage.setText("")
+                }
             }
         })
 
@@ -93,12 +96,6 @@ class ChatFragment: Fragment() {
         })
     }
 
-    private fun scrollBar(){
-        if(adapter!!.itemCount > 0){
-            (rvMessages as RecyclerView).scrollToPosition(adapter!!.itemCount-1);
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -111,10 +108,18 @@ class ChatFragment: Fragment() {
             photoRef.putFile(filepath).addOnSuccessListener(activity!!) {
                 photoRef.downloadUrl.addOnCompleteListener () { taskSnapshot ->
                     val url = taskSnapshot.result.toString()
-                    val m = MessageSend("David","",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
+                    val m = MessageSend(CurrentUser.user_name!!,"",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
                     databaseReference!!.push().setValue(m)
                 }
             }
+        }
+    }
+
+    private fun isMessageTextEmpty() = txtMessage.text.toString() == ""
+
+    private fun scrollBar(){
+        if(adapter!!.itemCount > 0){
+            (rvMessages as RecyclerView).scrollToPosition(adapter!!.itemCount-1);
         }
     }
 }

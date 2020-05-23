@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/colorBlueDark"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/gradient_color">
 
     <CalendarView
         android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        />
 
     <TextView
         android:id="@+id/tv_events"
@@ -23,12 +24,9 @@
         android:layout_gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_nannies"
+        android:id="@+id/list_events_per_day"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_marginTop="25dp">
     </androidx.recyclerview.widget.RecyclerView>
-
-
 </LinearLayout>

@@ -164,11 +164,11 @@ class TasksFragment : Fragment(), APIResponseHandler {
 
         activity?.runOnUiThread(Runnable {
             val user1 = users.getJSONObject(0)
-            tv_user1.setText(user1.getString("email"))
+            tv_user1.setText(user1.getString("name"))
             tv_user1.setBackgroundColor(Color.parseColor(user1.getString("color")))
 
             val user2 = users.getJSONObject(1)
-            tv_user2.setText(user2.getString("email"))
+            tv_user2.setText(user2.getString("name"))
             tv_user2.setBackgroundColor(Color.parseColor(user2.getString("color")))
 
             tv_non_assigned.setText(NON_ASSIGNED_LEGEND)

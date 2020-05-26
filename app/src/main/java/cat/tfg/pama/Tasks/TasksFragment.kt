@@ -1,17 +1,14 @@
 package cat.tfg.pama.Tasks
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
+
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.Adapter.ListAdapter
@@ -23,8 +20,7 @@ import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
 
-
-data class Task(var id: Int, var title: String, var date: String, var description: String, var assigned_to: String, var color: String)
+data class Task(var id: Int, var title: String, var date: String, var description: String, var assigned_to: String, var color: String, var calendar_provider_event_id: String)
 
 /**
  * A simple [Fragment] subclass.
@@ -100,11 +96,6 @@ class TasksFragment : Fragment(), APIResponseHandler {
         }
     }
 
-    override fun onStop() {
-        tasks_list.clear()
-        super.onStop()
-    }
-
     private fun changeFragmentToAddTaskFragment() {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.frame_layout, AddTaskFragment()).addToBackStack("Tasks")
@@ -129,7 +120,7 @@ class TasksFragment : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToTaskDetailFragment(task_item: Task) {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to))
+        transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to, task_item.calendar_provider_event_id))
             .addToBackStack("Tasks")
         transaction.commit()
     }
@@ -150,7 +141,8 @@ class TasksFragment : Fragment(), APIResponseHandler {
                 task_jsonObject.getString("date"),
                 task_jsonObject.getString("description"),
                 task_jsonObject.getString("user_email"),
-                task_jsonObject.getString("color")
+                task_jsonObject.getString("color"),
+                task_jsonObject.getString("calendar_provider_event_id")
             )
             tasks_list.add(task)
         }
@@ -174,6 +166,10 @@ class TasksFragment : Fragment(), APIResponseHandler {
             tv_non_assigned.setText(NON_ASSIGNED_LEGEND)
             tv_non_assigned.setBackgroundColor(Color.parseColor("#FFB300"))
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
+        activity!!.setTitle("Tareas")
     }
 }

@@ -49,7 +49,7 @@ class ChatFragment: Fragment() {
         activity!!.setTitle("Chat")
 
         database = FirebaseDatabase.getInstance()
-        databaseReference = database!!.getReference(CurrentUser.getFirebaseDatabasePath()) //chat
+        databaseReference = database!!.getReference(CurrentUser.getFirebaseDatabasePath())
         storage = FirebaseStorage.getInstance()
 
         adapter = MessageAdapter();

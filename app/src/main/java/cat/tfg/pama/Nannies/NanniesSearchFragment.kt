@@ -33,7 +33,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler{
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val URL_NANNIES = "http://10.0.2.2:8000/api/nannies"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
-    private val locationRequestCode = 1;
+    private val locationRequestCode = 1
     private var wayLatitude = 0.0
     private var wayLongitude = 0.0
     private var message_location_permision_denied = "Lo sentimos, sin tu ubicación no podemos mostar las nannies más cercanas"

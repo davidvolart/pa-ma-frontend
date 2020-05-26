@@ -96,11 +96,6 @@ class ChildExpensesFragment : Fragment(), APIResponseHandler {
         }
     }
 
-    override fun onStop() {
-        expenses_list.clear()
-        super.onStop()
-    }
-
     private fun changeFragmentToAddExpenditureFragment() {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.frame_layout, AddExpenditureFragment()).addToBackStack("Expenses")
@@ -180,10 +175,5 @@ class ChildExpensesFragment : Fragment(), APIResponseHandler {
     override fun onResume() {
         super.onResume()
         activity!!.setTitle("Gastos")
-    }
-
-    override fun onPause(){
-        super.onPause()
-        expenses_list.clear()
     }
 }

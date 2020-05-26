@@ -1,15 +1,19 @@
 package cat.tfg.pama.Tasks
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.CalendarProviderClient
 import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
@@ -24,6 +28,8 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     private val URL_STORE_EXPENDITURE = "http://10.0.2.2:8000/api/task"
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
+    private val writeCalendarRequestCode = 2
+    private val calendarProviderClient = CalendarProviderClient()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +78,12 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     }
 
     private fun storeTask() {
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
+        val parameters = getParameters()
+        if(parameters.get("assigne_me") == "true"){
+            val event_id = addEventToCalendar()
+            parameters.put("calendar_provider_event_id", event_id.toString())
+        }
+        OkHttpRequest.POST(URL_STORE_EXPENDITURE, parameters, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {
@@ -118,5 +129,22 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(R.id.frame_layout, TasksFragment()).addToBackStack("Tasks")
         transaction.commit()
+    }
+
+    private fun addEventToCalendar(): Long?{
+        if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_CALENDAR), writeCalendarRequestCode)
+            return null
+        }
+        return calendarProviderClient.addEventToCalendar(context!!,getParameters())
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            writeCalendarRequestCode -> {
+                addEventToCalendar()
+            }
+        }
     }
 }

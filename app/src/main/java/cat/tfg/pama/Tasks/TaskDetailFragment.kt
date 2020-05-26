@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
+import cat.tfg.pama.CalendarProviderClient
 import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
@@ -30,8 +31,10 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
 
+    private val calendarProviderClient = CalendarProviderClient()
+
     companion object {
-        fun newInstance(id: Int, title: String, date: String, description: String, assigned_to: String): TaskDetailsFragment {
+        fun newInstance(id: Int, title: String, date: String, description: String, assigned_to: String, calendar_provider_event_id: String): TaskDetailsFragment {
             val fragment = TaskDetailsFragment()
             val args = Bundle()
             args.putInt("id", id)
@@ -39,6 +42,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
             args.putString("date", date)
             args.putString("description", description)
             args.putString("assigned_to", assigned_to)
+            args.putString("calendar_provider_event_id", calendar_provider_event_id)
             fragment.setArguments(args)
             return fragment
         }
@@ -97,18 +101,33 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
         add_task_cancel.setOnClickListener {
             deleteTask();
+            deleteEventOnCalendarProvider()
         }
 
         add_task_create.setOnClickListener {
             updateTask();
+            modifyEventOnCalendarProvider()
         }
     }
 
     private fun getDateInEuropeanFormat(expenditure_date: String): String{
-        var birthdate_parts = expenditure_date.split("-", ignoreCase = true, limit  = 0)
+        val birthdate_parts = expenditure_date.split("-", ignoreCase = true, limit  = 0)
         return birthdate_parts[2]+'/'+birthdate_parts[1]+'/'+birthdate_parts[0]
     }
 
+    private fun deleteEventOnCalendarProvider(){
+        val calendar_provider_event_id = arguments!!.getString("calendar_provider_event_id")
+        if(calendar_provider_event_id != null){
+            calendarProviderClient.deleteEvent(context!!, calendar_provider_event_id.toLong())
+        }
+    }
+
+    private fun modifyEventOnCalendarProvider(){
+        val calendar_provider_event_id = arguments!!.getString("calendar_provider_event_id")
+        if(calendar_provider_event_id != null){
+            calendarProviderClient.modifyEvent(context!!, getParameters(), calendar_provider_event_id.toLong())
+        }
+    }
 
     private fun deleteTask(){
         URL_DELETE_TASK = URL_DELETE_TASK + arguments!!.getInt("id").toString()

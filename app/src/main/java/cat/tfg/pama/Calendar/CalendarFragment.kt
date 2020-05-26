@@ -71,7 +71,7 @@ class CalendarFragment : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToTaskDetailFragment(task_item: Task) {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to))
+        transaction.replace(R.id.frame_layout, TaskDetailsFragment.newInstance(task_item.id, task_item.title, task_item.date, task_item.description, task_item.assigned_to, task_item.calendar_provider_event_id))
                 .addToBackStack("Tasks")
         transaction.commit()
     }
@@ -86,7 +86,8 @@ class CalendarFragment : Fragment(), APIResponseHandler {
                     task_jsonObject.getString("date"),
                     task_jsonObject.getString("description"),
                     task_jsonObject.getString("user_email"),
-                    task_jsonObject.getString("color")
+                    task_jsonObject.getString("color"),
+                    task_jsonObject.getString("calendar_provider_event_id")
             )
             tasks_list.add(task)
         }

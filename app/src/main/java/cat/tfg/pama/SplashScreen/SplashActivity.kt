@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import cat.tfg.pama.Authentification.LogInActivity
+import cat.tfg.pama.Authentification.RegisterFamilyActivity
+import cat.tfg.pama.CurrentUser
+import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
 
 class SplashActivity : AppCompatActivity() {
@@ -16,8 +19,25 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            startActivity(Intent(this, LogInActivity::class.java))
+            if(isSessionStarted()){
+                if(hasAFamilyRegistered()){
+                    startActivity(Intent(this, MainActivity::class.java))
+                }else {
+                    startActivity(Intent(this, RegisterFamilyActivity::class.java))
+                }
+            }else{
+                startActivity(Intent(this, LogInActivity::class.java))
+            }
+
             finish()
         }, SPLASH_TIME_OUT)
+    }
+
+    private fun isSessionStarted(): Boolean{
+        return CurrentUser.user_name != null
+    }
+
+    private fun hasAFamilyRegistered(): Boolean{
+        return CurrentUser.family_code != null
     }
 }

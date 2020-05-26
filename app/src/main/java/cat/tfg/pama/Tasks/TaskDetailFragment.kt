@@ -109,8 +109,12 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
         }
 
         add_task_create.setOnClickListener {
-            updateTask();
-            modifyEventOnCalendarProvider()
+            val new_event_id = modifyEventOnCalendarProvider()
+            val parameters = getParameters()
+            if(new_event_id != null){
+                parameters.put("calendar_provider_event_id", new_event_id.toString())
+            }
+            updateTask(parameters);
         }
     }
 
@@ -121,16 +125,22 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     private fun deleteEventOnCalendarProvider(){
         val calendar_provider_event_id = arguments!!.getString("calendar_provider_event_id")
-        if(calendar_provider_event_id != null){
-            calendarProviderClient.deleteEvent(context!!, calendar_provider_event_id.toLong())
+        if(calendar_provider_event_id != "null"){
+            calendarProviderClient.deleteEvent(context!!, calendar_provider_event_id!!.toLong())
         }
     }
 
-    private fun modifyEventOnCalendarProvider(){
+    private fun modifyEventOnCalendarProvider(): Long?{
         val calendar_provider_event_id = arguments!!.getString("calendar_provider_event_id")
         if(calendar_provider_event_id != "null"){
             calendarProviderClient.modifyEvent(context!!, getParameters(), arguments!!.getString("calendar_provider_event_id")?.toLong()!!)
+            return null
         }
+
+        if(arguments!!.getString("assigned_to") == "null" && add_task_assign_me.isChecked == true){
+            return calendarProviderClient.addEventToCalendar(context!!, getParameters())
+        }
+        return null
     }
 
     private fun deleteTask(){
@@ -158,8 +168,8 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
         })
     }
 
-    private fun updateTask(){
-        OkHttpRequest.POST(URL_STORE_TASK, getParameters(), object : Callback {
+    private fun updateTask(parameters: HashMap<String, String>) {
+        OkHttpRequest.POST(URL_STORE_TASK, parameters, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {

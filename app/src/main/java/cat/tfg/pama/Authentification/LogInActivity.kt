@@ -64,8 +64,10 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     private fun saveCurrentUser(login_response: JSONObject) {
 
         CurrentUser.user_name = login_response.getString("user_name")
+        CurrentUser.user_email = login_response.getString("user_email")
         CurrentUser.family_code = login_response.getString("family_code")
         CurrentUser.access_token = login_response.getString("token_type")+" "+login_response.getString("access_token")
+
     }
 
     private fun getParameters(): HashMap<String, String> {

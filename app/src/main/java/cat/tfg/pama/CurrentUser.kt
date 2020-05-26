@@ -5,6 +5,7 @@ object CurrentUser{
     var access_token:String = ""
     var family_code:String? = null
     var user_name:String? = null
+    var user_email:String? = null
     var firebase_database_path:String? = null
 
     fun getFirebaseDatabasePath(): String {

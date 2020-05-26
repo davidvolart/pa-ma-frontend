@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.CalendarProviderClient
+import cat.tfg.pama.CurrentUser
 import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
@@ -67,6 +68,9 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
         if(assigned_to != "null"){
             add_task_assigned_to.setVisibility(View.VISIBLE);
             add_task_assigned_to.setText(ASSIGNED_TO + assigned_to);
+            if(assigned_to == CurrentUser.user_email){
+                add_task_assign_me.isChecked = true
+            }
         }
 
         val description = args.getString("description")
@@ -124,8 +128,8 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     private fun modifyEventOnCalendarProvider(){
         val calendar_provider_event_id = arguments!!.getString("calendar_provider_event_id")
-        if(calendar_provider_event_id != null){
-            calendarProviderClient.modifyEvent(context!!, getParameters(), calendar_provider_event_id.toLong())
+        if(calendar_provider_event_id != "null"){
+            calendarProviderClient.modifyEvent(context!!, getParameters(), arguments!!.getString("calendar_provider_event_id")?.toLong()!!)
         }
     }
 

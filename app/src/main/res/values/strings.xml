@@ -51,4 +51,6 @@
     <string name="SendMessage">Enviar</string>
     <string name="TypeMessage">Escribe un mensaje</string>
     <string name="events">Eventos</string>
+    <string name="list">Lista</string>
+    <string name="graphic">Grafica</string>
 </resources>

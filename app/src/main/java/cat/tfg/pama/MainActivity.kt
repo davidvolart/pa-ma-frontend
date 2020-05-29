@@ -15,7 +15,7 @@ import cat.tfg.pama.Authentification.LogInActivity
 import cat.tfg.pama.Calendar.CalendarFragment
 import cat.tfg.pama.Chat.ChatFragment
 import cat.tfg.pama.Expenses.ChildExpensesFragment
-import cat.tfg.pama.Nannies.NanniesFragment
+import cat.tfg.pama.Expenses.ChildExpensesListFragment
 import cat.tfg.pama.Nannies.NanniesSearchFragment
 import cat.tfg.pama.PersonalData.ChildDataFragment
 import cat.tfg.pama.Tasks.TasksFragment
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(selectedFragment){
             is CalendarFragment -> return "Calendar"
             is ChildDataFragment -> return "Child"
-            is ChildExpensesFragment -> return "Expenses"
+            is ChildExpensesListFragment -> return "Expenses"
             is TasksFragment -> return "Tasks"
             is ChatFragment -> return "Chat"
         }

@@ -1,175 +1,67 @@
 package cat.tfg.pama.Expenses
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import cat.tfg.pama.*
-import cat.tfg.pama.APIConnection.APIResponseHandler
-import cat.tfg.pama.APIConnection.OkHttpRequest
-import cat.tfg.pama.Adapter.ListAdapter
+import cat.tfg.pama.PersonalData.ChildPersonalDataFragment
+import cat.tfg.pama.R
+import cat.tfg.pama.Sizes.ChildSizesDataFragment
+import cat.tfg.pama.Vaccines.ChildVaccinesDataFragment
 import kotlinx.android.synthetic.main.fragment_child_expenses.*
-import kotlinx.android.synthetic.main.fragment_child_vaccines_data.list_recycler_view
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import org.json.JSONArray
-import java.io.IOException
 
+class ChildExpensesFragment : Fragment() {
 
-data class Expenditure(var id: Int, var title: String, var date: String, var price: Double,var description: String, var color: String)
-
-/**
- * A simple [Fragment] subclass.
- */
-class ChildExpensesFragment : Fragment(), APIResponseHandler {
-
-    val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
-    val URL_EXPENSES = "http://10.0.2.2:8000/api/expenses"
-    val URL_FAMILY_USERS_COLORS = "http://10.0.2.2:8000/api/familyuserscolors"
-
-    private val expenses_list: MutableList<Expenditure> = mutableListOf()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
+    var currentMenuItem = -1
+    lateinit var selectedFragment: Fragment
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
+
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.child_expenses, ChildExpensesListFragment())
+        transaction.commit()
+
+        currentMenuItem = R.id.child_personal_info
+
         return inflater.inflate(R.layout.fragment_child_expenses, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         activity!!.setTitle("Gastos")
 
-        OkHttpRequest.GET(URL_FAMILY_USERS_COLORS, object : Callback {
-            override fun onResponse(call: Call?, response: Response) {
-                when (response.code()) {
-                    200 -> addLegendValues(response)
-                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> {
-                        val message = getResponseMessage(response);
-                        if (message != null) {
-                            showMessage(message)
-                        }
-                    }
-                }
+        child_expenses_navigation.setOnNavigationItemSelectedListener { item ->
+
+            val id = item.getItemId()
+
+            when (id) {
+                R.id.child_expenses_list -> selectedFragment = ChildExpensesListFragment()
+                R.id.child_expenses_graphic -> selectedFragment = ChildExpensesGraphicFragment()
             }
 
-            override fun onFailure(call: Call?, e: IOException?) {
-                showMessage(STANDARD_MESSAGE_ERROR);
-            }
-        })
-
-        OkHttpRequest.GET(URL_EXPENSES, object : Callback {
-            override fun onResponse(call: Call?, response: Response) {
-                when (response.code()) {
-                    200 -> {
-                        addExpensesToList(getExpenses(response));
-                        addListAdapter()
-                    }
-                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> {
-                        val message = getResponseMessage(response);
-                        if (message != null) {
-                            showMessage(message)
-                        }
-                    }
-                }
+            if(id != currentMenuItem){
+                replaceFragmentToSelectedFragment(selectedFragment)
+                currentMenuItem = id
             }
 
-            override fun onFailure(call: Call?, e: IOException?) {
-                showMessage(STANDARD_MESSAGE_ERROR);
-            }
-        })
-
-        child_expenses_add.setOnClickListener {
-            changeFragmentToAddExpenditureFragment();
+            true
         }
     }
 
-    private fun changeFragmentToAddExpenditureFragment() {
-        val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, AddExpenditureFragment()).addToBackStack("Expenses")
-        transaction.commit()
-    }
+    private fun replaceFragmentToSelectedFragment(selectedFragment: Fragment){
 
-    private fun addListAdapter(){
-        activity?.runOnUiThread(Runnable {
-            list_recycler_view.apply {
-                layoutManager = LinearLayoutManager(activity)
-                adapter = ListAdapter(
-                    expenses_list,
-                    { expenditure_item: Any -> expenditureItemClicked(expenditure_item) })
-            }
-        })
-    }
-
-    private fun expenditureItemClicked(item : Any) {
-        var expenditure_item = item as Expenditure;
-        changeFragmentToExpenditureDetailFragment(expenditure_item);
-    }
-
-    private fun changeFragmentToExpenditureDetailFragment(expenditure_item: Expenditure) {
         val transaction = fragmentManager!!.beginTransaction()
         transaction.replace(
-            R.id.frame_layout,
-            ExpenditureDetailsFragment.newInstance(
-                expenditure_item.id,
-                expenditure_item.title,
-                expenditure_item.date,
-                expenditure_item.price,
-                expenditure_item.description
-            )
-        ).addToBackStack("Expenses")
+                R.id.child_expenses,
+                selectedFragment
+        ).addToBackStack("Child")
         transaction.commit()
-    }
-
-    private fun showMessage(message: String) {
-        activity?.runOnUiThread(Runnable {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        })
-    }
-
-    private fun addExpensesToList(expenses: JSONArray){
-
-        for (i in 0 until expenses.length()) {
-            val expediture_jsonObject = expenses.getJSONObject(i)
-            val expediture = Expenditure(
-                expediture_jsonObject.getInt("id"),
-                expediture_jsonObject.getString("name"),
-                expediture_jsonObject.getString("date"),
-                expediture_jsonObject.getDouble("price"),
-                expediture_jsonObject.getString("description"),
-                expediture_jsonObject.getString("color")
-            )
-            expenses_list.add(expediture)
-        }
-
-        expenses_list.sortByDescending { it.date }
-    }
-
-    private fun addLegendValues(response: Response)
-    {
-        val users = JSONArray(response.body()?.string().toString())
-
-        activity?.runOnUiThread(Runnable {
-            val user1 = users.getJSONObject(0)
-            tv_user1.setText(user1.getString("name"))
-            tv_user1.setBackgroundColor(Color.parseColor(user1.getString("color")))
-
-            val user2 = users.getJSONObject(1)
-            tv_user2.setText(user2.getString("name"))
-            tv_user2.setBackgroundColor(Color.parseColor(user2.getString("color")))
-        })
     }
 
     override fun onResume() {

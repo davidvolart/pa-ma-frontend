@@ -37,7 +37,8 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         200 -> {
-                            val login_response = getResponseAccessToken(response)
+                            val login_response =
+                                    getResponseAccessToken(response)
                             saveCurrentUser(login_response)
                             //saveAcccesToken(OkHttpRequest, login_response.getString("access_token"))
                             checkUserHasAFamilyRegistered()

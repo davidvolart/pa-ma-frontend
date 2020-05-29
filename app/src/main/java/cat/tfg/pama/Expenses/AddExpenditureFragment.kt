@@ -116,7 +116,7 @@ class AddExpenditureFragment() : Fragment(), APIResponseHandler {
 
     private fun changeFragmentToChildExpensesDataFragment() {
         val transaction = fragmentManager!!.beginTransaction()
-        transaction.replace(R.id.frame_layout, ChildExpensesFragment()).addToBackStack("Expenses")
+        transaction.replace(R.id.frame_layout, ChildExpensesListFragment()).addToBackStack("Expenses")
         transaction.commit()
     }
 }

@@ -19,6 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -60,6 +61,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-database:17.0.0'
     implementation 'com.google.firebase:firebase-storage:19.0.1'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     //Agregados
     implementation 'de.hdodenhof:circleimageview:1.3.0' //Imagen Circular

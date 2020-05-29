@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/child_expenses_graphic_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/child_expenses_graphic_previous_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_before"
+        android:layout_marginTop="60dp"
+        android:layout_toLeftOf="@+id/child_expenses_graphic_date"/>
+
+    <Button
+        android:id="@+id/child_expenses_graphic_next_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_next"
+        android:layout_marginTop="60dp"
+        android:layout_toRightOf="@+id/child_expenses_graphic_date"/>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="250dp"
+        >
+    </com.github.mikephil.charting.charts.PieChart>
+
+</RelativeLayout>
+

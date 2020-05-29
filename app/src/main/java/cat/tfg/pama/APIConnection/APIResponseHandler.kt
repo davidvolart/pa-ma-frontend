@@ -8,6 +8,12 @@ import org.json.JSONObject
 
 interface APIResponseHandler {
 
+    fun getExpensesByMonth(response: Response): JSONObject {
+        val response_string = response.body()!!.string();
+        val json = JSONObject(response_string)
+        return json.getJSONObject("expenses")
+    }
+
     fun getResponseMessage(response: Response): String? {
         return getResponseKeyValue(response, "message")
     }

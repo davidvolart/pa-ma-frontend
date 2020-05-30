@@ -108,19 +108,11 @@ class ChildSizesDataFragment : Fragment(), APIResponseHandler {
         }
 
         if(child_sizes_height.text.toString() != ""){
-            try{
-                parameters.put("height", child_sizes_height.text.toString().toFloat())
-            }catch (e: Exception){
-                showMessage("")
-            }
+            parameters.put("height", child_sizes_height.text.toString().toFloat())
         }
 
         if(child_sizes_weight.text.toString() !=""){
-            try{
-                parameters.put("weight", child_sizes_weight.text.toString().toFloat())
-            }catch (e: Exception){
-                showMessage("")
-            }
+            parameters.put("weight", child_sizes_weight.text.toString().toFloat())
         }
 
         return parameters

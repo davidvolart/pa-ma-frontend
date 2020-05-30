@@ -9,67 +9,112 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp">
 
-        <TextView
-            android:id="@+id/tv_child_sizes_shirt"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/shirt_size"
-            android:layout_marginStart="35dp"
-            android:textSize="20dp"
-            android:textColor="#070707" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_child_sizes_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/height"
+                android:textColor="#070707"
+                android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/child_sizes_shirt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorBlueDark"
-            android:ems="9"
-            android:layout_marginStart="35dp"
-            android:textColor="#FDFBFB"
-            android:importantForAutofill="no"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/child_sizes_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_child_sizes_height"
+                android:backgroundTint="@color/colorBlueDark"
+                android:textAlignment="textEnd"
+                android:ems="7"
+                android:textColor="#FDFBFB"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal" />
 
-        <TextView
-            android:id="@+id/tv_child_sizes_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weight"
-            android:layout_marginStart="35dp"
-            android:textColor="#070707"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/tv_child_sizes_height_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cm"
+                android:layout_toRightOf="@+id/child_sizes_height"
+                android:layout_alignBaseline="@+id/child_sizes_height"
+                android:textColor="#070707"
+                android:textSize="20dp" />
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/child_sizes_weight"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorBlueDark"
-            android:ems="9"
-            android:layout_marginStart="35dp"
-            android:textColor="#FDFBFB"
-            android:importantForAutofill="no"
-            android:inputType="text" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_child_sizes_shoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shoes_size"
+                android:textColor="#070707"
+                android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/tv_child_sizes_dress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:text="@string/dress_size"
-            android:textColor="#070707"
-            android:textSize="20dp" />
+            <EditText
+                android:id="@+id/child_sizes_shoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_child_sizes_shoes"
+                android:backgroundTint="@color/colorBlueDark"
+                android:textAlignment="textEnd"
+                android:ems="7"
+                android:textColor="#FDFBFB"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"  />
 
-        <EditText
-            android:id="@+id/child_sizes_dress"
+            <TextView
+                android:id="@+id/tv_child_sizes_shoes_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cm"
+                android:layout_toRightOf="@+id/child_sizes_shoes"
+                android:layout_alignBaseline="@+id/child_sizes_shoes"
+                android:textColor="#070707"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorBlueDark"
-            android:ems="9"
-            android:layout_marginStart="35dp"
-            android:textColor="#FDFBFB"
-            android:importantForAutofill="no"
-            android:inputType="text" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_child_sizes_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weight"
+                android:textColor="#070707"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/child_sizes_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_child_sizes_weight"
+                android:backgroundTint="@color/colorBlueDark"
+                android:textAlignment="textEnd"
+                android:ems="7"
+                android:textColor="#FDFBFB"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"  />
+
+            <TextView
+                android:id="@+id/tv_child_sizes_weight_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:layout_toEndOf="@+id/child_sizes_weight"
+                android:layout_alignBaseline="@+id/child_sizes_weight"
+                android:textColor="#070707"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -99,19 +144,19 @@
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/tv_child_sizes_height"
+            android:id="@+id/tv_child_sizes_shirt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/child_sizes_pants"
-            android:text="@string/height"
-            android:textColor="#070707"
-            android:textSize="20dp" />
+            android:layout_below="@+id/child_sizes_pants"
+            android:text="@string/shirt_size"
+            android:textSize="20dp"
+            android:textColor="#070707" />
 
         <EditText
-            android:id="@+id/child_sizes_height"
+            android:id="@+id/child_sizes_shirt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_child_sizes_height"
+            android:layout_below="@+id/tv_child_sizes_shirt"
             android:backgroundTint="@color/colorBlueDark"
             android:ems="9"
             android:textColor="#FDFBFB"
@@ -119,20 +164,20 @@
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/tv_child_sizes_shoes"
+            android:id="@+id/tv_child_sizes_dress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/child_sizes_height"
-            android:text="@string/shoes_size"
+            android:text="@string/dress_size"
+            android:layout_below="@+id/child_sizes_shirt"
             android:textColor="#070707"
             android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/child_sizes_shoes"
+            android:id="@+id/child_sizes_dress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_child_sizes_shoes"
             android:backgroundTint="@color/colorBlueDark"
+            android:layout_below="@+id/tv_child_sizes_dress"
             android:ems="9"
             android:textColor="#FDFBFB"
             android:importantForAutofill="no"

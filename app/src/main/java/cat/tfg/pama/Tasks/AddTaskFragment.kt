@@ -2,8 +2,10 @@ package cat.tfg.pama.Tasks
 
 import android.Manifest
 import android.app.DatePickerDialog
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.CalendarProviderClient
 import cat.tfg.pama.R
+import cat.tfg.pama.Session
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -42,6 +45,8 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        requestCalendarPermisionForFirstTime()
 
         okHttpRequest = OkHttpRequest.getInstance(context)
 
@@ -136,19 +141,17 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     }
 
     private fun addEventToCalendar(): Long?{
-        if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.WRITE_CALENDAR), writeCalendarRequestCode)
-            return null
+        if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            return calendarProviderClient.addEventToCalendar(context!!,getParameters())
         }
-        return calendarProviderClient.addEventToCalendar(context!!,getParameters())
+        return null
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            writeCalendarRequestCode -> {
-                addEventToCalendar()
-            }
+    private fun requestCalendarPermisionForFirstTime(){
+        val session = Session.getInstance(context)
+        if(session!!.getCalendarPermissionFirstTime()){
+            requestPermissions(arrayOf(Manifest.permission.WRITE_CALENDAR), writeCalendarRequestCode)
+            session.setCalendarPermissionFirstTime(false)
         }
     }
 }

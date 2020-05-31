@@ -63,6 +63,14 @@ class Session {
         }
     }
 
+    fun setCalendarPermissionFirstTime(calendarPermisionFirstTime: Boolean) {
+        prefs!!.edit().putBoolean("CalendarPermisionFirstTime", calendarPermisionFirstTime).commit()
+    }
+
+    fun getCalendarPermissionFirstTime(): Boolean {
+        return prefs!!.getBoolean("CalendarPermisionFirstTime", true)
+    }
+
     private fun generateFirebaseDatabasePath(): String{
         val filtered = ".#$[]"
         return getFamilyCode()!!.filterNot { filtered.indexOf(it) > -1 }

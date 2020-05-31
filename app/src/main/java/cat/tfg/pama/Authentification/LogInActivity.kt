@@ -1,7 +1,9 @@
 package cat.tfg.pama.Authentification
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cat.tfg.pama.APIConnection.APIResponseHandler
@@ -54,7 +56,6 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
                         }
                     }
                 }
-
                 override fun onFailure(call: Call?, e: IOException?) {
                     runOnUiThread {
                         showMessage(STANDARD_MESSAGE_ERROR);
@@ -65,22 +66,12 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     }
 
     private fun saveCurrentUser(login_response: JSONObject) {
-
-        /*
-        val sharedpreferences: SharedPreferences? = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        val editor = sharedpreferences!!.edit()
-        editor.putString("user_name", login_response.getString("user_name"));
-        editor.putString("user_email", login_response.getString("user_email"));
-        editor.putString("family_code", login_response.getString("family_code"));
-        editor.putString("access_token", login_response.getString("token_type")+" "+login_response.getString("access_token"));
-        editor.commit()
-         */
-
         val session = Session.getInstance(this)
         session?.setUseName(login_response.getString("user_name"))
         session?.setUserEmail(login_response.getString("user_email"))
         session?.setFamilyCode(login_response.getString("family_code"))
         session?.setAccessToken(login_response.getString("token_type")+" "+login_response.getString("access_token"))
+        session?.setCalendarPermissionFirstTime(true)
     }
 
     private fun getParameters(): HashMap<String, String> {

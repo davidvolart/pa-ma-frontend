@@ -1,15 +1,11 @@
 package cat.tfg.pama.APIConnection
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import cat.tfg.pama.MainActivity
 import cat.tfg.pama.Session
-import cat.tfg.pama.Session2
 import okhttp3.*
 import java.util.HashMap
 
-class OkHttpRequest(var session: Session2?) {
+class OkHttpRequest(var session: Session?) {
 
     private var client = OkHttpClient()
 
@@ -17,7 +13,7 @@ class OkHttpRequest(var session: Session2?) {
         private var single_instance: OkHttpRequest? = null
         fun getInstance(cntx: Context?): OkHttpRequest? {
             if (single_instance == null) {
-                single_instance = OkHttpRequest(Session2.getInstance(cntx))
+                single_instance = OkHttpRequest(Session.getInstance(cntx))
             }
             return single_instance
         }

@@ -13,7 +13,6 @@ import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.CalendarProviderClient
 import cat.tfg.pama.Session
 import cat.tfg.pama.R
-import cat.tfg.pama.Session2
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -73,7 +72,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
         if(assigned_to != "null"){
             add_task_assigned_to.setVisibility(View.VISIBLE);
             add_task_assigned_to.setText(ASSIGNED_TO + assigned_to);
-            if(assigned_to == Session2.getInstance(context)!!.getUserEmail()){
+            if(assigned_to == Session.getInstance(context)!!.getUserEmail()){
                 add_task_assign_me.isChecked = true
             }
         }

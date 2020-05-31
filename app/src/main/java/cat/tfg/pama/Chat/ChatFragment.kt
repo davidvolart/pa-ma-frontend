@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import cat.tfg.pama.Session
 import cat.tfg.pama.R
-import cat.tfg.pama.Session2
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -38,7 +37,7 @@ class ChatFragment: Fragment() {
     private val MESSAGE_TYPE_TEXT = 1
     private val MESSAGE_TYPE_PHOTO = 2
 
-    private var session: Session2? = null
+    private var session: Session? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +50,7 @@ class ChatFragment: Fragment() {
 
         activity!!.setTitle("Chat")
 
-        session = Session2.getInstance(context)
+        session = Session.getInstance(context)
 
         database = FirebaseDatabase.getInstance()
         databaseReference = database!!.getReference(session!!.getFirebaseDatabasePath()!!)

@@ -4,44 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
-
-object Session{
-    /*
-    var access_token:String = ""
-        set(value) {
-            System.out.println(value)
-        }
-    var family_code:String? = null
-    var user_name:String? = null
-    var user_email:String? = null
-    var firebase_database_path:String? = null
-    */
-/*
-    fun getFirebaseDatabasePath(): String {
-        if(firebase_database_path == null){
-            return generateFirebaseDatabasePath()
-        }else{
-            return firebase_database_path!!
-        }
-    }
-*/
-    /*
-    private fun generateFirebaseDatabasePath(): String{
-        val filtered = ".#$[]"
-        return family_code!!.filterNot { filtered.indexOf(it) > -1 }
-    }
-     */
-}
-
-class Session2 {
+class Session {
 
     companion object {
         private var prefs: SharedPreferences? = null
-        private var single_instance: Session2? = null
-        fun getInstance(cntx: Context?): Session2? {
-            // TODO Auto-generated constructor stub
+        private var single_instance: Session? = null
+        fun getInstance(cntx: Context?): Session? {
             if (single_instance == null) {
-                single_instance = Session2()
+                single_instance = Session()
                 prefs = PreferenceManager.getDefaultSharedPreferences(cntx)
             }
             return single_instance
@@ -72,8 +42,8 @@ class Session2 {
         return prefs!!.getString("familycode", null)
     }
 
-    fun setUserEmail(familycode: String?) {
-        prefs!!.edit().putString("useremail", familycode).commit()
+    fun setUserEmail(useremail: String?) {
+        prefs!!.edit().putString("useremail", useremail).commit()
     }
 
     fun getUserEmail(): String? {

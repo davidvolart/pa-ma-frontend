@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_color">
+    android:fillViewport="true">
 
-    <CalendarView
-        android:id="@+id/calendar"
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        />
-
-    <TextView
-        android:id="@+id/tv_events"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/events"
-        android:layout_marginTop="25dp"
-        android:textSize="25sp"
-        android:layout_gravity="center" />
+        tools:context=".MainActivity"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_color">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_events_per_day"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="25dp">
-    </androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/events"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:layout_gravity="center" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_events_per_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</ScrollView>

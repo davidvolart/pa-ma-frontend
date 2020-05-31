@@ -2,7 +2,6 @@ package cat.tfg.pama.Authentification
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cat.tfg.pama.APIConnection.APIResponseHandler
@@ -10,7 +9,6 @@ import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.Session
 import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
-import cat.tfg.pama.Session2
 import kotlinx.android.synthetic.main.activity_log_in.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -78,7 +76,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
         editor.commit()
          */
 
-        val session = Session2.getInstance(this)
+        val session = Session.getInstance(this)
         session?.setUseName(login_response.getString("user_name"))
         session?.setUserEmail(login_response.getString("user_email"))
         session?.setFamilyCode(login_response.getString("family_code"))
@@ -111,7 +109,7 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
     }
 
     private fun checkUserHasAFamilyRegistered() {
-        if (Session2.getInstance(this)?.getFamilyCode() != null) {
+        if (Session.getInstance(this)?.getFamilyCode() != null) {
             changeActivityToMainActivity()
         } else {
             changeActivityToRegisterFamily()

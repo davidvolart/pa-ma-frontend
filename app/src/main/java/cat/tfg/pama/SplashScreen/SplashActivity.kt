@@ -9,7 +9,6 @@ import cat.tfg.pama.Authentification.RegisterFamilyActivity
 import cat.tfg.pama.Session
 import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
-import cat.tfg.pama.Session2
 
 class SplashActivity : AppCompatActivity() {
 
@@ -35,13 +34,13 @@ class SplashActivity : AppCompatActivity() {
 
     private fun isSessionStarted(): Boolean{
         //return Session.user_name != null
-        val session = Session2.getInstance(this)
+        val session = Session.getInstance(this)
         return session?.getUseName() != null
     }
 
     private fun hasAFamilyRegistered(): Boolean{
         //return Session.family_code != null
-        val session = Session2.getInstance(this)
+        val session = Session.getInstance(this)
         return session?.getFamilyCode() != null
     }
 }

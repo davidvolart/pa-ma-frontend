@@ -25,6 +25,8 @@ class AddExpenditureFragment() : Fragment(), APIResponseHandler {
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,8 @@ class AddExpenditureFragment() : Fragment(), APIResponseHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        okHttpRequest = OkHttpRequest.getInstance(context)
 
         add_expenditure_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
@@ -72,7 +76,7 @@ class AddExpenditureFragment() : Fragment(), APIResponseHandler {
     }
 
     private fun storeExpenditure(){
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
+        okHttpRequest?.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {

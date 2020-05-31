@@ -25,6 +25,8 @@ class AddVaccineFragment : Fragment(), APIResponseHandler {
     private val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     private val SUCCESSFUL_MESSAGE = "Se ha creado correctamente."
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,8 @@ class AddVaccineFragment : Fragment(), APIResponseHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        okHttpRequest = OkHttpRequest.getInstance(context)
 
         add_vaccine_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
@@ -68,7 +72,7 @@ class AddVaccineFragment : Fragment(), APIResponseHandler {
     }
 
     private fun storeVaccine(){
-        OkHttpRequest.POST(URL_STORE_VACCINE, getParameters(), object : Callback {
+        okHttpRequest?.POST(URL_STORE_VACCINE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> showMessage(SUCCESSFUL_MESSAGE);

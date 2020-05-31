@@ -31,6 +31,8 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     private val writeCalendarRequestCode = 2
     private val calendarProviderClient = CalendarProviderClient()
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +42,8 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        okHttpRequest = OkHttpRequest.getInstance(context)
 
         add_task_date.setOnClickListener(object : View.OnClickListener {
             val c = Calendar.getInstance()
@@ -83,7 +87,7 @@ class AddTaskFragment() : Fragment(), APIResponseHandler {
             val event_id = addEventToCalendar()
             parameters.put("calendar_provider_event_id", event_id.toString())
         }
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, parameters, object : Callback {
+        okHttpRequest?.POST(URL_STORE_EXPENDITURE, parameters, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {

@@ -31,6 +31,8 @@ class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_GET_CHILD = "http://10.0.2.2:8000/api/vaccines"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     private val vaccines_list: MutableList<Vaccine> = mutableListOf()
 
     override fun onCreateView(
@@ -44,7 +46,9 @@ class ChildVaccinesDataFragment : Fragment(), APIResponseHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        OkHttpRequest.GET(URL_GET_CHILD, object : Callback {
+        okHttpRequest = OkHttpRequest.getInstance(context)
+
+        okHttpRequest?.GET(URL_GET_CHILD, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

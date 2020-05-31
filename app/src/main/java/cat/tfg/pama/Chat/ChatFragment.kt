@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-import cat.tfg.pama.CurrentUser
+import cat.tfg.pama.Session
 import cat.tfg.pama.R
+import cat.tfg.pama.Session2
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -37,6 +38,8 @@ class ChatFragment: Fragment() {
     private val MESSAGE_TYPE_TEXT = 1
     private val MESSAGE_TYPE_PHOTO = 2
 
+    private var session: Session2? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,8 +51,10 @@ class ChatFragment: Fragment() {
 
         activity!!.setTitle("Chat")
 
+        session = Session2.getInstance(context)
+
         database = FirebaseDatabase.getInstance()
-        databaseReference = database!!.getReference(CurrentUser.getFirebaseDatabasePath())
+        databaseReference = database!!.getReference(session!!.getFirebaseDatabasePath()!!)
         storage = FirebaseStorage.getInstance()
 
         adapter = MessageAdapter();
@@ -60,7 +65,7 @@ class ChatFragment: Fragment() {
         btnSend.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 if(!isMessageTextEmpty()){
-                    val m = MessageSend(CurrentUser.user_name!!, txtMessage.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
+                    val m = MessageSend(session!!.getUseName()!!, txtMessage.text.toString(), MESSAGE_TYPE_TEXT, null, ServerValue.TIMESTAMP)
                     databaseReference!!.push().setValue(m)
                     txtMessage.setText("")
                 }
@@ -108,7 +113,7 @@ class ChatFragment: Fragment() {
             photoRef.putFile(filepath).addOnSuccessListener(activity!!) {
                 photoRef.downloadUrl.addOnCompleteListener () { taskSnapshot ->
                     val url = taskSnapshot.result.toString()
-                    val m = MessageSend(CurrentUser.user_name!!,"",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
+                    val m = MessageSend(session!!.getUseName()!!,"",MESSAGE_TYPE_PHOTO, url,ServerValue.TIMESTAMP)
                     databaseReference!!.push().setValue(m)
                 }
             }

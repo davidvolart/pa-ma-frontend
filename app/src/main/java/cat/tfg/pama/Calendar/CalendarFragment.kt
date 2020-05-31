@@ -30,6 +30,7 @@ class CalendarFragment : Fragment(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_TASKS = "http://10.0.2.2:8000/api/tasks"
+    var okHttpRequest: OkHttpRequest? = null
 
     private val tasks_list: MutableList<Task> = mutableListOf()
 
@@ -42,6 +43,7 @@ class CalendarFragment : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        okHttpRequest = OkHttpRequest.getInstance(context)
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         val currentDate = sdf.format(Date(calendar.date))
         sendGetRequest(currentDate)
@@ -109,7 +111,7 @@ class CalendarFragment : Fragment(), APIResponseHandler {
 
     private fun sendGetRequest(selected_date:String){
 
-        OkHttpRequest.GET("$URL_TASKS/$selected_date", object : Callback {
+        okHttpRequest?.GET("$URL_TASKS/$selected_date", object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

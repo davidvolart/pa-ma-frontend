@@ -15,14 +15,16 @@ class SignUpActivity : AppCompatActivity(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL = "http://10.0.2.2:8000/api/auth/signup"
+    var okHttpRequest: OkHttpRequest? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        okHttpRequest = OkHttpRequest.getInstance(this)
 
         singUp_save.setOnClickListener {
 
-            OkHttpRequest.POST(URL, getParameters(), object : Callback {
+            okHttpRequest?.POST(URL, getParameters(), object : Callback {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         201 -> {

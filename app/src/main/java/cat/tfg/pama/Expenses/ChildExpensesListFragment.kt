@@ -32,6 +32,8 @@ class ChildExpensesListFragment : Fragment(), APIResponseHandler {
     val URL_EXPENSES = "http://10.0.2.2:8000/api/expenses"
     val URL_FAMILY_USERS_COLORS = "http://10.0.2.2:8000/api/familyuserscolors"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     private val expenses_list: MutableList<Expenditure> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +50,8 @@ class ChildExpensesListFragment : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        OkHttpRequest.GET(URL_FAMILY_USERS_COLORS, object : Callback {
+        okHttpRequest = OkHttpRequest.getInstance(context)
+        okHttpRequest?.GET(URL_FAMILY_USERS_COLORS, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> addLegendValues(response)
@@ -67,7 +70,7 @@ class ChildExpensesListFragment : Fragment(), APIResponseHandler {
             }
         })
 
-        OkHttpRequest.GET(URL_EXPENSES, object : Callback {
+        okHttpRequest?.GET(URL_EXPENSES, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

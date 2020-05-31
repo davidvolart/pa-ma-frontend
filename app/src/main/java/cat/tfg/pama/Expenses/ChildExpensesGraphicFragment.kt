@@ -25,6 +25,8 @@ class ChildExpensesGraphicFragment: Fragment(), APIResponseHandler {
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_EXPENSES_BY_DATE = "http://10.0.2.2:8000/api/expenses"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     var current_year = - 1
     var current_month = -1
 
@@ -36,6 +38,8 @@ class ChildExpensesGraphicFragment: Fragment(), APIResponseHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        okHttpRequest = OkHttpRequest.getInstance(context)
 
         current_month = Calendar.getInstance().get(Calendar.MONTH)
         current_year = Calendar.getInstance().get(Calendar.YEAR)
@@ -76,7 +80,7 @@ class ChildExpensesGraphicFragment: Fragment(), APIResponseHandler {
     }
 
     private fun getExpensesByMonth() {
-        OkHttpRequest.GET("$URL_EXPENSES_BY_DATE/$current_year/$current_month", object : Callback {
+        okHttpRequest?.GET("$URL_EXPENSES_BY_DATE/$current_year/$current_month", object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

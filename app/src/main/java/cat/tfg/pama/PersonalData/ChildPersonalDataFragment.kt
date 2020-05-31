@@ -29,6 +29,8 @@ class ChildPersonalDataFragment : Fragment(), APIResponseHandler {
     val URL_SAVE_PERSONAL_DATA = "http://10.0.2.2:8000/api/personaldata"
     val URL_GET_CHILD = "http://10.0.2.2:8000/api/child"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +40,9 @@ class ChildPersonalDataFragment : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        OkHttpRequest.GET(URL_GET_CHILD, object : Callback {
+        okHttpRequest = OkHttpRequest.getInstance(context)
+
+        okHttpRequest?.GET(URL_GET_CHILD, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
@@ -86,7 +90,7 @@ class ChildPersonalDataFragment : Fragment(), APIResponseHandler {
         child_persona_data_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                OkHttpRequest.POST(
+                okHttpRequest?.POST(
                     URL_SAVE_PERSONAL_DATA,
                     getParameters(),
                     object : Callback {

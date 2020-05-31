@@ -21,13 +21,17 @@ class RegisterFamilyActivity : AppCompatActivity(), APIResponseHandler {
     val SUCCESS_MESSAGE = "Familia creada. Se ha mandado un correo a tu (ex)pareja."
     val URL_REGISTER_FAMILY = "http://10.0.2.2:8000/api/family"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_family)
 
+        okHttpRequest = OkHttpRequest.getInstance(this)
+
         family_create.setOnClickListener {
 
-            OkHttpRequest.POST(
+            okHttpRequest?.POST(
                 URL_REGISTER_FAMILY,
                 getParameters(),
                 object : Callback {

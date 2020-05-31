@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import cat.tfg.pama.Authentification.LogInActivity
 import cat.tfg.pama.Authentification.RegisterFamilyActivity
-import cat.tfg.pama.CurrentUser
+import cat.tfg.pama.Session
 import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
+import cat.tfg.pama.Session2
 
 class SplashActivity : AppCompatActivity() {
 
@@ -28,16 +29,19 @@ class SplashActivity : AppCompatActivity() {
             }else{
                 startActivity(Intent(this, LogInActivity::class.java))
             }
-
             finish()
         }, SPLASH_TIME_OUT)
     }
 
     private fun isSessionStarted(): Boolean{
-        return CurrentUser.user_name != null
+        //return Session.user_name != null
+        val session = Session2.getInstance(this)
+        return session?.getUseName() != null
     }
 
     private fun hasAFamilyRegistered(): Boolean{
-        return CurrentUser.family_code != null
+        //return Session.family_code != null
+        val session = Session2.getInstance(this)
+        return session?.getFamilyCode() != null
     }
 }

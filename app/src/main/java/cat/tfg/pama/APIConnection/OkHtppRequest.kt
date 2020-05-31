@@ -1,13 +1,27 @@
 package cat.tfg.pama.APIConnection
 
-import cat.tfg.pama.CurrentUser
-import com.google.gson.Gson
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import cat.tfg.pama.MainActivity
+import cat.tfg.pama.Session
+import cat.tfg.pama.Session2
 import okhttp3.*
 import java.util.HashMap
 
-object OkHttpRequest {
+class OkHttpRequest(var session: Session2?) {
 
     private var client = OkHttpClient()
+
+    companion object {
+        private var single_instance: OkHttpRequest? = null
+        fun getInstance(cntx: Context?): OkHttpRequest? {
+            if (single_instance == null) {
+                single_instance = OkHttpRequest(Session2.getInstance(cntx))
+            }
+            return single_instance
+        }
+    }
 
     fun POST(url: String, parameters: HashMap<String, *>, callback: Callback): Call {
         val builder = FormBody.Builder()
@@ -22,7 +36,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", CurrentUser.access_token)
+            .addHeader("Authorization", session?.getAccessToken()!!)
             .post(formBody)
             .build()
 
@@ -36,7 +50,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", CurrentUser.access_token)
+            .addHeader("Authorization", session?.getAccessToken()!!)
             .build()
 
         val call = client.newCall(request)
@@ -49,7 +63,7 @@ object OkHttpRequest {
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("X-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", CurrentUser.access_token)
+            .addHeader("Authorization", session?.getAccessToken()!!)
             .method("DELETE", null)
             .build()
 

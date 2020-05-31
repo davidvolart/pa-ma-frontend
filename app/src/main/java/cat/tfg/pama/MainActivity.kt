@@ -1,11 +1,12 @@
 package cat.tfg.pama
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -27,6 +28,7 @@ import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     APIResponseHandler {
 
@@ -37,8 +39,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val URL_LOGOUT = "http://10.0.2.2:8000/api/auth/logout"
 
     var currentMenuItem = -1
+    var okHttpRequest: OkHttpRequest? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        okHttpRequest = OkHttpRequest.getInstance(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -83,7 +88,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nannies -> selectedFragment = NanniesSearchFragment()
             R.id.tasks -> selectedFragment = TasksFragment()
             R.id.chat -> selectedFragment = ChatFragment()
-            R.id.signOut -> signOut()
+            R.id.signOut -> {
+                signOut()
+                clearSession()
+            }
         }
 
         if(id == currentMenuItem || id == R.id.signOut){
@@ -141,7 +149,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun signOut(){
 
-        OkHttpRequest.GET(URL_LOGOUT, object : Callback {
+        okHttpRequest?.GET(URL_LOGOUT, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> changeActivityToLogIn()
@@ -173,5 +181,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         runOnUiThread {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun clearSession(){
+        val sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = sharedpreferences.edit()
+        editor.clear()
+        editor.commit()
     }
 }

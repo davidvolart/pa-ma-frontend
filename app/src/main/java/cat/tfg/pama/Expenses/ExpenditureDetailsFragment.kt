@@ -29,6 +29,8 @@ class ExpenditureDetailsFragment() : Fragment(), APIResponseHandler {
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     companion object {
         fun newInstance(id: Int, title: String, date: String, price: Double, description: String): ExpenditureDetailsFragment {
             val fragment = ExpenditureDetailsFragment()
@@ -53,6 +55,7 @@ class ExpenditureDetailsFragment() : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        okHttpRequest = OkHttpRequest.getInstance(context)
         val args = arguments
         add_expenditure_title.setText(args?.getString("title", ""));
         var expenditure_date = this.getDateInEuropeanFormat(args!!.getString("date", ""))
@@ -106,7 +109,7 @@ class ExpenditureDetailsFragment() : Fragment(), APIResponseHandler {
 
     private fun deleteExpenditure(){
         URL_DELETE_EXPENDITURE = URL_DELETE_EXPENDITURE + arguments!!.getInt("id").toString()
-        OkHttpRequest.DELETE(URL_DELETE_EXPENDITURE, object : Callback {
+        okHttpRequest?.DELETE(URL_DELETE_EXPENDITURE, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
@@ -130,7 +133,7 @@ class ExpenditureDetailsFragment() : Fragment(), APIResponseHandler {
     }
 
     private fun updateExpenditure(){
-        OkHttpRequest.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
+        okHttpRequest?.POST(URL_STORE_EXPENDITURE, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {

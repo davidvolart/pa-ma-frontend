@@ -1,17 +1,20 @@
 package cat.tfg.pama.Authentification
 
 import android.content.Intent
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.widget.Toast
-import cat.tfg.pama.*
+import androidx.appcompat.app.AppCompatActivity
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import cat.tfg.pama.Session
+import cat.tfg.pama.MainActivity
+import cat.tfg.pama.R
+import cat.tfg.pama.Session2
 import kotlinx.android.synthetic.main.activity_log_in.*
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
@@ -19,11 +22,14 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
 
     val STANDARD_MESSAGE_ERROR = "Ha ocurrido un error. Vuelve a interarlo."
     val URL_LOGIN = "http://10.0.2.2:8000/api/auth/login"
+    var okHttpRequest: OkHttpRequest? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_in)
+
+        okHttpRequest = OkHttpRequest.getInstance(this)
 
         logIn_singUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
@@ -33,14 +39,12 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
 
         logIn_signIn.setOnClickListener {
 
-            OkHttpRequest.POST(URL_LOGIN, getParameters(), object : Callback {
+            okHttpRequest?.POST(URL_LOGIN, getParameters(), object : Callback {
                 override fun onResponse(call: Call?, response: Response) {
                     when (response.code()) {
                         200 -> {
-                            val login_response =
-                                    getResponseAccessToken(response)
+                            val login_response = getResponseAccessToken(response)
                             saveCurrentUser(login_response)
-                            //saveAcccesToken(OkHttpRequest, login_response.getString("access_token"))
                             checkUserHasAFamilyRegistered()
                         }
                         500 -> showMessage(STANDARD_MESSAGE_ERROR)
@@ -64,11 +68,21 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
 
     private fun saveCurrentUser(login_response: JSONObject) {
 
-        CurrentUser.user_name = login_response.getString("user_name")
-        CurrentUser.user_email = login_response.getString("user_email")
-        CurrentUser.family_code = login_response.getString("family_code")
-        CurrentUser.access_token = login_response.getString("token_type")+" "+login_response.getString("access_token")
+        /*
+        val sharedpreferences: SharedPreferences? = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        val editor = sharedpreferences!!.edit()
+        editor.putString("user_name", login_response.getString("user_name"));
+        editor.putString("user_email", login_response.getString("user_email"));
+        editor.putString("family_code", login_response.getString("family_code"));
+        editor.putString("access_token", login_response.getString("token_type")+" "+login_response.getString("access_token"));
+        editor.commit()
+         */
 
+        val session = Session2.getInstance(this)
+        session?.setUseName(login_response.getString("user_name"))
+        session?.setUserEmail(login_response.getString("user_email"))
+        session?.setFamilyCode(login_response.getString("family_code"))
+        session?.setAccessToken(login_response.getString("token_type")+" "+login_response.getString("access_token"))
     }
 
     private fun getParameters(): HashMap<String, String> {
@@ -96,48 +110,12 @@ class LogInActivity : AppCompatActivity(), APIResponseHandler {
         startActivity(intent);
     }
 
-    /*
-    private fun saveAcccesToken(request: OkHttpRequest, access_token: String) {
-        OkHttpRequest.setAccesToken(access_token);
-    }
-     */
-
     private fun checkUserHasAFamilyRegistered() {
-        if (CurrentUser.family_code != "null") {
+        if (Session2.getInstance(this)?.getFamilyCode() != null) {
             changeActivityToMainActivity()
         } else {
             changeActivityToRegisterFamily()
         }
-/*
-        OkHttpRequest.GET(URL_CHILD, object : Callback {
-            override fun onResponse(call: Call?, response: Response) {
-                when (response.code()) {
-                    200 -> {
-                        if (getFamilyCode(response) != null) {
-                            changeActivityToMainActivity()
-                        } else {
-                            changeActivityToRegisterFamily()
-                        }
-                    }
-                    500 -> showMessage(STANDARD_MESSAGE_ERROR)
-                    else -> {
-                        val message = getResponseMessage(response);
-                        if (message != null) {
-                            showMessage(message)
-                        }
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call?, e: IOException?) {
-                runOnUiThread {
-                    showMessage(STANDARD_MESSAGE_ERROR);
-                }
-            }
-        })
-         */
     }
 
 }
-
-

@@ -27,6 +27,8 @@ class ChildSizesDataFragment : Fragment(), APIResponseHandler {
     val URL_GET_CHILD = "http://10.0.2.2:8000/api/child"
     val URL_SAVE_SIZE_DATA = "http://10.0.2.2:8000/api/sizedata"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +39,9 @@ class ChildSizesDataFragment : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        OkHttpRequest.GET(URL_GET_CHILD, object : Callback {
+        okHttpRequest = OkHttpRequest.getInstance(context)
+
+        okHttpRequest?.GET(URL_GET_CHILD, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
@@ -62,7 +66,7 @@ class ChildSizesDataFragment : Fragment(), APIResponseHandler {
         child_sizes_data_save.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                OkHttpRequest.POST(
+                okHttpRequest?.POST(
                     URL_SAVE_SIZE_DATA,
                     getParameters(),
                     object : Callback {

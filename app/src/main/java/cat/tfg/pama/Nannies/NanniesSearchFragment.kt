@@ -38,9 +38,12 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler{
     private var wayLongitude = 0.0
     private var message_location_permision_denied = "Lo sentimos, sin tu ubicación no podemos mostar las nannies más cercanas"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        okHttpRequest = OkHttpRequest.getInstance(context)
     }
 
     override fun onCreateView(
@@ -118,7 +121,7 @@ class NanniesSearchFragment : Fragment(), APIResponseHandler{
 
     private fun getNannies(){
 
-        OkHttpRequest.POST(URL_NANNIES, getParameters(), object : Callback {
+        okHttpRequest?.POST(URL_NANNIES, getParameters(), object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

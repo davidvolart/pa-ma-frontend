@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
 import cat.tfg.pama.CalendarProviderClient
-import cat.tfg.pama.CurrentUser
+import cat.tfg.pama.Session
 import cat.tfg.pama.R
+import cat.tfg.pama.Session2
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -31,6 +32,8 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
     private val ASSIGNED_TO = "Assignado a "
     private val BUTTON_SAVE_TEXT = "Guardar"
     private val BUTTON_DELETE_TEXT = "Eliminar"
+
+    var okHttpRequest: OkHttpRequest? = null
 
     private val calendarProviderClient = CalendarProviderClient()
 
@@ -59,6 +62,8 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
+        okHttpRequest = OkHttpRequest.getInstance(context)
         val args = arguments
         add_task_title.setText(args?.getString("title", ""));
         var task_date = this.getDateInEuropeanFormat(args!!.getString("date", ""))
@@ -68,7 +73,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
         if(assigned_to != "null"){
             add_task_assigned_to.setVisibility(View.VISIBLE);
             add_task_assigned_to.setText(ASSIGNED_TO + assigned_to);
-            if(assigned_to == CurrentUser.user_email){
+            if(assigned_to == Session2.getInstance(context)!!.getUserEmail()){
                 add_task_assign_me.isChecked = true
             }
         }
@@ -145,7 +150,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
 
     private fun deleteTask(){
         URL_DELETE_TASK = URL_DELETE_TASK + arguments!!.getInt("id").toString()
-        OkHttpRequest.DELETE(URL_DELETE_TASK, object : Callback {
+        okHttpRequest?.DELETE(URL_DELETE_TASK, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {
@@ -169,7 +174,7 @@ class TaskDetailsFragment() : Fragment(), APIResponseHandler {
     }
 
     private fun updateTask(parameters: HashMap<String, String>) {
-        OkHttpRequest.POST(URL_STORE_TASK, parameters, object : Callback {
+        okHttpRequest?.POST(URL_STORE_TASK, parameters, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     201 -> {

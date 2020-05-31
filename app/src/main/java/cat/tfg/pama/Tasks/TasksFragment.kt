@@ -32,6 +32,8 @@ class TasksFragment : Fragment(), APIResponseHandler {
     val URL_FAMILY_USERS_COLORS = "http://10.0.2.2:8000/api/familyuserscolors"
     val NON_ASSIGNED_LEGEND = "Sin asignar"
 
+    var okHttpRequest: OkHttpRequest? = null
+
     private val tasks_list: MutableList<Task> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +52,9 @@ class TasksFragment : Fragment(), APIResponseHandler {
 
         activity!!.setTitle("Tareas")
 
-        OkHttpRequest.GET(URL_FAMILY_USERS_COLORS, object : Callback {
+        okHttpRequest = OkHttpRequest.getInstance(context)
+
+        okHttpRequest?.GET(URL_FAMILY_USERS_COLORS, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> addLegendValues(response)
@@ -69,7 +73,7 @@ class TasksFragment : Fragment(), APIResponseHandler {
             }
         })
 
-        OkHttpRequest.GET(URL_TASKS, object : Callback {
+        okHttpRequest?.GET(URL_TASKS, object : Callback {
             override fun onResponse(call: Call?, response: Response) {
                 when (response.code()) {
                     200 -> {

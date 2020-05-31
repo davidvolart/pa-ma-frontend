@@ -1,5 +1,6 @@
 package cat.tfg.pama
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -184,7 +185,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun clearSession(){
-        val sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val sharedpreferences = this.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         val editor = sharedpreferences.edit()
         editor.clear()
         editor.commit()

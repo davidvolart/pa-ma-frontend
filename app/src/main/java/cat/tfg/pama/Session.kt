@@ -12,7 +12,7 @@ class Session {
         fun getInstance(cntx: Context?): Session? {
             if (single_instance == null) {
                 single_instance = Session()
-                prefs = PreferenceManager.getDefaultSharedPreferences(cntx)
+                prefs = cntx!!.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             }
             return single_instance
         }

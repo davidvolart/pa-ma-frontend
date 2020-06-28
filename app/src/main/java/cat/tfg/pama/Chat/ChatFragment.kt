@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-import cat.tfg.pama.Session
+import cat.tfg.pama.Session.Session
 import cat.tfg.pama.R
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage

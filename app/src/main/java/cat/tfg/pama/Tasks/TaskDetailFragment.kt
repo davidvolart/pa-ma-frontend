@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
-import cat.tfg.pama.CalendarProviderClient
-import cat.tfg.pama.Session
+import cat.tfg.pama.Calendar.CalendarProviderClient
+import cat.tfg.pama.Session.Session
 import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call

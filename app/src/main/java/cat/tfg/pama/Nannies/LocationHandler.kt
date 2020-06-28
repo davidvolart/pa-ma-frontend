@@ -28,7 +28,7 @@ class LocationHandler(var context: Context): ActivityCompat.OnRequestPermissions
     private var wayLongitude: String = ""
 
     init{
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        fusedLocationClient = LocationServices.'getFusedLocationProviderClient'(context)
     }
 
     fun getLocation(): String{

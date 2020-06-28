@@ -1,4 +1,4 @@
-package cat.tfg.pama
+package cat.tfg.pama.Calendar
 
 import android.content.ContentResolver
 import android.content.ContentUris

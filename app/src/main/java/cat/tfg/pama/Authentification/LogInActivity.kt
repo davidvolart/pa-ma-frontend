@@ -1,14 +1,12 @@
 package cat.tfg.pama.Authentification
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
-import cat.tfg.pama.Session
+import cat.tfg.pama.Session.Session
 import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
 import kotlinx.android.synthetic.main.activity_log_in.*

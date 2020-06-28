@@ -1,7 +1,7 @@
 package cat.tfg.pama.APIConnection
 
 import android.content.Context
-import cat.tfg.pama.Session
+import cat.tfg.pama.Session.Session
 import okhttp3.*
 import java.util.HashMap
 

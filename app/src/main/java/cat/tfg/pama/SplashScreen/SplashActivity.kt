@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import cat.tfg.pama.Authentification.LogInActivity
 import cat.tfg.pama.Authentification.RegisterFamilyActivity
-import cat.tfg.pama.Session
+import cat.tfg.pama.Session.Session
 import cat.tfg.pama.MainActivity
 import cat.tfg.pama.R
 

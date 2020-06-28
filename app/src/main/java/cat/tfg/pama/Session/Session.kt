@@ -1,8 +1,7 @@
-package cat.tfg.pama
+package cat.tfg.pama.Session
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 
 class Session {
 

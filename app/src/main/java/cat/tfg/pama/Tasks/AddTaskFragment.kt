@@ -2,10 +2,8 @@ package cat.tfg.pama.Tasks
 
 import android.Manifest
 import android.app.DatePickerDialog
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +13,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import cat.tfg.pama.APIConnection.APIResponseHandler
 import cat.tfg.pama.APIConnection.OkHttpRequest
-import cat.tfg.pama.CalendarProviderClient
+import cat.tfg.pama.Calendar.CalendarProviderClient
 import cat.tfg.pama.R
-import cat.tfg.pama.Session
+import cat.tfg.pama.Session.Session
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import okhttp3.Call
 import okhttp3.Callback

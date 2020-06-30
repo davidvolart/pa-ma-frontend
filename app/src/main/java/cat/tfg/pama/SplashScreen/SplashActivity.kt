@@ -33,13 +33,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun isSessionStarted(): Boolean{
-        //return Session.user_name != null
+        
         val session = Session.getInstance(this)
         return session?.getUseName() != null
     }
 
     private fun hasAFamilyRegistered(): Boolean{
-        //return Session.family_code != null
+
         val session = Session.getInstance(this)
         return session?.getFamilyCode() != null
     }
